@@ -7,14 +7,14 @@ namespace FitHappens.Module.StateReplayer.Handlers
 {
     public class CreateSetHandler : IMessageHandler
     {
-        public string MsgType => "CreateSetMsg";
+        public const string MsgType = "CreateSetMsg";
 
         public bool CanHandle(object message)
         {
             return message.GetType().Name == MsgType;
         }
 
-        public FitState Do(FitState state, object entry)
+        public FitState Apply(FitState state, object entry)
         {
             var message = (entry as CreateSetMsg)!;
 
@@ -30,19 +30,7 @@ namespace FitHappens.Module.StateReplayer.Handlers
             };
 
             state.Sets.Add(set);
-
-            return state;
-        }
-
-        public FitState Undo(FitState state, object entry)
-        {
-            var message = (entry as CreateSetMsg)!;
-
-            var set = state.Sets.FirstOrDefault(s => s.Id == message.Id);
-            if (set == null)
-                throwMissingSetException(message);
-
-            state.Sets.Remove(set);
+            state.AllTimeForeverAndEverStatistics.TotalRepCount += message.Reps;
 
             return state;
         }
@@ -69,11 +57,6 @@ namespace FitHappens.Module.StateReplayer.Handlers
             {
                 throw new InvalidOperationException("At least one tag is missing.", ex);
             }
-        }
-
-        private static void throwMissingSetException(CreateSetMsg? message)
-        {
-            throw new InvalidOperationException($"Set with ID {message.Id} not found in state.");
         }
     }
 }

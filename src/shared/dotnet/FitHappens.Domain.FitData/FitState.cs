@@ -9,10 +9,12 @@ namespace FitHappens.Domain.FitData
             Tags = new List<Tag>();
             Exercises = new List<Exercise>();
             Sets = new List<Set>();
+            AllTimeForeverAndEverStatistics = new Statistics();
         }
 
         public ICollection<Tag> Tags { get; set; }
         public ICollection<Exercise> Exercises { get; set; }
         public ICollection<Set> Sets { get; set; }
+        public Statistics AllTimeForeverAndEverStatistics { get; set; }
     }
 }
