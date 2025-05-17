@@ -7,11 +7,15 @@ message MessageStamp {
     int64 timestamp = 2;
 }
 
+// EXERCISE Messages
+
 message CreateExerciseMsg {
     MessageStamp stamp = 1; 
     string id = 2;
     string name = 3;
 }
+
+// TAG Messages
 
 message CreateTagMsg {
     MessageStamp stamp = 1;
@@ -20,6 +24,8 @@ message CreateTagMsg {
     string parent = 4;
 }
 
+// SET Messages
+
 message CreateSetMsg {
     MessageStamp stamp = 1;
     string id = 2; 
@@ -27,4 +33,9 @@ message CreateSetMsg {
     string exerciseId = 4;
     int32 reps = 5;
     repeated string tagIds = 6;
+}
+
+message DeleteSetMsg {
+    MessageStamp stamp = 1;
+    string id = 2;
 }

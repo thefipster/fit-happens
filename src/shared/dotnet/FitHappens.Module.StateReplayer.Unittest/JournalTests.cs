@@ -1,4 +1,4 @@
-using FitHappens.Domain.Journal.Messages;
+using FitHappens.Domain.Journal;
 using FitHappens.Module.StateReplayer.Components;
 
 namespace FitHappens.Module.StateReplayer.Unittest
@@ -9,53 +9,60 @@ namespace FitHappens.Module.StateReplayer.Unittest
         public void CreateJournalTest()
         {
             // Arrange
-            var createTagMsg = new CreateTagMsg()
+            var createTagMsg = JournalBuilder.CreateTagMessage("assisted");
+            var createExerciseMsg = JournalBuilder.CreateExerciseMessage("Push-Up");
+            var createSetMsg = JournalBuilder.CreateSetMessage(
+                ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds(),
+                createExerciseMsg.Id,
+                10,
+                [createTagMsg.Id]
+            );
+            var deleteSetMsg = JournalBuilder.DeleteSetMessage(createSetMsg.Id);
+
+            var journal = new object[]
             {
-                Stamp = new MessageStamp
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Timestamp = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds(),
-                },
-                Id = Guid.NewGuid().ToString(),
-                Name = "assisted",
+                createTagMsg,
+                createExerciseMsg,
+                createSetMsg,
+                deleteSetMsg,
             };
-
-            var createExerciseMsg = new CreateExerciseMsg()
-            {
-                Stamp = new MessageStamp
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Timestamp = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds(),
-                },
-                Id = Guid.NewGuid().ToString(),
-                Name = "Push-Up",
-            };
-
-            var createSetMsg = new CreateSetMsg()
-            {
-                Stamp = new MessageStamp
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Timestamp = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds(),
-                },
-                Id = Guid.NewGuid().ToString(),
-                ExerciseId = createExerciseMsg.Id,
-                Reps = 10,
-            };
-
-            createSetMsg.TagIds.Add(createTagMsg.Id);
-
-            var collection = new object[] { createTagMsg, createExerciseMsg, createSetMsg };
 
             var runner = new JournalRunner();
 
-            // Act
-            var state = runner.ReplayJournal(collection);
-
             // Assert
+            var state = runner.ReplayJournal(journal);
+            Assert.NotEmpty(state.Tags);
+            Assert.NotEmpty(state.Exercises);
+            Assert.Empty(state.Sets);
+        }
+
+        [Fact]
+        public void UpdateJournalTest()
+        {
+            // Arrange
+            var createTagMsg = JournalBuilder.CreateTagMessage("assisted");
+            var createExerciseMsg = JournalBuilder.CreateExerciseMessage("Push-Up");
+            var createSetMsg = JournalBuilder.CreateSetMessage(
+                ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds(),
+                createExerciseMsg.Id,
+                10,
+                [createTagMsg.Id]
+            );
+            var deleteSetMsg = JournalBuilder.DeleteSetMessage(createSetMsg.Id);
+
+            var initJournal = new object[] { createTagMsg, createExerciseMsg, createSetMsg };
+            var updateJournal = new object[] { deleteSetMsg };
+            var runner = new JournalRunner();
+
+            // Assert Initial State
+            var state = runner.ReplayJournal(initJournal);
             Assert.NotEmpty(state.Tags);
             Assert.NotEmpty(state.Exercises);
             Assert.NotEmpty(state.Sets);
+
+            // Assert Updated State
+            state = runner.ReplayJournal(state, updateJournal);
+            Assert.Empty(state.Sets);
         }
     }
 }

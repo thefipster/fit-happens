@@ -1,6 +1,5 @@
 ﻿using FitHappens.Domain.FitData;
 using FitHappens.Module.StateReplayer.Abstractions;
-using FitHappens.Module.StateReplayer.Handlers;
 
 namespace FitHappens.Module.StateReplayer.Components
 {
@@ -10,26 +9,55 @@ namespace FitHappens.Module.StateReplayer.Components
 
         public JournalRunner()
         {
-            handlers = new List<IMessageHandler>
+            handlers = ensureHandlers();
+        }
+
+        public FitState ReplayJournal(FitState state, IEnumerable<object> journal)
+        {
+            foreach (var entry in journal)
             {
-                new CreateExerciseHandler(),
-                new CreateTagHandler(),
-                new CreateSetHandler(),
-            };
+                var handler = ensureHandler(entry);
+                state = handler.Apply(state, entry);
+            }
+
+            return state;
         }
 
         public FitState ReplayJournal(IEnumerable<object> journal)
         {
             var state = new FitState();
 
-            foreach (var entry in journal)
+            return ReplayJournal(state, journal);
+        }
+
+        private IEnumerable<IMessageHandler> ensureHandlers()
+        {
+            try
             {
-                var handler = ensureHandler(entry);
+                var handlers = findHandlers();
+                if (!handlers.Any())
+                    throw new InvalidOperationException("No handlers found.");
 
-                state = handler.Do(state, entry);
+                return handlers.Select(x => (IMessageHandler)Activator.CreateInstance(x));
             }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(
+                    "Failed to create handlers. Ensure all handlers have a parameterless constructor.",
+                    ex
+                );
+            }
+        }
 
-            return state;
+        private static IEnumerable<Type> findHandlers()
+        {
+            var handlerType = typeof(IMessageHandler);
+            var types = AppDomain
+                .CurrentDomain.GetAssemblies()
+                .SelectMany(s => s.GetTypes())
+                .Where(p => handlerType.IsAssignableFrom(p) && p.IsInterface == false);
+
+            return types;
         }
 
         private IMessageHandler ensureHandler(object entry)
