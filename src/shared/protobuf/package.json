@@ -1,0 +1,14 @@
+{
+  "name": "fit-happens-journal",
+  "version": "0.1.0",
+  "description": "A clean, extensible set of Protocol Buffer definitions for logging and analyzing fitness activity — from single exercise sets to full workout sessions.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "protoc-gen-js": "^3.21.4-4"
+  }
+}
