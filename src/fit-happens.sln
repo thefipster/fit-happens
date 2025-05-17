@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34916.146
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitHappens.WebApi", "api\FitHappens.WebApi\FitHappens.WebApi.csproj", "{0DD635C3-822A-4DAB-A9DB-312E4B640011}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitHappens.Domain.Journal", "shared\dotnet\FitHappens.Domain.Journal\FitHappens.Domain.Journal.csproj", "{A50809AB-DBA2-4D06-9EA9-51C26A4EB892}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitHappens.Domain.FitData", "shared\dotnet\FitHappens.Domain.FitData\FitHappens.Domain.FitData.csproj", "{2371527F-EEE5-4C1B-9421-AF32F248E8C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitHappens.Module.StateReplayer", "shared\dotnet\FitHappens.Module.StateReplayer\FitHappens.Module.StateReplayer.csproj", "{33AAC617-E307-4589-BA0C-06F1C40B3110}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitHappens.Module.StateReplayer.Unittest", "shared\dotnet\FitHappens.Module.StateReplayer.Unittest\FitHappens.Module.StateReplayer.Unittest.csproj", "{A53DD9C4-2942-4657-9B3C-2558C0C438CA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0DD635C3-822A-4DAB-A9DB-312E4B640011}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DD635C3-822A-4DAB-A9DB-312E4B640011}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DD635C3-822A-4DAB-A9DB-312E4B640011}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DD635C3-822A-4DAB-A9DB-312E4B640011}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A50809AB-DBA2-4D06-9EA9-51C26A4EB892}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A50809AB-DBA2-4D06-9EA9-51C26A4EB892}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A50809AB-DBA2-4D06-9EA9-51C26A4EB892}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A50809AB-DBA2-4D06-9EA9-51C26A4EB892}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2371527F-EEE5-4C1B-9421-AF32F248E8C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2371527F-EEE5-4C1B-9421-AF32F248E8C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2371527F-EEE5-4C1B-9421-AF32F248E8C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2371527F-EEE5-4C1B-9421-AF32F248E8C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33AAC617-E307-4589-BA0C-06F1C40B3110}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33AAC617-E307-4589-BA0C-06F1C40B3110}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33AAC617-E307-4589-BA0C-06F1C40B3110}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33AAC617-E307-4589-BA0C-06F1C40B3110}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A53DD9C4-2942-4657-9B3C-2558C0C438CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A53DD9C4-2942-4657-9B3C-2558C0C438CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A53DD9C4-2942-4657-9B3C-2558C0C438CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A53DD9C4-2942-4657-9B3C-2558C0C438CA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FE7F36D2-949F-48C2-AC9A-31BA03F6E183}
+	EndGlobalSection
+EndGlobal

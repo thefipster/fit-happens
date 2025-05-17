@@ -6,12 +6,12 @@ namespace FitHappens.WebApi.Auth
     {
         public bool IsValid(string apiKey)
         {
-            var rnd = Random.Shared.Next(0, 10);
+            if (apiKey.FirstOrDefault() == 'a')
+            {
+                return true;
+            }
 
-            if (rnd < 5)
-                return false;
-
-            return true;
+            return false;
         }
     }
 }
