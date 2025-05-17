@@ -1,4 +1,3 @@
-Sure! Here's a concise and clear `README.md` concept section you can use for your GitHub repo:
 ## 🧾 Fit Happens – Journal-Based State Management
 
 This project introduces a **journal-based architecture** as the single source of truth for the *Fit Happens* fitness app.
