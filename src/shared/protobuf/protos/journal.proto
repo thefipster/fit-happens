@@ -43,5 +43,6 @@ message DeleteSetMsg {
 message RepeatSetMsg {
     MessageStamp stamp = 1;
     string id = 2;
-    int32 reps = 3;
+    int64 timestamp = 3;
+    int32 reps = 4;
 }

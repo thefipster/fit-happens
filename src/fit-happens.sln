@@ -7,11 +7,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitHappens.WebApi", "api\Fi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitHappens.Domain.Journal", "shared\dotnet\FitHappens.Domain.Journal\FitHappens.Domain.Journal.csproj", "{A50809AB-DBA2-4D06-9EA9-51C26A4EB892}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitHappens.Domain.FitData", "shared\dotnet\FitHappens.Domain.FitData\FitHappens.Domain.FitData.csproj", "{2371527F-EEE5-4C1B-9421-AF32F248E8C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitHappens.Domain.FitData", "shared\dotnet\FitHappens.Domain.FitData\FitHappens.Domain.FitData.csproj", "{2371527F-EEE5-4C1B-9421-AF32F248E8C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitHappens.Module.StateReplayer", "shared\dotnet\FitHappens.Module.StateReplayer\FitHappens.Module.StateReplayer.csproj", "{33AAC617-E307-4589-BA0C-06F1C40B3110}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitHappens.Module.StateReplayer", "shared\dotnet\FitHappens.Module.StateReplayer\FitHappens.Module.StateReplayer.csproj", "{33AAC617-E307-4589-BA0C-06F1C40B3110}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitHappens.Module.StateReplayer.Unittest", "shared\dotnet\FitHappens.Module.StateReplayer.Unittest\FitHappens.Module.StateReplayer.Unittest.csproj", "{A53DD9C4-2942-4657-9B3C-2558C0C438CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitHappens.Module.StateReplayer.Unittest", "shared\dotnet\FitHappens.Module.StateReplayer.Unittest\FitHappens.Module.StateReplayer.Unittest.csproj", "{A53DD9C4-2942-4657-9B3C-2558C0C438CA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitHappens.Domain.Account", "shared\dotnet\FitHappens.Domain.Account\FitHappens.Domain.Account.csproj", "{3C8BD798-7B3C-4591-A0DD-705469461719}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitHappens.Repository.Account", "shared\dotnet\FitHappens.Repository.Account\FitHappens.Repository.Account.csproj", "{4069C704-4C04-41B4-8F20-C94F5DA1D4DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitHappens.Repository.Journal", "shared\dotnet\FitHappens.Repository.Journal\FitHappens.Repository.Journal.csproj", "{15701ABA-58D2-4C9A-9CED-53B6003727D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitHappens.Repository.Journal.Unittest", "shared\dotnet\FitHappens.Repository.Journal.Unittest\FitHappens.Repository.Journal.Unittest.csproj", "{C2EF152B-D9B2-4D8F-B38C-B33147A6877A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +47,22 @@ Global
 		{A53DD9C4-2942-4657-9B3C-2558C0C438CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A53DD9C4-2942-4657-9B3C-2558C0C438CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A53DD9C4-2942-4657-9B3C-2558C0C438CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C8BD798-7B3C-4591-A0DD-705469461719}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C8BD798-7B3C-4591-A0DD-705469461719}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C8BD798-7B3C-4591-A0DD-705469461719}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C8BD798-7B3C-4591-A0DD-705469461719}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4069C704-4C04-41B4-8F20-C94F5DA1D4DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4069C704-4C04-41B4-8F20-C94F5DA1D4DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4069C704-4C04-41B4-8F20-C94F5DA1D4DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4069C704-4C04-41B4-8F20-C94F5DA1D4DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15701ABA-58D2-4C9A-9CED-53B6003727D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15701ABA-58D2-4C9A-9CED-53B6003727D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15701ABA-58D2-4C9A-9CED-53B6003727D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15701ABA-58D2-4C9A-9CED-53B6003727D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2EF152B-D9B2-4D8F-B38C-B33147A6877A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2EF152B-D9B2-4D8F-B38C-B33147A6877A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2EF152B-D9B2-4D8F-B38C-B33147A6877A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2EF152B-D9B2-4D8F-B38C-B33147A6877A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

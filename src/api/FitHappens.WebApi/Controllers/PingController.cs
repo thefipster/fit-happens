@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FitHappens.WebApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/ping")]
     public class PingController : ControllerBase
     {
         private readonly ILogger<PingController> logger;

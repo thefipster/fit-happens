@@ -4,14 +4,16 @@ namespace FitHappens.WebApi.Auth
 {
     public class ApiKeyValidator : IApiKeyValidator
     {
+        private readonly IUserService userService;
+
+        public ApiKeyValidator(IUserService userService)
+        {
+            this.userService = userService;
+        }
+
         public bool IsValid(string apiKey)
         {
-            if (apiKey.FirstOrDefault() == 'a')
-            {
-                return true;
-            }
-
-            return false;
+            return userService.IsValid(apiKey);
         }
     }
 }

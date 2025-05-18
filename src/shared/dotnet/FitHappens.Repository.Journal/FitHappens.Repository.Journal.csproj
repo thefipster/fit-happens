@@ -7,7 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FitHappens.Domain.Account\FitHappens.Domain.Account.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FitHappens.Domain.Journal\FitHappens.Domain.Journal.csproj" />
   </ItemGroup>
 
 </Project>
