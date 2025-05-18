@@ -1,4 +1,4 @@
-﻿namespace FitHappens.WebApi.Abstraction
+﻿namespace FitHappens.WebApi.Abstractions
 {
     public interface IApiKeyValidator
     {

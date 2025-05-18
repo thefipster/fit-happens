@@ -1,4 +1,4 @@
-﻿using FitHappens.WebApi.Abstraction;
+﻿using FitHappens.WebApi.Abstractions;
 
 namespace FitHappens.WebApi.Auth
 {

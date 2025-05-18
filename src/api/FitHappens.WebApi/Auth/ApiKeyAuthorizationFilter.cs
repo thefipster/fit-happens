@@ -1,4 +1,4 @@
-﻿using FitHappens.WebApi.Abstraction;
+﻿using FitHappens.WebApi.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
