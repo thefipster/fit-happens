@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FitHappens.Domain.Journal.Messages;
 
 namespace FitHappens.Repository.Journal.Abstractions
 {
-    public interface IJournalStore { }
+    public interface IJournalStore
+    {
+        IEnumerable<JournalMessage> Load(string user);
+        void Append(string user, IEnumerable<JournalMessage> messages);
+        void Append(string user, JournalMessage message);
+    }
 }

@@ -22,7 +22,7 @@ namespace FitHappens.Module.StateReplayer.Handlers
             var tags = ensureTags(state, message);
             var set = new Set
             {
-                Id = message.Id,
+                Id = message.SetId,
                 Exercise = exercise,
                 Reps = message.Reps,
                 Timestamp = message.Timestamp,

@@ -1,11 +1,7 @@
-const { CreateTagMsg } = require('./protos/journal_pb')
-
-function handleJournal(name) {
-  var msg = new CreateTagMsg();
-  msg.setName(name);
-  return msg;
-}
+const { Journal } = require('./journal');
+const { JournalBuilder } = require('./journal-builder');
 
 module.exports = {
-  handleJournal
-};
+    Journal,
+    JournalBuilder
+}

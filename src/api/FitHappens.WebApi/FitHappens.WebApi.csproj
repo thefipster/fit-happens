@@ -6,6 +6,7 @@
     <UserSecretsId>57e36f17-48eb-4db5-819c-c73bc07e74d7</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <AssemblyVersion>0.1.0</AssemblyVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Properties\launchSettings.example.json" />
@@ -16,7 +17,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.20.1" />
+    <PackageReference Include="NJsonSchema" Version="11.3.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="8.1.1" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\launchSettings.example.json">
@@ -28,5 +31,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\shared\dotnet\FitHappens.Domain.Account\FitHappens.Domain.Account.csproj" />
     <ProjectReference Include="..\..\shared\dotnet\FitHappens.Repository.Account\FitHappens.Repository.Account.csproj" />
+    <ProjectReference Include="..\..\shared\dotnet\FitHappens.Repository.Journal\FitHappens.Repository.Journal.csproj" />
   </ItemGroup>
 </Project>

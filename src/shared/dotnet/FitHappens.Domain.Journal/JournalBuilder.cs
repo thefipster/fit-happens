@@ -6,29 +6,19 @@ namespace FitHappens.Domain.Journal
     {
         public static CreateTagMsg CreateTagMessage(string name)
         {
-            return new CreateTagMsg
-            {
-                Stamp = createStamp(),
-                Id = Guid.NewGuid().ToString(),
-                Name = name,
-            };
+            return new CreateTagMsg { TagId = Guid.NewGuid().ToString(), Name = name };
         }
 
-        public static CreateTagMsg CreateTagMessage(string name, string parent)
+        public static CreateTagMsg CreateTagMessage(string name, string parentId)
         {
             var msg = CreateTagMessage(name);
-            msg.Parent = parent;
+            msg.ParentId = parentId;
             return msg;
         }
 
         public static CreateExerciseMsg CreateExerciseMessage(string name)
         {
-            return new CreateExerciseMsg
-            {
-                Stamp = createStamp(),
-                Id = Guid.NewGuid().ToString(),
-                Name = name,
-            };
+            return new CreateExerciseMsg { ExerciseId = Guid.NewGuid().ToString(), Name = name };
         }
 
         public static CreateSetMsg CreateSetMessage(
@@ -40,8 +30,7 @@ namespace FitHappens.Domain.Journal
         {
             var message = new CreateSetMsg
             {
-                Stamp = createStamp(),
-                Id = Guid.NewGuid().ToString(),
+                SetId = Guid.NewGuid().ToString(),
                 Timestamp = timestamp,
                 ExerciseId = exerciseId,
                 Reps = reps,
@@ -57,16 +46,12 @@ namespace FitHappens.Domain.Journal
 
         public static DeleteSetMsg DeleteSetMessage(string id)
         {
-            return new DeleteSetMsg { Stamp = createStamp(), Id = id };
+            return new DeleteSetMsg { SetId = id };
         }
 
-        private static MessageStamp createStamp()
+        public static IEnumerable<JournalMessage> Concat(params JournalMessage[] messages)
         {
-            return new MessageStamp
-            {
-                Id = Guid.NewGuid().ToString(),
-                Timestamp = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds(),
-            };
+            return messages;
         }
     }
 }

@@ -17,9 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitHappens.Domain.Account",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitHappens.Repository.Account", "shared\dotnet\FitHappens.Repository.Account\FitHappens.Repository.Account.csproj", "{4069C704-4C04-41B4-8F20-C94F5DA1D4DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitHappens.Repository.Journal", "shared\dotnet\FitHappens.Repository.Journal\FitHappens.Repository.Journal.csproj", "{15701ABA-58D2-4C9A-9CED-53B6003727D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitHappens.Repository.Journal", "shared\dotnet\FitHappens.Repository.Journal\FitHappens.Repository.Journal.csproj", "{15701ABA-58D2-4C9A-9CED-53B6003727D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitHappens.Repository.Journal.Unittest", "shared\dotnet\FitHappens.Repository.Journal.Unittest\FitHappens.Repository.Journal.Unittest.csproj", "{C2EF152B-D9B2-4D8F-B38C-B33147A6877A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitHappens.Repository.Journal.Unittest", "shared\dotnet\FitHappens.Repository.Journal.Unittest\FitHappens.Repository.Journal.Unittest.csproj", "{C2EF152B-D9B2-4D8F-B38C-B33147A6877A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitHappens.Domain.Journal.Unittest", "shared\dotnet\FitHappens.Domain.Journal.Unittest\FitHappens.Domain.Journal.Unittest.csproj", "{9C3FA6BE-41F6-4854-A498-BF92E806F587}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{C2EF152B-D9B2-4D8F-B38C-B33147A6877A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2EF152B-D9B2-4D8F-B38C-B33147A6877A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2EF152B-D9B2-4D8F-B38C-B33147A6877A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C3FA6BE-41F6-4854-A498-BF92E806F587}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C3FA6BE-41F6-4854-A498-BF92E806F587}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C3FA6BE-41F6-4854-A498-BF92E806F587}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C3FA6BE-41F6-4854-A498-BF92E806F587}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

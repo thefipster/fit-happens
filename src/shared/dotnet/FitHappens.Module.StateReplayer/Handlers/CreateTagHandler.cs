@@ -18,7 +18,7 @@ namespace FitHappens.Module.StateReplayer.Handlers
         {
             var message = (entry as CreateTagMsg)!;
 
-            var tag = new Tag { Id = message.Id, Name = message.Name };
+            var tag = new Tag { Id = message.TagId, Name = message.Name };
             state.Tags.Add(tag);
 
             return state;

@@ -17,7 +17,7 @@ namespace FitHappens.Module.StateReplayer.Handlers
         {
             var message = (entry as DeleteSetMsg)!;
 
-            var set = state.Sets.FirstOrDefault(x => x.Id == message.Id);
+            var set = state.Sets.FirstOrDefault(x => x.Id == message.SetId);
             if (set == null)
                 throwMissingSetException();
 

@@ -13,11 +13,11 @@ namespace FitHappens.Module.StateReplayer.Unittest
             var createExerciseMsg = JournalBuilder.CreateExerciseMessage("Push-Up");
             var createSetMsg = JournalBuilder.CreateSetMessage(
                 ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds(),
-                createExerciseMsg.Id,
+                createExerciseMsg.ExerciseId,
                 10,
-                [createTagMsg.Id]
+                [createTagMsg.TagId]
             );
-            var deleteSetMsg = JournalBuilder.DeleteSetMessage(createSetMsg.Id);
+            var deleteSetMsg = JournalBuilder.DeleteSetMessage(createSetMsg.SetId);
 
             var journal = new object[]
             {
@@ -44,11 +44,11 @@ namespace FitHappens.Module.StateReplayer.Unittest
             var createExerciseMsg = JournalBuilder.CreateExerciseMessage("Push-Up");
             var createSetMsg = JournalBuilder.CreateSetMessage(
                 ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds(),
-                createExerciseMsg.Id,
+                createExerciseMsg.ExerciseId,
                 10,
-                [createTagMsg.Id]
+                [createTagMsg.TagId]
             );
-            var deleteSetMsg = JournalBuilder.DeleteSetMessage(createSetMsg.Id);
+            var deleteSetMsg = JournalBuilder.DeleteSetMessage(createSetMsg.SetId);
 
             var initJournal = new object[] { createTagMsg, createExerciseMsg, createSetMsg };
             var updateJournal = new object[] { deleteSetMsg };

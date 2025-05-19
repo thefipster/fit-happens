@@ -1,11 +1,17 @@
-﻿using FitHappens.Domain.Journal.Abstractions;
-
-namespace FitHappens.Domain.Journal.Messages
+﻿namespace FitHappens.Domain.Journal.Messages
 {
-    public partial class CreateSetMsg : IJournalMessage
+    public partial class CreateSetMsg : JournalMessage
     {
-        public long Timestamp => Stamp.Timestamp;
+        public CreateSetMsg()
+        {
+            TagIds = new List<string>();
+        }
 
-        IJournalMessage IJournalMessage.Clone() => Clone();
+        public string SetId { get; set; }
+        public long Timestamp { get; set; }
+        public string ExerciseId { get; set; }
+        public double? Weight { get; set; }
+        public int Reps { get; set; }
+        public ICollection<string> TagIds { get; set; }
     }
 }

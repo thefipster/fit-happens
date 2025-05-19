@@ -18,7 +18,7 @@ namespace FitHappens.Module.StateReplayer.Handlers
         {
             var message = (entry as CreateExerciseMsg)!;
 
-            var exercise = new Exercise { Id = message.Id, Name = message.Name };
+            var exercise = new Exercise { Id = message.ExerciseId, Name = message.Name };
             state.Exercises.Add(exercise);
 
             return state;
