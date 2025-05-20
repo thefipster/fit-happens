@@ -1,0 +1,6 @@
+@FitHappens_HostAddress = http://localhost:5081
+
+GET {{FitHappens_HostAddress}}/
+Accept: application/json
+
+###
