@@ -1,5 +1,4 @@
-using FitHappens.WebApi.Abstraction;
-using FitHappens.WebApi.Auth;
+using FitHappens.WebApi.Extensions;
 
 namespace FitHappens.WebApi
 {
@@ -8,28 +7,21 @@ namespace FitHappens.WebApi
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Host.UseSerilogFromConfig();
 
-            builder.Services.AddSingleton<ApiKeyAuthorizationFilter>();
-            builder.Services.AddSingleton<IApiKeyValidator, ApiKeyValidator>();
+            var config = builder.Configuration;
 
-            builder.Services.AddControllers();
+            builder.Services.InjectCustomServices(config);
+            builder.Services.AddControllersWithCustomJson();
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerCustomGen();
 
             var app = builder.Build();
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
-
-            app.UseHttpsRedirection();
-
+            app.UseStaticFiles();
+            app.UseCustomSwagger();
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.MapControllers();
-
             app.Run();
         }
     }

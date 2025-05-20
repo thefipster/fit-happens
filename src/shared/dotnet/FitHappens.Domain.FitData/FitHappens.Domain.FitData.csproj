@@ -5,4 +5,7 @@
     <Nullable>enable</Nullable>
     <AssemblyVersion>0.1.0</AssemblyVersion>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FitHappens.Domain.Journal\FitHappens.Domain.Journal.csproj" />
+  </ItemGroup>
 </Project>

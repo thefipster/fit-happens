@@ -6,9 +6,6 @@
     <AssemblyVersion>0.1.0</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Google.Protobuf" Version="3.31.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Messages\" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.5" />
   </ItemGroup>
 </Project>
