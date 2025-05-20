@@ -38,6 +38,10 @@ namespace FitHappens.WebApi.Extensions
 
                 config.UseOneOfForPolymorphism();
                 config.IncludeXmlComments(xmlPath);
+                config.SwaggerDoc(
+                    "v1",
+                    new OpenApiInfo { Title = "fit happens api", Version = "v1" }
+                );
             });
 
             return services;
