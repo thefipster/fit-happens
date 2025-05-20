@@ -25,7 +25,7 @@ namespace FitHappens.Domain.Journal.Components
 
         public void Append(JournalMessage message)
         {
-            if (message.Timestamp <= last)
+            if (message.Timestamp < last)
                 throw new Exception("Can't append, there are newer messages. Use merge instead.");
 
             messages.Add(message);
@@ -35,7 +35,7 @@ namespace FitHappens.Domain.Journal.Components
 
         public void Append(IEnumerable<JournalMessage> messages)
         {
-            if (messages.Any(messages => messages.Timestamp <= last))
+            if (messages.Any(messages => messages.Timestamp < last))
                 throw new Exception("Can't append, there are newer messages. Use merge instead.");
 
             foreach (var message in messages.OrderBy(x => x.Timestamp))
