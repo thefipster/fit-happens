@@ -1,12 +1,6 @@
-const { v4: uuidv4 } = require('uuid');
-
-class JournalMessage {
+export class JournalMessage {
   constructor() {
-    this.id = uuidv4();
+    this.journalId = crypto.randomUUID(); 
     this.timestamp = Date.now();
   }
 }
-
-module.exports = {
-    JournalMessage
-};

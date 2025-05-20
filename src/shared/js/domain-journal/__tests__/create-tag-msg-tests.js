@@ -1,4 +1,4 @@
-const { CreateTagMsg } = require('../src/models/tag-messages');
+import { CreateTagMsg } from '../src/models/tag-messages';
 
 describe('tag messages', () => {
   test('check ctor', () => {

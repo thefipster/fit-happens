@@ -1,16 +1,17 @@
-const { v4: uuidv4 } = require('uuid');
-const { JournalMessage } = require('./journal-message');
+import { JournalMessage } from './journal-message';
 
-class CreateTagMsg extends JournalMessage {
+export class CreateTagMsg extends JournalMessage {
   constructor(name, parentId) {
-    this.tagId = uuidv4();
+    super();
+    if (!name) {
+      throw new Error('Name is required');
+    }
+
+    this.type = "create-tag";
+    this.tagId = crypto.randomUUID(); 
     this.name = name;
     
     if (parentId)
         this.parentId = parentId;
   }
 }
-
-module.exports = {
-    CreateTagMsg
-};
