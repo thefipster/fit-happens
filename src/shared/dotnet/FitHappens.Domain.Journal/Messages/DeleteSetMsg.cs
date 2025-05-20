@@ -2,6 +2,6 @@
 {
     public partial class DeleteSetMsg : JournalMessage
     {
-        public string SetId { get; set; }
+        public required string SetId { get; set; }
     }
 }

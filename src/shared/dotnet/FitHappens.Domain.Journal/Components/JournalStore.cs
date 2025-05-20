@@ -9,8 +9,8 @@ namespace FitHappens.Domain.Journal.Components
 {
     public class JournalStore : IJournalStore
     {
-        private JournalConfig config;
-        private JsonSerializerOptions options;
+        private readonly JournalConfig config;
+        private readonly JsonSerializerOptions options;
 
         public JournalStore(IOptions<JournalConfig> config)
         {
@@ -28,14 +28,16 @@ namespace FitHappens.Domain.Journal.Components
             var userPath = ensureUserPath(user);
 
             var files = Directory.GetFiles(userPath, "*.json");
-            if (!files.Any())
-                return Enumerable.Empty<JournalMessage>();
+            if (files.Length == 0)
+                return [];
 
             var messages = new List<JournalMessage>();
             foreach (var file in files.OrderBy(x => x))
             {
                 var json = File.ReadAllText(file);
-                var message = JsonSerializer.Deserialize<JournalMessage>(json, options);
+                var message =
+                    JsonSerializer.Deserialize<JournalMessage>(json, options)
+                    ?? throw new Exception($"Failed to deserialize {file}");
                 messages.Add(message);
             }
             return messages;
@@ -53,7 +55,7 @@ namespace FitHappens.Domain.Journal.Components
             var userPath = ensureUserPath(user);
 
             var filename = $"{message.Timestamp}.json";
-            var filepath = Path.Combine(config.DataPath, user, filename);
+            var filepath = Path.Combine(userPath, filename);
 
             if (File.Exists(filepath))
                 throw new Exception($"File {filename} already exists");

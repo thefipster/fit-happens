@@ -2,6 +2,6 @@
 {
     public class JournalConfig
     {
-        public string DataPath { get; set; }
+        public required string DataPath { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace FitHappens.Domain.Journal.Messages
             return JsonSerializer.Serialize(this, jsonOptions);
         }
 
-        public static JournalMessage FromJson(string json)
+        public static JournalMessage? FromJson(string json)
         {
             return JsonSerializer.Deserialize<JournalMessage>(json, jsonOptions);
         }

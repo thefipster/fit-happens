@@ -6,7 +6,7 @@ namespace FitHappens.Domain.Journal.Converter
 {
     public class JournalMessageConverter : JsonConverter<JournalMessage>
     {
-        public override JournalMessage Read(
+        public override JournalMessage? Read(
             ref Utf8JsonReader reader,
             Type typeToConvert,
             JsonSerializerOptions options

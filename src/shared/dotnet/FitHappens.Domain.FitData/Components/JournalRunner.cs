@@ -14,21 +14,27 @@ namespace FitHappens.Domain.FitData.Components
 
         public FitState Next(FitState state, NextEventArgs args)
         {
-            var message = args.Message;
-            var handler = ensureHandler(message);
-            state = handler.Apply(state, message);
+            var handler = ensureHandler(args.Type);
+            state = handler.Apply(state, args.Message);
             return state;
         }
 
-        private IEnumerable<IMessageHandler> ensureHandlers()
+        private static List<IMessageHandler> ensureHandlers()
         {
             try
             {
-                var handlers = findHandlers();
-                if (!handlers.Any())
+                var types = findHandlers();
+                if (!types.Any())
                     throw new InvalidOperationException("No handlers found.");
 
-                return handlers.Select(x => (IMessageHandler)Activator.CreateInstance(x));
+                var handlers = new List<IMessageHandler>();
+                foreach (var type in types)
+                {
+                    if (Activator.CreateInstance(type) is IMessageHandler handler)
+                        handlers.Add(handler);
+                }
+
+                return handlers;
             }
             catch (Exception ex)
             {
@@ -48,21 +54,6 @@ namespace FitHappens.Domain.FitData.Components
                 .Where(p => handlerType.IsAssignableFrom(p) && p.IsInterface == false);
 
             return types;
-        }
-
-        private IMessageHandler ensureHandler(object entry)
-        {
-            try
-            {
-                return handlers.First(handler => handler.CanHandle(entry));
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidOperationException(
-                    $"No handler found for entry of type {entry.GetType().Name}",
-                    ex
-                );
-            }
         }
 
         private IMessageHandler ensureHandler(string type)

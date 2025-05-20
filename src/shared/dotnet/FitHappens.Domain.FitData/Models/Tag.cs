@@ -2,8 +2,13 @@
 {
     public class Tag
     {
+        public Tag()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
+
         public string Id { get; set; }
-        public string Name { get; set; }
-        public string Parent { get; set; }
+        public required string Name { get; set; }
+        public string? ParentId { get; set; }
     }
 }

@@ -7,19 +7,19 @@ namespace FitHappens.Domain.Journal.Components
 {
     public class JournalEmitter : IJournalEmitter
     {
-        private ICollection<JournalMessage> messages;
+        private readonly List<JournalMessage> messages;
         private long last;
-        public event NextEventHandler Next;
+        public event NextEventHandler? Next;
         public delegate void NextEventHandler(object sender, NextEventArgs e);
 
         public JournalEmitter()
         {
-            messages = new List<JournalMessage>();
+            messages = [];
         }
 
         public JournalEmitter(IEnumerable<JournalMessage> messages)
         {
-            this.messages = messages.OrderBy(x => x.Timestamp).ToList();
+            this.messages = [.. messages.OrderBy(x => x.Timestamp)];
             last = this.messages.Max(x => x.Timestamp);
         }
 
@@ -29,6 +29,7 @@ namespace FitHappens.Domain.Journal.Components
                 throw new Exception("Can't append, there are newer messages. Use merge instead.");
 
             messages.Add(message);
+            last = message.Timestamp;
             Next?.Invoke(this, new NextEventArgs(message));
         }
 
