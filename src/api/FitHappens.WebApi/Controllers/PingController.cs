@@ -3,9 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FitHappens.WebApi.Controllers
 {
-    /// <summary>
-    /// Use this if you don't know what to do.
-    /// </summary>
     [ApiController]
     [Route("api/ping")]
     public class PingController : ControllerBase
@@ -20,7 +17,6 @@ namespace FitHappens.WebApi.Controllers
         /// <summary>
         /// Bored? Play some ping pong. (Hint: The server always wins!)
         /// </summary>
-        /// <returns></returns>
         [ApiKey]
         [HttpGet(Name = "Ping")]
         public string Get()

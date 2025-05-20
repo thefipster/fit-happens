@@ -1,3 +1,5 @@
+using FitHappens.Domain.Journal.Util;
+
 namespace FitHappens.Domain.Journal.Unittest
 {
     public class JournalBuilderTests

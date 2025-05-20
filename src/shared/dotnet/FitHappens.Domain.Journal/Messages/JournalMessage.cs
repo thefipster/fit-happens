@@ -33,7 +33,11 @@ namespace FitHappens.Domain.Journal.Messages
         {
             get
             {
-                var options = new JsonSerializerOptions { WriteIndented = true };
+                var options = new JsonSerializerOptions
+                {
+                    WriteIndented = true,
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                };
                 options.Converters.Add(new JournalMessageConverter());
                 return options;
             }

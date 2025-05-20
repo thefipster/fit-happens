@@ -9,17 +9,17 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["FitHappens/FitHappens.csproj", "FitHappens/"]
-RUN dotnet restore "./FitHappens/FitHappens.csproj"
+COPY ["api/FitHappens.WebApi/FitHappens.WebApi.csproj", "api/FitHappens.WebApi/FitHappens.WebApi.csproj"]
+RUN dotnet restore "api/FitHappens.WebApi/FitHappens.WebApi.csproj"
 COPY . .
-WORKDIR "/src/FitHappens"
-RUN dotnet build "./FitHappens.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/api/FitHappens.WebApi"
+RUN dotnet build "./FitHappens.WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./FitHappens.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./FitHappens.WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "FitHappens.dll"]
+ENTRYPOINT ["dotnet", "FitHappens.WebApi.dll"]

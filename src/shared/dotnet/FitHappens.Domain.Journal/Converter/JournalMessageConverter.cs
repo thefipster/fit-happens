@@ -15,7 +15,7 @@ namespace FitHappens.Domain.Journal.Converter
             using var doc = JsonDocument.ParseValue(ref reader);
             var root = doc.RootElement;
 
-            if (!root.TryGetProperty("Type", out var typeProp))
+            if (!root.TryGetProperty("type", out var typeProp))
                 throw new JsonException("Missing type discriminator.");
 
             var typeDiscriminator = typeProp.GetString();
@@ -61,7 +61,7 @@ namespace FitHappens.Domain.Journal.Converter
             using var writerWrapper = new Utf8JsonWriter(obj);
 
             writer.WriteStartObject();
-            writer.WriteString("Type", typeDiscriminator);
+            writer.WriteString("type", typeDiscriminator);
 
             foreach (var prop in json.EnumerateObject())
             {

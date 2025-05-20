@@ -1,0 +1,14 @@
+services:
+
+  fit-api:
+    build:
+      context: .
+      dockerfile: api/FitHappens.WebApi/Dockerfile
+    image: fit-happens/fit-api:latest
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    volumes:
+      - ./../data/fit-api:/app/data
+    ports:
+      - "8080:8080"

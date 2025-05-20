@@ -1,4 +1,5 @@
 ﻿using FitHappens.Domain.Journal.Messages;
+using FitHappens.Domain.Journal.Util;
 
 namespace FitHappens.Domain.Journal.Unittest
 {

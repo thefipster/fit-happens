@@ -1,6 +1,6 @@
 ﻿using System.Net;
+using FitHappens.Domain.Journal.Abstractions;
 using FitHappens.Domain.Journal.Messages;
-using FitHappens.Repository.Journal.Abstractions;
 using FitHappens.WebApi.Abstractions;
 using FitHappens.WebApi.Auth;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +24,6 @@ namespace FitHappens.WebApi.Controllers
         /// <summary>
         /// Retrieves the latest timestamp from the journal of the authorized user.
         /// </summary>
-        /// <returns>Unix timestamp in milliseconds</returns>
         [ApiKey]
         [HttpGet("latest", Name = "GetLatestTimestamp")]
         public long GetLatestTimestamp()
@@ -42,8 +41,6 @@ namespace FitHappens.WebApi.Controllers
         /// <summary>
         /// Retrieves the journal messages of the authorized user.
         /// </summary>
-        /// <param name="timestamp">Optional timestamp to define the start of the send journal.</param>
-        /// <returns>Journal messages</returns>
         [ApiKey]
         [HttpGet(Name = "GetJournal")]
         public IEnumerable<JournalMessage> Get()
@@ -58,8 +55,6 @@ namespace FitHappens.WebApi.Controllers
         /// <summary>
         /// Retrieves the journal messages of the authorized user since the specified timestamp.
         /// </summary>
-        /// <param name="timestamp">Unix timestamp in milliseconds to define the start of the transmitted partial journal.</param>
-        /// <returns>Journal messages</returns>
         [ApiKey]
         [HttpGet("{timestamp:long}", Name = "GetJournalPartially")]
         public IEnumerable<JournalMessage> Get(long timestamp)
@@ -74,8 +69,6 @@ namespace FitHappens.WebApi.Controllers
         /// <summary>
         /// Appends messages to the journal of the authorized user.
         /// </summary>
-        /// <param name="messages">The messages that are appended</param>
-        /// <returns>Ok</returns>
         [ApiKey]
         [HttpPost("append", Name = "AppendJournal")]
         public IActionResult Post([FromBody] IEnumerable<JournalMessage> messages)
