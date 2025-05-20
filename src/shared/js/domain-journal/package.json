@@ -2,17 +2,19 @@
   "name": "domain-journal",
   "version": "0.1.0",
   "main": "src/index.js",
+  "type": "module",
   "scripts": {
-    "test": "jest"
+    "test": "npx cypress run --e2e"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "jest": "^29.7.0"
+    "cypress": "^14.3.3"
   },
   "dependencies": {
     "google-protobuf": "^3.21.4",
+    "rxjs": "^7.8.2",
     "uuid": "^11.1.0"
   }
 }

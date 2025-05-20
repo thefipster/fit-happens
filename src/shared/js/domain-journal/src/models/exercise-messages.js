@@ -1,13 +1,14 @@
-const { v4: uuidv4 } = require('uuid');
-const { JournalMessage } = require('./journal-message');
+import { JournalMessage } from './journal-message';
 
-class CreateExerciseMsg extends JournalMessage {
+export class CreateExerciseMsg extends JournalMessage {
   constructor(name) {
-    this.exerciseId = uuidv4();
+    super();
+    if (!name) {
+      throw new Error('Name is required');
+    }
+
+    this.type = "create-exercise";
+    this.exerciseId = crypto.randomUUID(); 
     this.name = name;
   }
 }
-
-module.exports = {
-  CreateExerciseMsg
-};
