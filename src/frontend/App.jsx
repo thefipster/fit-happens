@@ -92,7 +92,7 @@ function App() {
 
   useEffect(function() {
     console.clear();
-    console.log('Welcome to Fit-Happens.');
+    console.log('Welcome to Fit-Happens, mate.');
   });
 
   return <Navigation />;
