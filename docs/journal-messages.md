@@ -40,7 +40,6 @@ Represents the logging of a set within an exercise.
 | `Weight`       | `number?`  | Optional weight lifted in the set        |
 | `Reps`         | `number`   | Number of repetitions                    |
 | `TagIds`       | `string[]` | List of tag IDs associated with the set  |
-| `SessionId`    | `string`   | List of tag IDs associated with the set  |
 
 Inherits from `JournalMessage`.
 

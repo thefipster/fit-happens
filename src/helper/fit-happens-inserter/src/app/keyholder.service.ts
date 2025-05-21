@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class KeyholderService {
   key: string = "";
-  baseUrl:string = "https://fit.thefipster.com/api";
+  baseUrl:string = "http://localhost:32771/api";
   constructor() { }
 
   setKey(key: string) : void {
