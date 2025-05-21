@@ -1,0 +1,18 @@
+<h3>Exercises</h3>
+<form [formGroup]="exerciseForm" style="display: flex; flex-direction: column; gap: 20px;">
+    <div>
+        <label for="name">Name: </label>
+        <input id="name" type="text" formControlName="name">
+    </div>
+    <div style="display: flex; gap: 40px;">
+        <button (click)="onSet()">Set</button>
+    </div>
+</form>
+
+<ul>
+    @for (item of exercises; track item.name) {
+    <li>{{ item.name }}</li>
+    } @empty {
+    <li>There are no items yet.</li>
+    }
+</ul>

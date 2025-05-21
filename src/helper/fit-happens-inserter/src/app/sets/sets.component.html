@@ -1,0 +1,54 @@
+<h3>Sets</h3>
+<form [formGroup]="setForm" style="display: flex; flex-direction: column; gap: 20px;">
+    <div>
+        <label>Datetime: </label>
+        <input style="width: 45px" id="year" type="number" formControlName="year" placeholder="2025">
+        <input style="width: 30px" id="month" type="number" formControlName="month" placeholder="12">
+        <input style="width: 30px" id="day" type="number" formControlName="day" placeholder="31">
+        -
+        <input style="width: 30px" id="hour" type="number" formControlName="hour" placeholder="23">
+        <input style="width: 30px" id="minute" type="number" formControlName="minute" placeholder="59">
+    </div>
+    <div>
+        <label for="exercise">Exercise: </label>
+        <select id="exercise" formControlName="exercise">
+            @for (item of exercises; track item.id) {
+            <option value="{{ item.id }}">{{ item.name }}</option>
+            }
+        </select>
+    </div>
+    <div>
+        <label for="exercise">Tags: </label>
+        @for (item of tags; track item.id) {
+        <input type="checkbox" (change)="onTagCheck(item, $event)" value="{{ item.id }}"> {{item.name}}
+        }
+    </div>
+    <div>
+        <label for="reps">Reps: </label>
+        <input id="reps" type="text" formControlName="reps">
+    </div>
+    <div>
+        <label for="weight">Weight: </label>
+        <input id="weight" type="text" formControlName="weight">
+    </div>
+    <div style="display: flex; gap: 40px;">
+        <button (click)="onSet()">Set</button>
+    </div>
+</form>
+
+<ul>
+    @for (item of sets; track item.id) {
+    <li>
+        {{ item.reps }}
+        {{ item.exercise }} -
+        @if (item.weight) {
+        ({{ item.weight }})
+        }
+        @for (tag of item.tags; track tag) {
+        {{ tag }}
+        }
+    </li>
+    } @empty {
+    <li>There are no items yet.</li>
+    }
+</ul>

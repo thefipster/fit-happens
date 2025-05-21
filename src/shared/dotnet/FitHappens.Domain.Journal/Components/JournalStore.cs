@@ -63,6 +63,12 @@ namespace FitHappens.Domain.Journal.Components
             File.WriteAllText(filepath, json);
         }
 
+        public void Reset(string user)
+        {
+            var userPath = ensureUserPath(user);
+            Directory.Delete(userPath, true);
+        }
+
         private string ensureUserPath(string user)
         {
             var userDir = Path.Combine(config.DataPath, user);

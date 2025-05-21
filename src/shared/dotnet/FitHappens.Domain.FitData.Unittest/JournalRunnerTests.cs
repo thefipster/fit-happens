@@ -20,14 +20,6 @@ namespace FitHappens.Domain.FitData.Unittest
             );
             var deleteSetMsg = JournalBuilder.DeleteSetMessage(createSetMsg.SetId);
 
-            var journal = new object[]
-            {
-                createTagMsg,
-                createExerciseMsg,
-                createSetMsg,
-                deleteSetMsg,
-            };
-
             var state = new FitState();
             var runner = new JournalRunner();
             var emitter = new JournalEmitter();
