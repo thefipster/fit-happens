@@ -22,7 +22,7 @@ namespace FitHappens.Domain.Journal.Util
             {
                 ExerciseId = Guid.NewGuid().ToString(),
                 Name = name,
-                Type = type,
+                ExerciseType = type,
             };
         }
 
@@ -35,7 +35,7 @@ namespace FitHappens.Domain.Journal.Util
         {
             var message = new CreateBatchMsg
             {
-                SetId = Guid.NewGuid().ToString(),
+                BatchId = Guid.NewGuid().ToString(),
                 Timestamp = timestamp,
                 ExerciseId = exerciseId,
                 Reps = reps,
@@ -51,7 +51,7 @@ namespace FitHappens.Domain.Journal.Util
 
         public static DeleteBatchMsg DeleteSetMessage(string id)
         {
-            return new DeleteBatchMsg { SetId = id };
+            return new DeleteBatchMsg(id);
         }
 
         public static IEnumerable<JournalMessage> Concat(params JournalMessage[] messages)

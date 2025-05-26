@@ -3,6 +3,7 @@
     public class CreateTagMsg : JournalMessage
     {
         public CreateTagMsg()
+            : base(MessageTypes.CreateTagMessage)
         {
             TagId = Guid.NewGuid().ToString();
         }

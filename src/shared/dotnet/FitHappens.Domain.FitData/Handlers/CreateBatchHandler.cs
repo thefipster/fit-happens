@@ -5,7 +5,7 @@ using FitHappens.Domain.Journal.Messages;
 
 namespace FitHappens.Domain.FitData.Handlers
 {
-    public class CreateSetHandler : IMessageHandler
+    public class CreateBatchHandler : IMessageHandler
     {
         public const string MsgType = "CreateSetMsg";
 
@@ -25,9 +25,9 @@ namespace FitHappens.Domain.FitData.Handlers
 
             var exercise = ensureExercise(state, message);
             var tags = ensureTags(state, message);
-            var set = new Set
+            var set = new Batch
             {
-                Id = message.SetId,
+                Id = message.BatchId,
                 Exercise = exercise,
                 Reps = message.Reps,
                 Timestamp = message.Timestamp,

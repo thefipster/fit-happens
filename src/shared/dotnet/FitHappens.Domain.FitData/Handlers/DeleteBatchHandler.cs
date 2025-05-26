@@ -4,7 +4,7 @@ using FitHappens.Domain.Journal.Messages;
 
 namespace FitHappens.Domain.FitData.Handlers
 {
-    public class DeleteSetHandler : IMessageHandler
+    public class DeleteBatchHandler : IMessageHandler
     {
         public const string MsgType = "DeleteSetMsg";
 

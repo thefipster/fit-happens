@@ -5,19 +5,21 @@ using FitHappens.Domain.Journal.Converter;
 namespace FitHappens.Domain.Journal.Messages
 {
     [KnownType(typeof(CreateExerciseMsg))]
-    [KnownType(typeof(CreateBatchMsg))]
     [KnownType(typeof(CreateTagMsg))]
+    [KnownType(typeof(CreateBatchMsg))]
     [KnownType(typeof(DeleteBatchMsg))]
     public class JournalMessage
     {
-        public JournalMessage()
+        public JournalMessage(string type)
         {
             JournalId = Guid.NewGuid().ToString();
             Timestamp = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds();
+            Type = type;
         }
 
         public string JournalId { get; set; }
         public long Timestamp { get; set; }
+        public string Type { get; set; }
 
         public string ToJson()
         {
