@@ -57,7 +57,6 @@ Represents the creation of a new tag for organizing or labeling sets.
 
 Inherits from `JournalMessage`.
 
----
 
 ## ❌ `DeleteSetMsg`
 
@@ -66,6 +65,19 @@ Represents the deletion of an existing set.
 | Property | Type     | Description             |
 | -------- | -------- | ----------------------- |
 | `SetId`  | `string` | ID of the set to delete |
+
+Inherits from `JournalMessage`.
+
+---
+
+##  `SetNewBodyWeight`
+
+Represents the creation of a new tag for organizing or labeling sets.
+
+| Property          | Type      | Description                               |
+| ----------------- | --------- | ----------------------------------------- |
+| `Bodyweight`      | `number`  | Bodyweight of the user in kg              |
+| `WeightTimestamp` | `number`  | Timestamp when the measurement occured    |
 
 Inherits from `JournalMessage`.
 

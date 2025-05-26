@@ -12,3 +12,12 @@ services:
       - ./../data/fit-api:/app/data
     ports:
       - "8080:8080"
+
+  fit-inserter:
+    build:
+      context: .
+      dockerfile: helper/fit-happens-inserter/Dockerfile
+    image: fit-happens/fit-inserter:latest
+    restart: unless-stopped
+    ports:
+      - "8081:80"

@@ -7,5 +7,6 @@ namespace FitHappens.Domain.Journal.Abstractions
         IEnumerable<JournalMessage> Load(string user);
         void Append(string user, IEnumerable<JournalMessage> messages);
         void Append(string user, JournalMessage message);
+        void Reset(string user);
     }
 }

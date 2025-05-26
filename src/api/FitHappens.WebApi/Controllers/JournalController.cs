@@ -1,10 +1,8 @@
-﻿using System.Net;
-using FitHappens.Domain.Journal.Abstractions;
+﻿using FitHappens.Domain.Journal.Abstractions;
 using FitHappens.Domain.Journal.Messages;
 using FitHappens.WebApi.Abstractions;
 using FitHappens.WebApi.Auth;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace FitHappens.WebApi.Controllers
 {
@@ -14,11 +12,17 @@ namespace FitHappens.WebApi.Controllers
     {
         private readonly IUserService userService;
         private readonly IJournalStore store;
+        private readonly ILogger<JournalController> logger;
 
-        public JournalController(IUserService userService, IJournalStore store)
+        public JournalController(
+            IUserService userService,
+            IJournalStore store,
+            ILogger<JournalController> logger
+        )
         {
             this.userService = userService;
             this.store = store;
+            this.logger = logger;
         }
 
         /// <summary>
@@ -76,7 +80,21 @@ namespace FitHappens.WebApi.Controllers
             var key = Request.Headers["X-Api-Key"].ToString();
             var userId = userService.GetIdForKey(key);
             store.Append(userId.ToString(), messages);
+            logger.LogDebug("Messages appended for user: " + userId);
 
+            return Ok();
+        }
+
+        /// <summary>
+        /// Deletes all messages from the journal of the authorized user.
+        /// </summary>
+        [ApiKey]
+        [HttpDelete(Name = "DeleteJournal")]
+        public IActionResult Reset()
+        {
+            var key = Request.Headers["X-Api-Key"].ToString();
+            var userId = userService.GetIdForKey(key);
+            store.Reset(userId.ToString());
             return Ok();
         }
     }

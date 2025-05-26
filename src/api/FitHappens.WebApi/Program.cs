@@ -12,11 +12,13 @@ namespace FitHappens.WebApi
             var config = builder.Configuration;
 
             builder.Services.InjectCustomServices(config);
+            builder.Services.AddCors();
             builder.Services.AddControllersWithCustomJson();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerCustomGen();
 
             var app = builder.Build();
+            app.AddCorsAllowingAll();
             app.UseStaticFiles();
             app.UseCustomSwagger();
             app.UseAuthentication();

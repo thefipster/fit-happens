@@ -1,0 +1,12 @@
+{
+  "name": "@fit-journal",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "dependencies": {
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0"
+  }
+}

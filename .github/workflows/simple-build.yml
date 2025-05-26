@@ -7,21 +7,64 @@ on:
     branches: [ "main" ]
 
 jobs:
-  dotnet:
+  fit-api:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./src
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
+    - name: checkout
+      uses: actions/checkout@v4
+    - name: setup dotnet
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
-    - name: Restore
+    - name: restore
       run: dotnet restore
-    - name: Build
+    - name: build
       run: dotnet build --no-restore
-    - name: Test
+    - name: unittest
       run: dotnet test
     
+  fit-journal:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src/shared/ts
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+      - name: npm install
+        run: npm ci --legacy-peer-deps
+      - name: build
+        run: npx nx build fit-journal
+
+    
+  fit-web:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src/shared/ts
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+      - name: npm install
+        run: npm ci --legacy-peer-deps
+      - name: build
+        run: npx nx build fit-web
