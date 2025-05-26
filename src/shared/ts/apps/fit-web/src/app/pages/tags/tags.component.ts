@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ViewStateService } from '../../services/view-state.service';
 import { Tag } from '../../models';
@@ -9,7 +9,7 @@ import { Tag } from '../../models';
   templateUrl: './tags.component.html',
   styleUrl: './tags.component.css',
 })
-export class TagsComponent {
+export class TagsComponent implements OnInit {
   tags: Tag[] = [];
 
   tagForm = new FormGroup({
@@ -21,7 +21,6 @@ export class TagsComponent {
 
   async ngOnInit() {
     this.tags = this.viewState.getTags();
-    console.log(this.tags);
   }
 
   onSet(): void {
