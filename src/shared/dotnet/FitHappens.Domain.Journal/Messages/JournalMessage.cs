@@ -5,9 +5,9 @@ using FitHappens.Domain.Journal.Converter;
 namespace FitHappens.Domain.Journal.Messages
 {
     [KnownType(typeof(CreateExerciseMsg))]
-    [KnownType(typeof(CreateSetMsg))]
+    [KnownType(typeof(CreateBatchMsg))]
     [KnownType(typeof(CreateTagMsg))]
-    [KnownType(typeof(DeleteSetMsg))]
+    [KnownType(typeof(DeleteBatchMsg))]
     public class JournalMessage
     {
         public JournalMessage()

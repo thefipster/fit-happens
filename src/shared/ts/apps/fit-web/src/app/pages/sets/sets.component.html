@@ -37,7 +37,7 @@
 </form> -->
 
 <table style="width: 100%">
-    @for (item of sets; track item.id) {
+    @for (item of viewState.attempts; track item.id) {
     <tr>
         <td>
             {{ item.reps }}

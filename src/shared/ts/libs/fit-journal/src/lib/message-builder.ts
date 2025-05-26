@@ -1,11 +1,12 @@
+import { MessageTypes } from './models';
 import { CreateExerciseMsg } from './models/exercise-msgs';
-import { CreateSetMsg, DeleteSetMsg } from './models/set-msgs';
+import { CreateBatchMsg, DeleteBlatchMsg } from './models/set-msgs';
 import { CreateTagMsg } from './models/tag-msgs';
 
 export class MessageBuilder {
   static createExerciseMsg(name: string): CreateExerciseMsg {
     return {
-      type: 'create-exercise',
+      type: MessageTypes.CreateExercise,
       journalId: crypto.randomUUID(),
       exerciseId: crypto.randomUUID(),
       timestamp: Date.now(),
@@ -15,7 +16,7 @@ export class MessageBuilder {
 
   static createTagMsg(name: string): CreateTagMsg {
     return {
-      type: 'create-tag',
+      type: MessageTypes.CreateTag,
       journalId: crypto.randomUUID(),
       tagId: crypto.randomUUID(),
       timestamp: Date.now(),
@@ -23,7 +24,7 @@ export class MessageBuilder {
     };
   }
 
-  static createSetMsg(
+  static createBatchMsg(
     exerciseId: string,
     reps: number,
     options?: {
@@ -31,9 +32,9 @@ export class MessageBuilder {
       weight?: number;
       timestamp?: number;
     }
-  ): CreateSetMsg {
+  ): CreateBatchMsg {
     return {
-      type: 'create-set',
+      type: MessageTypes.CreateBatch,
       journalId: crypto.randomUUID(),
       timestamp: Date.now(),
       setId: crypto.randomUUID(),
@@ -45,9 +46,9 @@ export class MessageBuilder {
     };
   }
 
-  static deleteSetMsg(setId: string): DeleteSetMsg {
+  static deleteBatchMsg(setId: string): DeleteBlatchMsg {
     return {
-      type: 'delete-set',
+      type: MessageTypes.DeleteBatch,
       journalId: crypto.randomUUID(),
       timestamp: Date.now(),
       setId: setId,

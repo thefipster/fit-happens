@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Attempt, Exercise, Tag } from '../models';
+import { Batch, Exercise, Tag } from '../models';
 import { JournalService } from './journal.service';
 import {
   AnyJournalMessage,
@@ -14,9 +14,9 @@ import { timeAgo } from "short-time-ago";
   providedIn: 'root',
 })
 export class ViewStateService {
-  private tags: Tag[] = [];
-  private exercises: Exercise[] = [];
-  private attempts: Attempt[] = [];
+  tags: Tag[] = [];
+  exercises: Exercise[] = [];
+  attempts: Batch[] = [];
 
   constructor(private journal: JournalService) {
     journal.signals$.subscribe((signal: string) => {
@@ -34,7 +34,7 @@ export class ViewStateService {
         this.handleCreateTag(msg);
       }
 
-      if (msg.type === MessageTypes.CreateSet) {
+      if (msg.type === MessageTypes.CreateBatch) {
         this.handleCreateSet(msg);
       }
     });
@@ -42,18 +42,6 @@ export class ViewStateService {
 
   append(msg: AnyJournalMessage): void {
     this.journal.append(msg);
-  }
-
-  getTags(): Tag[] {
-    return this.tags;
-  }
-
-  getExercises(): Exercise[] {
-    return this.exercises;
-  }
-
-  getAttempts(): Attempt[] {
-    return this.attempts;
   }
 
   private handleCreateSet(msg: AnyJournalMessage) {
@@ -86,7 +74,7 @@ export class ViewStateService {
       weight: setMsg.weight,
       tagIds: setMsg.tagIds,
       tags: tags,
-    } as Attempt);
+    } as Batch);
   }
 
   private handleCreateTag(msg: AnyJournalMessage) {

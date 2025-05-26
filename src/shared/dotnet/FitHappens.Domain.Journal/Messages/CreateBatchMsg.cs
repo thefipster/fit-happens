@@ -1,8 +1,8 @@
 ﻿namespace FitHappens.Domain.Journal.Messages
 {
-    public partial class CreateSetMsg : JournalMessage
+    public partial class CreateBatchMsg : JournalMessage
     {
-        public CreateSetMsg()
+        public CreateBatchMsg()
         {
             SetId = Guid.NewGuid().ToString();
             SetTimestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();

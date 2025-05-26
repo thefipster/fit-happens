@@ -10,7 +10,7 @@
 </form>
 
 <ul>
-    @for (item of exercises; track item.name) {
+    @for (item of viewState.exercises; track item.name) {
     <li>{{ item.name }}</li>
     } @empty {
     <li>There are no items yet.</li>

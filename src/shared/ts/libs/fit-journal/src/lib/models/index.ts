@@ -1,20 +1,25 @@
 import { CreateExerciseMsg } from './exercise-msgs';
 import { JournalMessage } from './journal-message';
-import { CreateSetMsg, DeleteSetMsg } from './set-msgs';
+import { CreateBatchMsg, DeleteBlatchMsg as DeleteBatchMsg } from './set-msgs';
 import { CreateTagMsg } from './tag-msgs';
 
-export { JournalMessage, CreateExerciseMsg, CreateTagMsg, CreateSetMsg, DeleteSetMsg };
+export { JournalMessage, CreateExerciseMsg, CreateTagMsg, CreateBatchMsg as CreateSetMsg, DeleteBatchMsg as DeleteSetMsg };
 
 export type AnyJournalMessage =
   | CreateTagMsg
   | CreateExerciseMsg
-  | CreateSetMsg
-  | DeleteSetMsg;
+  | CreateBatchMsg
+  | DeleteBatchMsg;
 
 export enum MessageTypes {
   CreateExercise = "create-exercise",
   CreateTag = "create-tag",
-  CreateSet = "create-set",
-  DeleteSet = "delete-set"
+  CreateBatch = "create-batch",
+  DeleteBatch = "delete-batch"
+}
+
+export enum ExerciseTypes {
+  Repeated = "reps",
+  Timed = "time"
 }
 

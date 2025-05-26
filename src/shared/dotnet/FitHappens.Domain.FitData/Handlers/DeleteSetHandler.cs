@@ -20,7 +20,7 @@ namespace FitHappens.Domain.FitData.Handlers
 
         public FitState Apply(FitState state, object entry)
         {
-            var message = (entry as DeleteSetMsg)!;
+            var message = (entry as DeleteBatchMsg)!;
 
             var set = state.Sets.FirstOrDefault(x => x.Id == message.SetId);
             if (set == null)

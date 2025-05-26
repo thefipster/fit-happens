@@ -10,18 +10,16 @@ import { Exercise } from '../../models';
   templateUrl: './exercises.component.html',
   styleUrl: './exercises.component.css',
 })
-export class ExercisesComponent implements OnInit {
+export class ExercisesComponent {
   exerciseForm = new FormGroup({
     key: new FormControl(''),
     name: new FormControl(''),
   });
-  exercises: Exercise[] = [];
 
-  constructor(private viewstate: ViewStateService) {
-  }
+  viewState: ViewStateService;
 
-  async ngOnInit() {
-    this.exercises = this.viewstate.getExercises();
+  constructor(viewState: ViewStateService) {
+    this.viewState = viewState;
   }
 
   onSet(): void {
@@ -30,6 +28,6 @@ export class ExercisesComponent implements OnInit {
       return; 
 
     const msg = MessageBuilder.createExerciseMsg(name);
-    this.viewstate.append(msg);
+    this.viewState.append(msg);
   }
 }

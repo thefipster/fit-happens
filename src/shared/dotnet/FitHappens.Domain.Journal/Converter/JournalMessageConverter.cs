@@ -21,19 +21,19 @@ namespace FitHappens.Domain.Journal.Converter
             var typeDiscriminator = typeProp.GetString();
             return typeDiscriminator switch
             {
-                "create-exercise" => JsonSerializer.Deserialize<CreateExerciseMsg>(
+                MessageTypes.CreateExerciseMessage => JsonSerializer.Deserialize<CreateExerciseMsg>(
                     root.GetRawText(),
                     options
                 ),
-                "create-tag" => JsonSerializer.Deserialize<CreateTagMsg>(
+                MessageTypes.CreateTagMessage => JsonSerializer.Deserialize<CreateTagMsg>(
                     root.GetRawText(),
                     options
                 ),
-                "create-set" => JsonSerializer.Deserialize<CreateSetMsg>(
+                MessageTypes.CreateBatchMessage => JsonSerializer.Deserialize<CreateBatchMsg>(
                     root.GetRawText(),
                     options
                 ),
-                "delete-set" => JsonSerializer.Deserialize<DeleteSetMsg>(
+                MessageTypes.DeleteBatchMessage => JsonSerializer.Deserialize<DeleteBatchMsg>(
                     root.GetRawText(),
                     options
                 ),
@@ -49,10 +49,10 @@ namespace FitHappens.Domain.Journal.Converter
         {
             var typeDiscriminator = value switch
             {
-                CreateExerciseMsg => "create-exercise",
-                CreateTagMsg => "create-tag",
-                CreateSetMsg => "create-set",
-                DeleteSetMsg => "delete-set",
+                CreateExerciseMsg => MessageTypes.CreateExerciseMessage,
+                CreateTagMsg => MessageTypes.CreateTagMessage,
+                CreateBatchMsg => MessageTypes.CreateBatchMessage,
+                DeleteBatchMsg => MessageTypes.DeleteBatchMessage,
                 _ => throw new JsonException($"Unknown type: {value.GetType().Name}"),
             };
 

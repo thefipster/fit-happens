@@ -8,9 +8,10 @@ export interface Tag {
 export interface Exercise {
   id: string;
   name: string;
+  type: string;
 }
 
-export interface Attempt {
+export interface Batch {
   id: string;
   timestamp: number;
   occuredAt: Date;

@@ -12,6 +12,19 @@ All messages extend from `JournalMessage`, which includes:
 | ----------- | -------- | ------------------------------------------------------------ |
 | `JournalId` | `string` | Unique identifier for the journal entry                      |
 | `Timestamp` | `number` | UTC timestamp (in milliseconds) when the message was created |
+| `Type`      | `string` | Enumerated value, see MessageTypes |
+
+### 📌 `MessageTypes`
+
+| Value               | Description                          |
+| ------------------- | ------------------------------------ |
+| `create-exercise`   | Create a new exercise                |
+| `create-tag`        | Create a new tag                     |
+| `create-batch`      | Create a new batch                   |
+| `delete-batch`      | Delete an existing batch             |
+| `create-bodyweight` | Create a new bodyweight measurement  |
+
+---
 
 ---
 
@@ -19,29 +32,20 @@ All messages extend from `JournalMessage`, which includes:
 
 Represents the creation of a new exercise.
 
-| Property     | Type     | Description                                |
-| ------------ | -------- | ------------------------------------------ |
-| `ExerciseId` | `string` | Unique identifier for the exercise         |
-| `Name`       | `string` | Name of the exercise (e.g., "Burpee") |
+| Property       | Type     | Description                           |
+| -------------- | -------- | ------------------------------------- |
+| `ExerciseId`   | `string` | Unique identifier for the exercise    |
+| `ExerciseType` | `string` | Enumerated value, see ExerciseTypes   |
+| `Name`         | `string` | Name of the exercise (e.g., "Burpee") |
 
 Inherits from `JournalMessage`.
 
----
+### 🏋️‍♂️ `ExerciseTypes`
 
-## 🧱 `CreateSetMsg`
-
-Represents the logging of a set within an exercise.
-
-| Property       | Type       | Description                              |
-| -------------- | ---------- | ---------------------------------------- |
-| `SetId`        | `string`   | Unique identifier for the set            |
-| `SetTimestamp` | `number`   | UTC timestamp (ms) when the set occurred |
-| `ExerciseId`   | `string`   | ID of the associated exercise            |
-| `Weight`       | `number?`  | Optional weight lifted in the set        |
-| `Reps`         | `number`   | Number of repetitions                    |
-| `TagIds`       | `string[]` | List of tag IDs associated with the set  |
-
-Inherits from `JournalMessage`.
+| Value  | Description                                   |
+| ------ | --------------------------------------------- |
+| `reps` | Repetitive exercises e.g. Push-Ups, Pull-Ups  |
+| `time` | Timed exercises e.g. Wall-Sit, Plank          |
 
 ---
 
@@ -57,20 +61,37 @@ Represents the creation of a new tag for organizing or labeling sets.
 
 Inherits from `JournalMessage`.
 
+---
 
-## ❌ `DeleteSetMsg`
+## 🧱 `CreateBatchMsg`
+
+Represents the logging of a set within an exercise.
+
+| Property         | Type       | Description                              |
+| ---------------- | ---------- | ---------------------------------------- |
+| `BatchId`        | `string`   | Unique identifier for the set            |
+| `BatchTimestamp` | `number`   | UTC timestamp (ms) when the set occurred |
+| `ExerciseId`     | `string`   | ID of the associated exercise            |
+| `Weight`         | `number?`  | Optional weight lifted in the set        |
+| `Reps`           | `number`   | Number of repetitions / Time in seconds  |
+| `TagIds`         | `string[]` | List of tag IDs associated with the set  |
+
+Inherits from `JournalMessage`.
+
+
+## ❌ `DeleteBatchMsg`
 
 Represents the deletion of an existing set.
 
-| Property | Type     | Description             |
-| -------- | -------- | ----------------------- |
-| `SetId`  | `string` | ID of the set to delete |
+| Property   | Type     | Description             |
+| ---------- | -------- | ----------------------- |
+| `BatchId`  | `string` | ID of the set to delete |
 
 Inherits from `JournalMessage`.
 
 ---
 
-##  `SetNewBodyWeight`
+##  `SetBodyWeight`
 
 Represents the creation of a new tag for organizing or labeling sets.
 

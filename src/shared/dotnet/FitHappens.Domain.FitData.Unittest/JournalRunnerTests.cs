@@ -1,5 +1,6 @@
 using FitHappens.Domain.FitData.Components;
 using FitHappens.Domain.Journal.Components;
+using FitHappens.Domain.Journal.Messages;
 using FitHappens.Domain.Journal.Util;
 
 namespace FitHappens.Domain.FitData.Unittest
@@ -11,7 +12,10 @@ namespace FitHappens.Domain.FitData.Unittest
         {
             // Arrange
             var createTagMsg = JournalBuilder.CreateTagMessage("assisted");
-            var createExerciseMsg = JournalBuilder.CreateExerciseMessage("Push-Up");
+            var createExerciseMsg = JournalBuilder.CreateExerciseMessage(
+                "Push-Up",
+                ExerciseTypes.Repeated
+            );
             var createSetMsg = JournalBuilder.CreateSetMessage(
                 ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds(),
                 createExerciseMsg.ExerciseId,
@@ -43,7 +47,10 @@ namespace FitHappens.Domain.FitData.Unittest
         {
             // Arrange
             var createTagMsg = JournalBuilder.CreateTagMessage("assisted");
-            var createExerciseMsg = JournalBuilder.CreateExerciseMessage("Push-Up");
+            var createExerciseMsg = JournalBuilder.CreateExerciseMessage(
+                "Push-Up",
+                ExerciseTypes.Repeated
+            );
             var createSetMsg = JournalBuilder.CreateSetMessage(
                 ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds(),
                 createExerciseMsg.ExerciseId,

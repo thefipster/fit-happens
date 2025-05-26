@@ -16,19 +16,24 @@ namespace FitHappens.Domain.Journal.Util
             return msg;
         }
 
-        public static CreateExerciseMsg CreateExerciseMessage(string name)
+        public static CreateExerciseMsg CreateExerciseMessage(string name, string type)
         {
-            return new CreateExerciseMsg { ExerciseId = Guid.NewGuid().ToString(), Name = name };
+            return new CreateExerciseMsg
+            {
+                ExerciseId = Guid.NewGuid().ToString(),
+                Name = name,
+                Type = type,
+            };
         }
 
-        public static CreateSetMsg CreateSetMessage(
+        public static CreateBatchMsg CreateSetMessage(
             long timestamp,
             string exerciseId,
             int reps,
             IEnumerable<string> tagIds
         )
         {
-            var message = new CreateSetMsg
+            var message = new CreateBatchMsg
             {
                 SetId = Guid.NewGuid().ToString(),
                 Timestamp = timestamp,
@@ -44,9 +49,9 @@ namespace FitHappens.Domain.Journal.Util
             return message;
         }
 
-        public static DeleteSetMsg DeleteSetMessage(string id)
+        public static DeleteBatchMsg DeleteSetMessage(string id)
         {
-            return new DeleteSetMsg { SetId = id };
+            return new DeleteBatchMsg { SetId = id };
         }
 
         public static IEnumerable<JournalMessage> Concat(params JournalMessage[] messages)

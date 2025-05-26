@@ -21,7 +21,7 @@ namespace FitHappens.Domain.FitData.Handlers
 
         public FitState Apply(FitState state, object entry)
         {
-            var message = (entry as CreateSetMsg)!;
+            var message = (entry as CreateBatchMsg)!;
 
             var exercise = ensureExercise(state, message);
             var tags = ensureTags(state, message);
@@ -40,7 +40,7 @@ namespace FitHappens.Domain.FitData.Handlers
             return state;
         }
 
-        private static Exercise ensureExercise(FitState state, CreateSetMsg message)
+        private static Exercise ensureExercise(FitState state, CreateBatchMsg message)
         {
             try
             {
@@ -52,7 +52,7 @@ namespace FitHappens.Domain.FitData.Handlers
             }
         }
 
-        private static List<Tag> ensureTags(FitState state, CreateSetMsg message)
+        private static List<Tag> ensureTags(FitState state, CreateBatchMsg message)
         {
             try
             {
