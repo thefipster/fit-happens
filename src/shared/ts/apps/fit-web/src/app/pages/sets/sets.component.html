@@ -40,21 +40,19 @@
     @for (item of sets; track item.id) {
     <tr>
         <td>
-        {{ item.reps }}
-
+            {{ item.reps }}
         </td>
         <td>
-{{ item.exercise?.name }}
+            {{ item.exercise.name }}
         </td>
         <td>
-        @for (tag of item.tags; track tag) {
-        {{ tag.name }}
-        }
+            @for (tag of item.tags; track tag) {
+            {{ tag.name }}
+            }
         </td>
         <td>
-        {{ item.timeAgo }}
+            {{ item.timeAgo }}
         </td>
-        
     </tr>
     } @empty {
     <tr>
@@ -63,5 +61,4 @@
         </td>
     </tr>
     }
-
 </table>
