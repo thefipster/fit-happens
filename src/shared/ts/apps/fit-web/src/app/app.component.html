@@ -1,2 +1,34 @@
-<app-nx-welcome></app-nx-welcome>
-<router-outlet></router-outlet>
+<main class="main">
+  <div class="content">
+    <div class="left-side">
+      <h1>fit happens inserter</h1>
+      <br />
+      <router-outlet></router-outlet>
+    </div>
+    <div class="divider" role="separator" aria-label="Divider"></div>
+    <div class="right-side" style="display: flex; flex-direction: column; gap: 40px;">
+      <form [formGroup]="keyForm" style="display: flex; flex-direction: column; gap: 20px;">
+        <div>
+          <label for="key">ApiKey: </label>
+          <input id="key" type="text" formControlName="key">
+        </div>
+        <div style="display: flex; gap: 40px;">
+          <button (click)="setKey()">Set</button>
+        </div>
+      </form>
+      <div class="pill-group">
+
+        @for (item of [
+        { title: 'Home', link: '/' },
+        { title: 'Sets', link: '/sets' },
+        { title: 'Tags', link: '/tags' },
+        { title: 'Exercises', link: '/exercises' },
+        ]; track item.title) {
+        <a class="pill" routerLink="{{ item.link }}">
+          <span>{{ item.title }}</span>
+        </a>
+        }
+      </div>
+    </div>
+  </div>
+</main>

@@ -1,5 +1,5 @@
-import { JournalMessage } from "./models/journal-message";
+import { AnyJournalMessage } from "./models";
 
 export interface JournalPersister {
-  persist(messages: JournalMessage[]): Promise<void>;
+  persist(messages: AnyJournalMessage[]): Promise<void>;
 }

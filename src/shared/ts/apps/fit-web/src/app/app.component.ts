@@ -1,13 +1,25 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { NxWelcomeComponent } from './nx-welcome.component';
+import { RouterOutlet } from '@angular/router';
+import { RouterLink } from '@angular/router';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { JournalService } from './services/journal.service';
 
 @Component({
-  imports: [NxWelcomeComponent, RouterModule],
   selector: 'app-root',
+  imports: [RouterOutlet, RouterLink, ReactiveFormsModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
-  title = 'fit-web';
+  keyForm = new FormGroup({
+    key: new FormControl(''),
+  });
+
+  constructor(private journal: JournalService) {}
+
+  setKey() {
+    const key = this.keyForm.controls.key.value;
+    if (key)
+      this.journal.updateApiKey(key);
+  }
 }

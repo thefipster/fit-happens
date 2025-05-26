@@ -1,5 +1,5 @@
 export * from './lib/fit-journal';
-export * from './lib/api-persister';
+export * from './lib/api-synchronizer';
 export * from './lib/message-builder';
 export * from './lib/journal-persister';
 

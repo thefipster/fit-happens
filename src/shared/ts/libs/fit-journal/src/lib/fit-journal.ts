@@ -1,64 +1,68 @@
-import { JournalMessage } from './models/journal-message';
 import { JournalPersister } from './journal-persister';
-
-type JournalListener = (message: JournalMessage) => void;
+import { Subject } from 'rxjs';
+import { AnyJournalMessage } from './models';
+import { ApiSynchronizer } from './api-synchronizer';
 
 export class FitJournal {
-  private messages: JournalMessage[] = [];
-  private listeners: JournalListener[] = [];
   private persister?: JournalPersister;
-
-   constructor(persister?: JournalPersister) {
-    this.persister = persister;
-  }
-
-  /**
-   * Adds a message to the journal and notifies listeners.
-   */
-  public addMessage(msg: JournalMessage) {
-    this.messages.push(msg);
-    this.notifyListeners(msg);
-  }
-
-  /**
-   * Returns all journal messages (e.g. for export).
-   */
-  public getMessages(): JournalMessage[] {
-    return this.messages; // return a copy to avoid mutation
-  }
-
-  /**
-   * Subscribe to new messages.
-   */
-  public onMessageAdded(listener: JournalListener) {
-    this.listeners.push(listener);
-  } 
-
-  /**
-   * Internal: Notifies all listeners.
-   */
-  private notifyListeners(msg: JournalMessage) {
-    for (const listener of this.listeners) {
-      listener(msg);
-    }
-  }
+  private synchronizer?: ApiSynchronizer;
   
-  /**
-   * Flushes current messages into persistance.
-   */
-  public async flush() {
-    if (!this.persister) {
-      throw new Error("No persister configured");
-    }
+  private messages: AnyJournalMessage[] = [];
+  private subject = new Subject<AnyJournalMessage>();
+  private lastReceived = 0;
 
-    await this.persister.persist(this.messages);
-    this.reset();
+  stream$ = this.subject.asObservable();
+
+  constructor(options?: {
+    persister?: JournalPersister
+    synchronizer?: ApiSynchronizer
+  }) {
+    this.persister = options?.persister;
+    this.synchronizer = options?.synchronizer;
   }
 
-  /**
-   * Clear all stored messages (optional).
-   */
-  public reset() {
+  public append(msg: AnyJournalMessage) {
+    this.messages.push(msg);
+    this.subject.next(msg);
+  }
+
+  public async pushApi(): Promise<void> {
+    if (!this.synchronizer)
+      throw new Error("There is no synchronizer set.");
+
+    let toSync = [];
+    for (const msg of this.messages) {
+      if (msg.timestamp > this.lastReceived) {
+        toSync.push(msg);
+      }
+    }
+
+    toSync = toSync.sort((a: AnyJournalMessage, b: AnyJournalMessage) => a.timestamp - b.timestamp);
+    console.log("These would have been appended");
+    console.log(toSync);
+
+    //await this.synchronizer.push(this.messages);
+  }
+
+  public async pullApi(): Promise<void> {
+    if (!this.synchronizer)
+      throw new Error("There is no synchronizer set.");
+
+    const messages = await this.synchronizer.pull();
     this.messages = [];
+    for (const msg of messages) {
+      this.append(msg);
+      if (msg.timestamp > this.lastReceived) {
+        this.lastReceived = msg.timestamp;
+      }
+    }
+  }
+
+  public setSynchronizer(synchronizer: ApiSynchronizer): void {
+    this.synchronizer = synchronizer;
+  }
+
+  public setPersister(persister: JournalPersister): void {
+    this.persister = persister;
   }
 }

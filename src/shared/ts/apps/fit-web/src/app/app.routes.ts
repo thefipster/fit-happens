@@ -1,3 +1,13 @@
-import { Route } from '@angular/router';
+import { Routes } from '@angular/router';
+import { HomeComponent } from './pages/home/home.component';
+import { TagsComponent } from './pages/tags/tags.component';
+import { SetsComponent } from './pages/sets/sets.component';
+import { ExercisesComponent } from './pages/exercises/exercises.component';
 
-export const appRoutes: Route[] = [];
+export const routes: Routes = [
+    {path: '', redirectTo: '/home', pathMatch: 'full'},
+    {path: 'home', component: HomeComponent},
+    {path: 'tags', component: TagsComponent},
+    {path: 'sets', component: SetsComponent},
+    {path: 'exercises', component: ExercisesComponent},
+];
