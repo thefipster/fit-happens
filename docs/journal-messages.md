@@ -91,7 +91,7 @@ Inherits from `JournalMessage`.
 
 ---
 
-##  `SetBodyWeight`
+##  `CreateBodyWeight`
 
 Represents the creation of a new tag for organizing or labeling sets.
 
