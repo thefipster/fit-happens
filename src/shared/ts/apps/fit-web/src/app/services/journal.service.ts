@@ -16,7 +16,8 @@ export class JournalService {
 
   constructor() {
     this.journal = new FitJournal({
-      synchronizer: new ApiSynchronizer(this.apiUrl)
+      synchronizer: new ApiSynchronizer(this.apiUrl),
+      autoSync: true
     })
 
     this.journal.stream$.subscribe((msg: AnyJournalMessage) => {
@@ -24,8 +25,8 @@ export class JournalService {
     });
   }
 
-  append(msg: AnyJournalMessage): void {
-    this.journal.append(msg);
+  async append(msg: AnyJournalMessage): Promise<void> {
+    await this.journal.append(msg);
   }
 
   async updateApiKey(apiKey: string): Promise<void> {

@@ -23,3 +23,13 @@ export enum ExerciseTypes {
   Timed = "time"
 }
 
+export const ExerciseMap = [
+  {
+    key: ExerciseTypes.Repeated,
+    value: "Repeated"
+  },{
+    key: ExerciseTypes.Timed,
+    value: "Timed"
+  }
+]
+

@@ -22,7 +22,9 @@
             "input": "apps/fit-web/public"
           }
         ],
-        "styles": ["apps/fit-web/src/styles.scss"],
+        "styles": [
+          "apps/fit-web/src/styles.scss"
+        ],
         "scripts": []
       },
       "configurations": {

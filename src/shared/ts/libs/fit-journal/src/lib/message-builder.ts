@@ -4,23 +4,25 @@ import { CreateBatchMsg, DeleteBlatchMsg } from './models/set-msgs';
 import { CreateTagMsg } from './models/tag-msgs';
 
 export class MessageBuilder {
-  static createExerciseMsg(name: string): CreateExerciseMsg {
+  static createExerciseMsg(name: string, type: string): CreateExerciseMsg {
     return {
       type: MessageTypes.CreateExercise,
       journalId: crypto.randomUUID(),
-      exerciseId: crypto.randomUUID(),
       timestamp: Date.now(),
-      name,
+      exerciseId: crypto.randomUUID(),
+      exerciseType: type,
+      name: name,
     };
   }
 
-  static createTagMsg(name: string): CreateTagMsg {
+  static createTagMsg(name: string, parentId?: string): CreateTagMsg {
     return {
       type: MessageTypes.CreateTag,
       journalId: crypto.randomUUID(),
       tagId: crypto.randomUUID(),
+      parentId: parentId,
       timestamp: Date.now(),
-      name,
+      name: name,
     };
   }
 

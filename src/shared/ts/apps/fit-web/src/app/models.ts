@@ -3,6 +3,7 @@ export interface Tag {
   name: string;
   parentId?: string;
   childs?: Tag[];
+  parent: Tag | undefined;
 }
 
 export interface Exercise {
@@ -18,6 +19,7 @@ export interface Batch {
   timeAgo: string;
   exercise: Exercise;
   exerciseId: string;
+  exerciseType: string;
   reps: number;
   tags?: Tag[];
   tagIds?: string[];

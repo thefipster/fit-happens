@@ -1,7 +1,9 @@
-<h3>Sets</h3>
-<!-- <form [formGroup]="setForm" style="display: flex; flex-direction: column; gap: 20px;">
+<h2>Sets</h2>
+
+<h3>Create</h3>
+<form [formGroup]="setForm" style="display: flex; flex-direction: column; gap: 20px;">
     <div>
-        <label>Datetime: </label>
+        <label for="year">Datetime: </label>
         <input style="width: 45px" id="year" type="number" formControlName="year" placeholder="2025">
         <input style="width: 30px" id="month" type="number" formControlName="month" placeholder="12">
         <input style="width: 30px" id="day" type="number" formControlName="day" placeholder="31">
@@ -34,10 +36,40 @@
     <div style="display: flex; gap: 40px;">
         <button (click)="onSet()">Set</button>
     </div>
-</form> -->
+</form>
 
+<h3>Available</h3>
+<h4>Last 24 h</h4>
 <table style="width: 100%">
-    @for (item of viewState.attempts; track item.id) {
+    @for (item of last24h; track item) {
+    <tr>
+        <td>
+            {{ item.reps }}
+        </td>
+        <td>
+            {{ item.exercise.name }}
+        </td>
+        <td>
+            @for (tag of item.tags; track tag) {
+            {{ tag.name }}
+            }
+        </td>
+        <td>
+            {{ item.timeAgo }}
+        </td>
+    </tr>
+    } @empty {
+    <tr>
+        <td>
+            Nothing there yet
+        </td>
+    </tr>
+    }
+</table>
+
+<h4>History</h4>
+<table style="width: 100%">
+    @for (item of before24h; track item) {
     <tr>
         <td>
             {{ item.reps }}
