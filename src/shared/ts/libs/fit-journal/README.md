@@ -100,7 +100,7 @@ Fetches messages from the remote source and updates local state.
 
 ## 🧬 Extensibility
 
-* Want to sync the the mighty `FitHappensApi`, it's already integrated!
+* Want to sync with the mighty `FitHappensApi`, it's already integrated!
 * Want to persist messages with `AsyncStorage`? Just implement a custom `JournalPersister`.
 * Hung up with the `FitHappensApi` always returning 500? Create your own `ApiSynchronizer`!
 
