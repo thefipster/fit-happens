@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ViewStateService } from '../../services/view-state.service';
 import { Batch, Exercise, Tag } from '../../models';
+import { JournalService } from '../../services/journal.service';
 
 @Component({
   selector: 'app-batches',
@@ -9,7 +9,7 @@ import { Batch, Exercise, Tag } from '../../models';
   templateUrl: './batches.component.html',
   styleUrl: './batches.component.css',
 })
-export class BatchesComponent {
+export class BatchesComponent implements OnInit {
   setForm = new FormGroup({
     year: new FormControl(''),
     month: new FormControl(''),
@@ -21,17 +21,21 @@ export class BatchesComponent {
     weight: new FormControl(''),
   });
 
-  viewState: ViewStateService;
+  journal: JournalService;
   last24h: Batch[] = [];
   before24h: Batch[] = [];
   exercises: Exercise[] = [];
   tags: Tag[] = [];
 
-  constructor(viewState: ViewStateService) {
-    this.viewState = viewState;
-    this.viewState.signals$.subscribe(() => {
+  constructor(journal: JournalService) {
+    this.journal = journal;
+    this.journal.stream$.subscribe(() => {
       this.setBatches();
     });
+  }
+
+  ngOnInit(): void {
+    this.setBatches();
   }
 
   onTagCheck(item: Tag, event: any): void {
@@ -45,18 +49,18 @@ export class BatchesComponent {
 
   private setBatches() {
     const yesterday = Date.now() - 86400000;
-    this.last24h = this.viewState.batches
+    this.last24h = this.journal.batches
       .filter((a: Batch) => a.timestamp >= yesterday)
       .sort((a, b) => b.timestamp - a.timestamp);
 
-    this.before24h = this.viewState.batches
+    this.before24h = this.journal.batches
       .filter((a: Batch) => a.timestamp < yesterday)
       .sort((a, b) => b.timestamp - a.timestamp);
 
-    this.exercises = this.viewState.exercises.sort((a: Exercise, b: Exercise) =>
+    this.exercises = this.journal.exercises.sort((a: Exercise, b: Exercise) =>
       a.name.localeCompare(b.name)
     );
 
-    
+
   }
 }

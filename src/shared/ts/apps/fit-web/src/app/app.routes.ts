@@ -8,6 +8,6 @@ export const routes: Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full'},
     {path: 'home', component: HomeComponent},
     {path: 'tags', component: TagsComponent},
-    {path: 'sets', component: BatchesComponent},
+    {path: 'batches', component: BatchesComponent},
     {path: 'exercises', component: ExercisesComponent},
 ];

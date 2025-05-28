@@ -32,8 +32,6 @@ export class FitJournal {
     this.messages.push(msg);
 
     if (this.autoSync && this.synchronizer) {
-      console.log('Pushing');
-      console.log(msg);
       await this.synchronizer?.push([msg]);
       this.lastSent = msg.timestamp;
     }

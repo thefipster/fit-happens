@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ViewStateService } from '../../services/view-state.service';
 import { AnyJournalMessage, MessageBuilder } from '@fit-journal';
 import { FormsModule } from '@angular/forms';
 import { Tag } from '../../models';
+import { JournalService } from '../../services/journal.service';
 
 @Component({
   selector: 'app-tags',
@@ -17,12 +17,12 @@ export class TagsComponent implements OnInit {
     parent: new FormControl(''),
   });
 
-  viewState: ViewStateService;
+  journal: JournalService;
   tags: Tag[] = [];
 
-  constructor(viewState: ViewStateService) {
-    this.viewState = viewState;
-    this.viewState.signals$.subscribe(() => {
+  constructor(journal: JournalService) {
+    this.journal = journal;
+    this.journal.stream$.subscribe(() => {
       this.setTags();
     });
   }
@@ -40,12 +40,12 @@ export class TagsComponent implements OnInit {
     if (parent) msg = MessageBuilder.createTagMsg(name, parent);
     else msg = MessageBuilder.createTagMsg(name);
 
-    this.viewState.append(msg);
+    this.journal.append(msg);
   }
 
   private setTags(): void {
-    this.tags = this.viewState.tags
-        .filter((tag: Tag) => tag.parentId === null)
+    this.tags = this.journal.tags
+        .filter((tag: Tag) => tag.parentId === null || tag.parentId === undefined)
         .sort((a: Tag, b: Tag) => a.name.localeCompare(b.name));
   }
 }

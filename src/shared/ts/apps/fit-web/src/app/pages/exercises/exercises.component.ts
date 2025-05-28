@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ViewStateService } from '../../services/view-state.service';
 import { ExerciseMap, ExerciseTypes, MessageBuilder } from '@fit-journal';
 import { Exercise } from '../../models';
+import { JournalService } from '../../services/journal.service';
 
 @Component({
   selector: 'app-exercises',
@@ -16,14 +16,14 @@ export class ExercisesComponent implements OnInit {
     type: new FormControl(''),
   });
 
-  viewState: ViewStateService;
+  journal: JournalService;
   exerciseTypes = ExerciseMap;
   repetitive: Exercise[] = [];
   timed: Exercise[] = [];
 
-  constructor(viewState: ViewStateService) {
-    this.viewState = viewState;
-    this.viewState.signals$.subscribe(() => {
+  constructor(journal: JournalService) {
+    this.journal = journal;
+    this.journal.stream$.subscribe(() => {
       this.setExercises();
     })
   }
@@ -38,15 +38,15 @@ export class ExercisesComponent implements OnInit {
     if (!name || !type) return;
 
     const msg = MessageBuilder.createExerciseMsg(name, type);
-    this.viewState.append(msg);
+    this.journal.append(msg);
   }
 
   private setExercises(): void {
-    this.repetitive = this.viewState.exercises
+    this.repetitive = this.journal.exercises
       .filter((a: Exercise) => a.type == ExerciseTypes.Repeated)
       .sort((a: Exercise, b: Exercise) => a.name.localeCompare(b.name));
 
-    this.timed = this.viewState.exercises
+    this.timed = this.journal.exercises
       .filter((a: Exercise) => a.type == ExerciseTypes.Timed)
       .sort((a: Exercise, b: Exercise) => a.name.localeCompare(b.name));
   }
