@@ -8,7 +8,7 @@
 
 ## 🚀 What is FitJournal?
 
-FitJournal is your in-memory journal for fitness data — powered by RxJS magic. It's designed to collect, emit, and sync user-generated messages such as workouts, tags, and sets in a reactive and extendable way.
+FitJournal is your in-memory journal for fitness data — powered by RxJS magic. It's designed to collect, emit, and sync user-generated messages such as exercises, tags, and batches in a reactive and extendable way.
 
 Whether you're building a swole solo lifter app or a connected community workout tracker — **FitJournal keeps your reps in check**.
 
@@ -108,7 +108,63 @@ Need to sync with a custom cloud service? Create a custom `ApiSynchronizer`!
 
 ## 🧠 Pro Tip
 
-> Use `.stream$` to change your datamodel when new messages are pushed to the journal. This way it will be a breeze to recover the state of your data model to any given time by replaying the journal.
+Create the `FitJournal` as a singleton so it will be reused by every component.
+
+Example implementation for angular
+```ts
+# services/journal-service.ts
+
+import { Injectable } from '@angular/core';
+import { FitJournal } from '@fit-journal';
+
+@Injectable({
+  providedIn: 'root',
+})
+
+export class JournalService {
+  private journal: FitJournal;
+
+  constructor() {
+    this.journal = new FitJournal();
+  }
+}
+
+---
+# screens/exercise-screen-component.ts
+
+import { JournalService } from '../services/journal-service';
+
+
+export class ExerciseScreenComponent {
+    constructor(journalService: JournalService) { }
+}
+```
+
+Use `.stream$` to update your datamodel when new messages are pushed to the journal. This way it will be a breeze to recover the state of your data model to any given time by replaying the journal.
+
+```js
+
+journal.stream$.subscribe(msg => {
+    switch (msg.type) {
+
+        case MessageTypes.CreateExercise: {
+            const exercise = {
+                id: msg.exerciseId,
+                name: msg.name,
+                type: msg.exerciseType,
+            }
+
+            this.database.exercises.push(exercise);
+            break;
+        }
+
+        case MessageTypes.AnotherOne: { rocketScience(); break; }
+});
+
+const msg = journal.builder.createExercise('Push Ups', ExerciseTypes.Repeated);
+await journal.append(msg);
+
+```
 
 ---
 
