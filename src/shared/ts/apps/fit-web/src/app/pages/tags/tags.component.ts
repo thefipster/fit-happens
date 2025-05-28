@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { AnyJournalMessage, MessageBuilder } from '@fit-journal';
+import { AnyJournalMessage } from '@fit-journal';
 import { FormsModule } from '@angular/forms';
 import { Tag } from '../../models';
 import { JournalService } from '../../services/journal.service';
@@ -37,8 +37,8 @@ export class TagsComponent implements OnInit {
     if (!name) throw new Error('Form not complete');
 
     let msg: AnyJournalMessage;
-    if (parent) msg = MessageBuilder.createTagMsg(name, parent);
-    else msg = MessageBuilder.createTagMsg(name);
+    if (parent) msg = this.journal.getBuilder().createTag(name, { parentId: parent});
+    else msg = this.journal.getBuilder().createTag(name);
 
     this.journal.append(msg);
   }

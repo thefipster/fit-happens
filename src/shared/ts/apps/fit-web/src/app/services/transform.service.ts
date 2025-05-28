@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AnyJournalMessage, CreateExerciseMsg, CreateSetMsg, CreateTagMsg } from '@fit-journal';
+import { AnyJournalMessage, CreateBatchMsg, CreateExerciseMsg, CreateTagMsg } from '@fit-journal';
 import { Batch, Exercise, Tag } from '../models';
 import { timeAgo } from 'short-time-ago';
 
@@ -12,7 +12,7 @@ export class TransformService {
     existingExercises: Exercise[],
     existingTags: Tag[]
   ): Batch {
-    const setMsg = msg as CreateSetMsg;
+    const setMsg = msg as CreateBatchMsg;
 
     const exercise = existingExercises.find(
       (item) => item.id == setMsg.exerciseId

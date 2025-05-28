@@ -3,6 +3,7 @@ import {
   AnyJournalMessage,
   ApiSynchronizer,
   FitJournal,
+  MessageBuilder,
   MessageTypes,
 } from '@fit-journal';
 import { Subject } from 'rxjs';
@@ -34,11 +35,6 @@ export class JournalService {
     });
   }
 
-  private onJournalUpdate(msg: AnyJournalMessage) {
-    this.updateStore(msg);
-    this.subject.next(msg);
-  }
-
   async append(msg: AnyJournalMessage): Promise<void> {
     await this.journal.append(msg);
   }
@@ -50,6 +46,15 @@ export class JournalService {
 
     this.reset();
     await this.journal.pullApi();
+  }
+
+  getBuilder(): MessageBuilder {
+    return this.journal.builder;
+  }
+
+  private onJournalUpdate(msg: AnyJournalMessage) {
+    this.updateStore(msg);
+    this.subject.next(msg);
   }
 
   private updateStore(msg: AnyJournalMessage) {

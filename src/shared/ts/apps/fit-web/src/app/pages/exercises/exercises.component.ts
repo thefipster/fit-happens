@@ -37,7 +37,7 @@ export class ExercisesComponent implements OnInit {
     const type = this.exerciseForm.controls.type.value;
     if (!name || !type) return;
 
-    const msg = MessageBuilder.createExerciseMsg(name, type);
+    const msg = this.journal.getBuilder().createExercise(name, type);
     this.journal.append(msg);
   }
 

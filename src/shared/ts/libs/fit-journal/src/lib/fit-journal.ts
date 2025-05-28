@@ -2,6 +2,7 @@ import { JournalPersister } from './journal-persister';
 import { Subject } from 'rxjs';
 import { AnyJournalMessage } from './models';
 import { ApiSynchronizer } from './api-synchronizer';
+import { MessageBuilder } from './message-builder';
 
 export class FitJournal {
   private persister?: JournalPersister;
@@ -14,6 +15,7 @@ export class FitJournal {
   private autoSync = false;
 
   stream$ = this.subject.asObservable();
+  builder = new MessageBuilder();
 
   constructor(options?: {
     persister?: JournalPersister;

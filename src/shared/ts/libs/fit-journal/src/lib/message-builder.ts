@@ -1,10 +1,12 @@
-import { MessageTypes } from './models';
+import { CreateBodyweightMsg, LinkExerciseTagsMsg, MessageTypes } from './models';
 import { CreateExerciseMsg } from './models/exercise-msgs';
-import { CreateBatchMsg, DeleteBlatchMsg } from './models/set-msgs';
+import { CreateBatchMsg, DeleteBlatchMsg as DeleteBatchMsg } from './models/set-msgs';
 import { CreateTagMsg } from './models/tag-msgs';
 
 export class MessageBuilder {
-  static createExerciseMsg(name: string, type: string): CreateExerciseMsg {
+  createExercise(name: string, type: string, options?: {
+    tagIds?: string[];
+  }): CreateExerciseMsg {
     return {
       type: MessageTypes.CreateExercise,
       journalId: crypto.randomUUID(),
@@ -12,21 +14,26 @@ export class MessageBuilder {
       exerciseId: crypto.randomUUID(),
       exerciseType: type,
       name: name,
-    };
+      tagIds: options?.tagIds
+    } as CreateExerciseMsg;
   }
 
-  static createTagMsg(name: string, parentId?: string): CreateTagMsg {
+  createTag(name: string, options?: {
+    parentId?: string;
+    exerciseIds?: string[];
+  }): CreateTagMsg {
     return {
       type: MessageTypes.CreateTag,
       journalId: crypto.randomUUID(),
-      tagId: crypto.randomUUID(),
-      parentId: parentId,
       timestamp: Date.now(),
+      tagId: crypto.randomUUID(),
       name: name,
-    };
+      parentId: options?.parentId,
+      exerciseIds: options?.exerciseIds
+    } as CreateTagMsg;
   }
 
-  static createBatchMsg(
+  createBatch(
     exerciseId: string,
     reps: number,
     options?: {
@@ -45,15 +52,35 @@ export class MessageBuilder {
       tagIds: options?.tagIds,
       reps: reps,
       weight: options?.weight,
-    };
+    } as CreateBatchMsg;
   }
 
-  static deleteBatchMsg(setId: string): DeleteBlatchMsg {
+  deleteBatch(setId: string): DeleteBatchMsg {
     return {
       type: MessageTypes.DeleteBatch,
       journalId: crypto.randomUUID(),
       timestamp: Date.now(),
       setId: setId,
-    };
+    } as DeleteBatchMsg;
+  }
+
+  createBodyWeight(timestamp: number, weight: number): CreateBodyweightMsg {
+    return {
+      type: MessageTypes.CreateBodyWeight,
+      journalId: crypto.randomUUID(),
+      timestamp: Date.now(),
+      weightTimestamp: timestamp,
+      weight: weight,
+    } as CreateBodyweightMsg;
+  }
+
+  linkExercisesWithTags(exerciseIds: string[], tagIds: string[]): LinkExerciseTagsMsg {
+    return  {
+      type: MessageTypes.LinkExerciseTags,
+      journalId: crypto.randomUUID(),
+      timestamp: Date.now(),
+      exerciseIds: exerciseIds,
+      tagIds: tagIds
+    } as LinkExerciseTagsMsg;
   }
 }
