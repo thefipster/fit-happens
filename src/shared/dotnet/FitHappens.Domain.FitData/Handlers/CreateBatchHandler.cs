@@ -5,9 +5,9 @@ using FitHappens.Domain.Journal.Messages;
 
 namespace FitHappens.Domain.FitData.Handlers
 {
-    public class CreateSetHandler : IMessageHandler
+    public class CreateBatchHandler : IMessageHandler
     {
-        public const string MsgType = "CreateSetMsg";
+        public const string MsgType = "CreateBatchMsg";
 
         public bool CanHandle(object message)
         {
@@ -21,13 +21,13 @@ namespace FitHappens.Domain.FitData.Handlers
 
         public FitState Apply(FitState state, object entry)
         {
-            var message = (entry as CreateSetMsg)!;
+            var message = (entry as CreateBatchMsg)!;
 
             var exercise = ensureExercise(state, message);
             var tags = ensureTags(state, message);
-            var set = new Set
+            var set = new Batch
             {
-                Id = message.SetId,
+                Id = message.BatchId,
                 Exercise = exercise,
                 Reps = message.Reps,
                 Timestamp = message.Timestamp,
@@ -40,7 +40,7 @@ namespace FitHappens.Domain.FitData.Handlers
             return state;
         }
 
-        private static Exercise ensureExercise(FitState state, CreateSetMsg message)
+        private static Exercise ensureExercise(FitState state, CreateBatchMsg message)
         {
             try
             {
@@ -52,7 +52,7 @@ namespace FitHappens.Domain.FitData.Handlers
             }
         }
 
-        private static List<Tag> ensureTags(FitState state, CreateSetMsg message)
+        private static List<Tag> ensureTags(FitState state, CreateBatchMsg message)
         {
             try
             {

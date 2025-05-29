@@ -1,29 +1,39 @@
+import { CreateBodyweightMsg, LinkExerciseTagsMsg, MessageTypes } from './models';
 import { CreateExerciseMsg } from './models/exercise-msgs';
-import { CreateSetMsg, DeleteSetMsg } from './models/set-msgs';
+import { CreateBatchMsg, DeleteBatchMsg as DeleteBatchMsg } from './models/batch-msgs';
 import { CreateTagMsg } from './models/tag-msgs';
 
 export class MessageBuilder {
-  static createExerciseMsg(name: string): CreateExerciseMsg {
+  createExercise(name: string, type: string, options?: {
+    tagIds?: string[];
+  }): CreateExerciseMsg {
     return {
-      type: 'create-exercise',
+      type: MessageTypes.CreateExercise,
       journalId: crypto.randomUUID(),
+      timestamp: Date.now(),
       exerciseId: crypto.randomUUID(),
-      timestamp: Date.now(),
-      name,
-    };
+      exerciseType: type,
+      name: name,
+      tagIds: options?.tagIds
+    } as CreateExerciseMsg;
   }
 
-  static createTagMsg(name: string): CreateTagMsg {
+  createTag(name: string, options?: {
+    parentId?: string;
+    exerciseIds?: string[];
+  }): CreateTagMsg {
     return {
-      type: 'create-tag',
+      type: MessageTypes.CreateTag,
       journalId: crypto.randomUUID(),
-      tagId: crypto.randomUUID(),
       timestamp: Date.now(),
-      name,
-    };
+      tagId: crypto.randomUUID(),
+      name: name,
+      parentId: options?.parentId,
+      exerciseIds: options?.exerciseIds
+    } as CreateTagMsg;
   }
 
-  static createSetMsg(
+  createBatch(
     exerciseId: string,
     reps: number,
     options?: {
@@ -31,26 +41,46 @@ export class MessageBuilder {
       weight?: number;
       timestamp?: number;
     }
-  ): CreateSetMsg {
+  ): CreateBatchMsg {
     return {
-      type: 'create-set',
+      type: MessageTypes.CreateBatch,
       journalId: crypto.randomUUID(),
       timestamp: Date.now(),
-      setId: crypto.randomUUID(),
-      setTimestamp: options?.timestamp ?? Date.now(),
+      batchId: crypto.randomUUID(),
+      batchTimestamp: options?.timestamp ?? Date.now(),
       exerciseId: exerciseId,
       tagIds: options?.tagIds,
       reps: reps,
       weight: options?.weight,
-    };
+    } as CreateBatchMsg;
   }
 
-  static deleteSetMsg(setId: string): DeleteSetMsg {
+  deleteBatch(batchId: string): DeleteBatchMsg {
     return {
-      type: 'delete-set',
+      type: MessageTypes.DeleteBatch,
       journalId: crypto.randomUUID(),
       timestamp: Date.now(),
-      setId: setId,
-    };
+      batchId: batchId,
+    } as DeleteBatchMsg;
+  }
+
+  createBodyWeight(timestamp: number, weight: number): CreateBodyweightMsg {
+    return {
+      type: MessageTypes.CreateBodyWeight,
+      journalId: crypto.randomUUID(),
+      timestamp: Date.now(),
+      weightTimestamp: timestamp,
+      weight: weight,
+    } as CreateBodyweightMsg;
+  }
+
+  linkExercisesWithTags(exerciseIds: string[], tagIds: string[]): LinkExerciseTagsMsg {
+    return  {
+      type: MessageTypes.LinkExerciseTags,
+      journalId: crypto.randomUUID(),
+      timestamp: Date.now(),
+      exerciseIds: exerciseIds,
+      tagIds: tagIds
+    } as LinkExerciseTagsMsg;
   }
 }

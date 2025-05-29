@@ -1,20 +1,53 @@
-import { CreateExerciseMsg } from './exercise-msgs';
+import {
+  CreateExerciseMsg,
+  LinkExerciseTagsMsg as LinkExerciseTagsMsg,
+} from './exercise-msgs';
 import { JournalMessage } from './journal-message';
-import { CreateSetMsg, DeleteSetMsg } from './set-msgs';
+import { CreateBatchMsg, DeleteBatchMsg } from './batch-msgs';
 import { CreateTagMsg } from './tag-msgs';
+import { CreateBodyweightMsg } from './user-msgs';
 
-export { JournalMessage, CreateExerciseMsg, CreateTagMsg, CreateSetMsg, DeleteSetMsg };
+export {
+  // base type
+  JournalMessage,
+  // messages
+  CreateExerciseMsg,
+  CreateTagMsg,
+  CreateBatchMsg,
+  DeleteBatchMsg,
+  CreateBodyweightMsg,
+  LinkExerciseTagsMsg,
+};
 
 export type AnyJournalMessage =
   | CreateTagMsg
   | CreateExerciseMsg
-  | CreateSetMsg
-  | DeleteSetMsg;
+  | CreateBatchMsg
+  | DeleteBatchMsg
+  | CreateBodyweightMsg
+  | LinkExerciseTagsMsg;
 
 export enum MessageTypes {
-  CreateExercise = "create-exercise",
-  CreateTag = "create-tag",
-  CreateSet = "create-set",
-  DeleteSet = "delete-set"
+  CreateExercise = 'create-exercise',
+  CreateTag = 'create-tag',
+  CreateBatch = 'create-batch',
+  DeleteBatch = 'delete-batch',
+  CreateBodyWeight = 'create-bodyweight',
+  LinkExerciseTags = 'link-exercise-tags',
 }
 
+export enum ExerciseTypes {
+  Repeated = 'reps',
+  Timed = 'time',
+}
+
+export const ExerciseMap = [
+  {
+    key: ExerciseTypes.Repeated,
+    value: 'Repeated',
+  },
+  {
+    key: ExerciseTypes.Timed,
+    value: 'Timed',
+  },
+];

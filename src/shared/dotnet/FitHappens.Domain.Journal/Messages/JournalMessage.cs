@@ -1,23 +1,30 @@
 ﻿using System.Runtime.Serialization;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using FitHappens.Domain.Journal.Converter;
 
 namespace FitHappens.Domain.Journal.Messages
 {
     [KnownType(typeof(CreateExerciseMsg))]
-    [KnownType(typeof(CreateSetMsg))]
     [KnownType(typeof(CreateTagMsg))]
-    [KnownType(typeof(DeleteSetMsg))]
+    [KnownType(typeof(CreateBatchMsg))]
+    [KnownType(typeof(DeleteBatchMsg))]
+    [KnownType(typeof(CreateBodyweightMsg))]
+    [KnownType(typeof(LinkExerciseTagsMsg))]
     public class JournalMessage
     {
-        public JournalMessage()
+        public JournalMessage(string type)
         {
             JournalId = Guid.NewGuid().ToString();
             Timestamp = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds();
+            Type = type;
         }
 
         public string JournalId { get; set; }
         public long Timestamp { get; set; }
+
+        [JsonIgnore]
+        public string Type { get; set; }
 
         public string ToJson()
         {

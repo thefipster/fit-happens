@@ -1,18 +1,52 @@
-<h3>Exercises</h3>
+<h2>Exercises</h2>
+
+<h3>Create</h3>
 <form [formGroup]="exerciseForm" style="display: flex; flex-direction: column; gap: 20px;">
     <div>
-        <label for="name">Name: </label>
+        <label for="name">Name </label>
         <input id="name" type="text" formControlName="name">
+    </div>
+    <div>
+        <label for="type">Type </label>
+        <select id="type" formControlName="type">
+            @for (item of exerciseTypes; track item) {
+            <option value="{{ item.key }}">{{ item.value }}</option>
+            }
+        </select>
     </div>
     <div style="display: flex; gap: 40px;">
         <button (click)="onSet()">Set</button>
     </div>
 </form>
 
-<ul>
-    @for (item of exercises; track item.name) {
-    <li>{{ item.name }}</li>
-    } @empty {
-    <li>There are no items yet.</li>
-    }
-</ul>
+<h3>Available</h3>
+<table>
+    <tr>
+        <th>
+            <h4>Repetitive</h4>
+        </th>
+        <th>
+            <h4>Timed</h4>
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <ul>
+                @for (item of repetitive; track item.name) {
+                <li>{{ item.name }}</li>
+                } @empty {
+                <li>There are no items yet.</li>
+                }
+            </ul>
+        </td>
+        <td>
+            <ul>
+                @for (item of timed; track item.name) {
+                <li>{{ item.name }}</li>
+                } @empty {
+                <li>There are no items yet.</li>
+                }
+            </ul>
+        </td>
+    </tr>
+</table>

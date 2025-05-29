@@ -4,9 +4,9 @@ using FitHappens.Domain.Journal.Messages;
 
 namespace FitHappens.Domain.FitData.Handlers
 {
-    public class DeleteSetHandler : IMessageHandler
+    public class DeleteBatchHandler : IMessageHandler
     {
-        public const string MsgType = "DeleteSetMsg";
+        public const string MsgType = "DeleteBatchMsg";
 
         public bool CanHandle(object message)
         {
@@ -20,9 +20,9 @@ namespace FitHappens.Domain.FitData.Handlers
 
         public FitState Apply(FitState state, object entry)
         {
-            var message = (entry as DeleteSetMsg)!;
+            var message = (entry as DeleteBatchMsg)!;
 
-            var set = state.Sets.FirstOrDefault(x => x.Id == message.SetId);
+            var set = state.Sets.FirstOrDefault(x => x.Id == message.BatchId);
             if (set == null)
                 throwMissingSetException();
 

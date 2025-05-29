@@ -1,5 +1,6 @@
 ﻿using FitHappens.Domain.FitData.Components;
 using FitHappens.Domain.Journal.Components;
+using FitHappens.Domain.Journal.Messages;
 using FitHappens.Domain.Journal.Util;
 
 namespace FitHappens.Domain.FitData.Unittest
@@ -13,9 +14,11 @@ namespace FitHappens.Domain.FitData.Unittest
             var reps = 10;
 
             var createTagMsg = JournalBuilder.CreateTagMessage("assisted");
-            var createExerciseMsg = JournalBuilder.CreateExerciseMessage("Push-Up");
-            var createSetMsg = JournalBuilder.CreateSetMessage(
-                ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds(),
+            var createExerciseMsg = JournalBuilder.CreateExerciseMessage(
+                "Push-Up",
+                ExerciseTypes.Repeated
+            );
+            var createBatchMsg = JournalBuilder.CreateBatchMessage(
                 createExerciseMsg.ExerciseId,
                 reps,
                 [createTagMsg.TagId]
@@ -32,7 +35,7 @@ namespace FitHappens.Domain.FitData.Unittest
             // Assert Initial State
             emitter.Append(createTagMsg);
             emitter.Append(createExerciseMsg);
-            emitter.Append(createSetMsg);
+            emitter.Append(createBatchMsg);
 
             // Assert
             Assert.Equal(reps, state.AllTimeForeverAndEverStatistics.TotalRepCount);
@@ -44,9 +47,11 @@ namespace FitHappens.Domain.FitData.Unittest
             // Arrange
             var reps = 10;
 
-            var createExerciseMsg = JournalBuilder.CreateExerciseMessage("Push-Up");
-            var createSetMsg = JournalBuilder.CreateSetMessage(
-                ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds(),
+            var createExerciseMsg = JournalBuilder.CreateExerciseMessage(
+                "Push-Up",
+                ExerciseTypes.Repeated
+            );
+            var createBatchMsg = JournalBuilder.CreateBatchMessage(
                 createExerciseMsg.ExerciseId,
                 reps,
                 []
@@ -62,8 +67,8 @@ namespace FitHappens.Domain.FitData.Unittest
 
             // Assert Initial State
             emitter.Append(createExerciseMsg);
-            emitter.Append(createSetMsg);
-            emitter.Append(createSetMsg);
+            emitter.Append(createBatchMsg);
+            emitter.Append(createBatchMsg);
 
             // Assert
             Assert.Equal(reps * 2, state.AllTimeForeverAndEverStatistics.TotalRepCount);
@@ -75,17 +80,19 @@ namespace FitHappens.Domain.FitData.Unittest
             // Arrange
             var reps = 10;
 
-            var createExerciseMsg = JournalBuilder.CreateExerciseMessage("Push-Up");
-            var createSetMsg = JournalBuilder.CreateSetMessage(
-                ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds(),
+            var createExerciseMsg = JournalBuilder.CreateExerciseMessage(
+                "Push-Up",
+                ExerciseTypes.Repeated
+            );
+            var createBatchMsg = JournalBuilder.CreateBatchMessage(
                 createExerciseMsg.ExerciseId,
                 reps,
                 []
             );
-            var deleteSetMsg = JournalBuilder.DeleteSetMessage(createSetMsg.SetId);
+            var deleteBatchMsg = JournalBuilder.DeleteBatchMessage(createBatchMsg.BatchId);
 
-            var initJournal = new object[] { createExerciseMsg, createSetMsg };
-            var updateJournal = new object[] { deleteSetMsg };
+            var initJournal = new object[] { createExerciseMsg, createBatchMsg };
+            var updateJournal = new object[] { deleteBatchMsg };
 
             var state = new FitState();
             var runner = new JournalRunner();
@@ -97,11 +104,11 @@ namespace FitHappens.Domain.FitData.Unittest
 
             // Assert Initial State
             emitter.Append(createExerciseMsg);
-            emitter.Append(createSetMsg);
+            emitter.Append(createBatchMsg);
             Assert.Equal(reps, state.AllTimeForeverAndEverStatistics.TotalRepCount);
 
             // Assert Updated State
-            emitter.Append(deleteSetMsg);
+            emitter.Append(deleteBatchMsg);
             Assert.Equal(0, state.AllTimeForeverAndEverStatistics.TotalRepCount);
         }
     }

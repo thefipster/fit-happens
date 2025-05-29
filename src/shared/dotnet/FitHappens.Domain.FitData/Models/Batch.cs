@@ -1,8 +1,8 @@
 ﻿namespace FitHappens.Domain.FitData.Models
 {
-    public class Set
+    public class Batch
     {
-        public Set()
+        public Batch()
         {
             Id = Guid.NewGuid().ToString();
             Tags = [];

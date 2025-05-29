@@ -1,5 +1,4 @@
 import { AnyJournalMessage } from './models';
-import { JournalMessage } from './models/journal-message';
 
 export class ApiSynchronizer {
   private key?: string;
@@ -12,7 +11,7 @@ export class ApiSynchronizer {
     this.key = options?.apiKey;
   }
 
-  async push(messages: JournalMessage[]): Promise<void> {
+  async push(messages: AnyJournalMessage[]): Promise<void> {
     const response = await fetch(`${this.url}/journal/append`, {
       method: 'POST',
       headers: this.getHeaders(),

@@ -1,49 +1,51 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ViewStateService } from '../../services/view-state.service';
+import { AnyJournalMessage } from '@fit-journal';
+import { FormsModule } from '@angular/forms';
 import { Tag } from '../../models';
+import { JournalService } from '../../services/journal.service';
 
 @Component({
   selector: 'app-tags',
-  imports: [ReactiveFormsModule],
+  imports: [FormsModule, ReactiveFormsModule],
   templateUrl: './tags.component.html',
   styleUrl: './tags.component.css',
 })
 export class TagsComponent implements OnInit {
-  tags: Tag[] = [];
-
   tagForm = new FormGroup({
-    key: new FormControl(''),
     name: new FormControl(''),
+    parent: new FormControl(''),
   });
 
-  constructor(private viewState: ViewStateService) {}
+  journal: JournalService;
+  tags: Tag[] = [];
 
-  async ngOnInit() {
-    this.tags = this.viewState.getTags();
+  constructor(journal: JournalService) {
+    this.journal = journal;
+    this.journal.stream$.subscribe(() => {
+      this.setTags();
+    });
+  }
+
+  ngOnInit(): void {
+      this.setTags();
   }
 
   onSet(): void {
-  //   const name = this.tagForm.controls.name.value;
-  //   let msg = new CreateTagMsg(name);
-  //   this.journal.append(msg);
-  // }
+    const name = this.tagForm.controls.name.value;
+    const parent = this.tagForm.controls.parent.value;
+    if (!name) throw new Error('Form not complete');
 
-  // async refresh() {
-  //   var key = this.keyholder.getKey(); 
-  //   if (key != '') {
-  //     var url = this.keyholder.getUrl();
+    let msg: AnyJournalMessage;
+    if (parent) msg = this.journal.getBuilder().createTag(name, { parentId: parent});
+    else msg = this.journal.getBuilder().createTag(name);
 
-  //     var result = await this.api.fetchJournal(url, key);
-  //     if (result.status === 200) {
-  //       var msgs = await result.json();
-  //       this.tags = [];
-  //       msgs.forEach((item: any) => {
-  //         if (item.type === 'create-tag') {
-  //           this.tags.push(item);
-  //         }
-  //       });
-  //     }
-  //   }
+    this.journal.append(msg);
+  }
+
+  private setTags(): void {
+    this.tags = this.journal.tags
+        .filter((tag: Tag) => tag.parentId === null || tag.parentId === undefined)
+        .sort((a: Tag, b: Tag) => a.name.localeCompare(b.name));
   }
 }
