@@ -25,3 +25,10 @@ export interface Batch {
   tagIds?: string[];
   weight?: number;
 }
+
+export interface ExerciseTag {
+  exerciseId: string;
+  exercise: Exercise;
+  tagId: string;
+  tag: Tag;
+}

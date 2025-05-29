@@ -1,6 +1,6 @@
 import { CreateBodyweightMsg, LinkExerciseTagsMsg, MessageTypes } from './models';
 import { CreateExerciseMsg } from './models/exercise-msgs';
-import { CreateBatchMsg, DeleteBlatchMsg as DeleteBatchMsg } from './models/set-msgs';
+import { CreateBatchMsg, DeleteBatchMsg as DeleteBatchMsg } from './models/batch-msgs';
 import { CreateTagMsg } from './models/tag-msgs';
 
 export class MessageBuilder {
@@ -46,8 +46,8 @@ export class MessageBuilder {
       type: MessageTypes.CreateBatch,
       journalId: crypto.randomUUID(),
       timestamp: Date.now(),
-      setId: crypto.randomUUID(),
-      setTimestamp: options?.timestamp ?? Date.now(),
+      batchId: crypto.randomUUID(),
+      batchTimestamp: options?.timestamp ?? Date.now(),
       exerciseId: exerciseId,
       tagIds: options?.tagIds,
       reps: reps,
@@ -55,12 +55,12 @@ export class MessageBuilder {
     } as CreateBatchMsg;
   }
 
-  deleteBatch(setId: string): DeleteBatchMsg {
+  deleteBatch(batchId: string): DeleteBatchMsg {
     return {
       type: MessageTypes.DeleteBatch,
       journalId: crypto.randomUUID(),
       timestamp: Date.now(),
-      setId: setId,
+      batchId: batchId,
     } as DeleteBatchMsg;
   }
 

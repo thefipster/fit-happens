@@ -7,7 +7,7 @@ namespace FitHappens.Domain.FitData.Handlers
 {
     public class CreateBatchHandler : IMessageHandler
     {
-        public const string MsgType = "CreateSetMsg";
+        public const string MsgType = "CreateBatchMsg";
 
         public bool CanHandle(object message)
         {

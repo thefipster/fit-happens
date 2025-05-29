@@ -1,9 +1,9 @@
 import {
   CreateExerciseMsg,
-  LinkExerciseTags as LinkExerciseTagsMsg,
+  LinkExerciseTagsMsg as LinkExerciseTagsMsg,
 } from './exercise-msgs';
 import { JournalMessage } from './journal-message';
-import { CreateBatchMsg, DeleteBlatchMsg as DeleteBatchMsg } from './set-msgs';
+import { CreateBatchMsg, DeleteBatchMsg } from './batch-msgs';
 import { CreateTagMsg } from './tag-msgs';
 import { CreateBodyweightMsg } from './user-msgs';
 

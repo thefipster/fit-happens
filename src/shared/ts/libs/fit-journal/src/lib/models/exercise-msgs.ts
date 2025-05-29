@@ -7,7 +7,7 @@ export interface CreateExerciseMsg extends JournalMessage {
   tagIds?: string[];
 }
 
-export interface LinkExerciseTags extends JournalMessage {
+export interface LinkExerciseTagsMsg extends JournalMessage {
   exerciseIds: string[];
   tagIds: string[];
 }

@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
-import { AnyJournalMessage, CreateBatchMsg, CreateExerciseMsg, CreateTagMsg } from '@fit-journal';
-import { Batch, Exercise, Tag } from '../models';
+import {
+  AnyJournalMessage,
+  CreateBatchMsg,
+  CreateExerciseMsg,
+  CreateTagMsg,
+  DeleteBatchMsg,
+  LinkExerciseTagsMsg,
+} from '@fit-journal';
+import { Batch, Exercise, ExerciseTag, Tag } from '../models';
 import { timeAgo } from 'short-time-ago';
 
 @Injectable({
@@ -26,12 +33,12 @@ export class TransformService {
       }
     }
 
-    const timestamp = setMsg.setTimestamp ?? setMsg.timestamp;
+    const timestamp = setMsg.batchTimestamp ?? setMsg.timestamp;
     const date = new Date(timestamp);
     const ago = timeAgo(date);
 
     const batch = {
-      id: setMsg.setId,
+      id: setMsg.batchId,
       exerciseId: setMsg.exerciseId,
       exercise: exercise,
       timestamp: timestamp,
@@ -44,6 +51,11 @@ export class TransformService {
     } as Batch;
 
     return batch;
+  }
+
+  handleDeleteBatch(msg: AnyJournalMessage, existingBatches: Batch[]): Batch[] {
+    const delMsg = msg as DeleteBatchMsg;
+    return existingBatches.filter((item: Batch) => item.id !== delMsg.batchId);
   }
 
   handleCreateTag(msg: AnyJournalMessage, existingTags: Tag[]): Tag {
@@ -70,7 +82,7 @@ export class TransformService {
     return tag;
   }
 
-  handleCreateExercise(msg: AnyJournalMessage) {
+  handleCreateExercise(msg: AnyJournalMessage): Exercise {
     const exMsg = msg as CreateExerciseMsg;
     const exercise = {
       id: exMsg.exerciseId,
@@ -79,5 +91,34 @@ export class TransformService {
     } as Exercise;
 
     return exercise;
+  }
+
+  handleLinkExerciseTags(
+    msg: AnyJournalMessage,
+    existingExercises: Exercise[],
+    existingTags: Tag[]
+  ): ExerciseTag[] {
+    const linkMsg = msg as LinkExerciseTagsMsg;
+    const refs = [];
+
+    for (const exId of linkMsg.exerciseIds) {
+      for (const tagId of linkMsg.tagIds) {
+        const exercise = existingExercises.find(
+          (item: Exercise) => item.id === exId
+        );
+        const tag = existingTags.find((item: Tag) => item.id === tagId);
+
+        if (exercise && tag) {
+          refs.push({
+            exerciseId: exId,
+            exercise: exercise,
+            tagId: tagId,
+            tag: tag,
+          } as ExerciseTag);
+        }
+      }
+    }
+
+    return refs;
   }
 }

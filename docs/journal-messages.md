@@ -44,7 +44,7 @@ All messages extend from `JournalMessage`
 | `create-batch`        | Create a new batch                               |
 | `delete-batch`        | Delete an existing batch                         |
 | `create-bodyweight`   | Create a new bodyweight measurement              |
-| `link-exercise-tags` | Create n:m references between tags and exercises |
+| `link-exercise-tags` | Create n:m references between tags and exercises  |
 
 ---
 
@@ -53,11 +53,12 @@ All messages extend from `JournalMessage`
 
 Represents the creation of a new exercise.
 
-| Property       | Type     | Description                           |
-| -------------- | -------- | ------------------------------------- |
-| `ExerciseId`   | `string` | Unique identifier for the exercise    |
-| `ExerciseType` | `string` | Enumerated value, see ExerciseTypes   |
-| `Name`         | `string` | Name of the exercise (e.g., "Burpee") |
+| Property       | Type        | Description                           |
+| -------------- | --------    | ------------------------------------- |
+| `ExerciseId`   | `string`    | Unique identifier for the exercise    |
+| `ExerciseType` | `string`    | Enumerated value, see ExerciseTypes   |
+| `Name`         | `string`    | Name of the exercise (e.g., "Burpee") |
+| `TagIds`       | `string[]?` | Tags that are linked to this exercise |
 
 <a id="ExerciseTypes"></a>
 ### `ExerciseTypes`
@@ -73,11 +74,12 @@ Represents the creation of a new exercise.
 
 Represents the creation of a new tag for adding information to a batch.
 
-| Property   | Type      | Description                               |
-| ---------- | --------- | ----------------------------------------- |
-| `TagId`    | `string`  | Unique identifier for the tag             |
-| `Name`     | `string`  | Display name of the tag                   |
-| `ParentId` | `string?` | Optional ID of a parent tag (for nesting) |
+| Property      | Type        | Description                               |
+| ------------- | ---------   | ----------------------------------------- |
+| `TagId`       | `string`    | Unique identifier for the tag             |
+| `Name`        | `string`    | Display name of the tag                   |
+| `ParentId`    | `string?`   | Optional ID of a parent tag (for nesting) |
+| `ExerciseIds` | `string[]?` | Optional exercises linked to this tag     |
 
 ---
 
@@ -86,14 +88,14 @@ Represents the creation of a new tag for adding information to a batch.
 
 Represents the logging of a set within an exercise.
 
-| Property         | Type       | Description                              |
-| ---------------- | ---------- | ---------------------------------------- |
-| `BatchId`        | `string`   | Unique identifier for the set            |
-| `BatchTimestamp` | `number`   | UTC timestamp (ms) when the set occurred |
-| `ExerciseId`     | `string`   | ID of the associated exercise            |
-| `Weight`         | `number?`  | Optional weight lifted in the set        |
-| `Reps`           | `number`   | Number of repetitions / Time in seconds  |
-| `TagIds`         | `string[]` | List of tag IDs associated with the set  |
+| Property         | Type        | Description                                      |
+| ---------------- | ----------  | ----------------------------------------         |
+| `BatchId`        | `string`    | Unique identifier for the set                    |
+| `BatchTimestamp` | `number`    | UTC timestamp (ms) when the set occurred         |
+| `ExerciseId`     | `string`    | ID of the associated exercise                    |
+| `Weight`         | `number?`   | Optional weight lifted in the set                |
+| `Reps`           | `number`    | Number of repetitions / Time in seconds          |
+| `TagIds`         | `string[]?` | Optional list of tag IDs associated with the set |
 
 ---
 

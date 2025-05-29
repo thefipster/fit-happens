@@ -7,7 +7,7 @@ import {
   MessageTypes,
 } from '@fit-journal';
 import { Subject } from 'rxjs';
-import { Batch, Exercise, Tag } from '../models';
+import { Batch, Exercise, ExerciseTag, Tag } from '../models';
 import { TransformService } from './transform.service';
 
 @Injectable({
@@ -23,6 +23,7 @@ export class JournalService {
   tags: Tag[] = [];
   exercises: Exercise[] = [];
   batches: Batch[] = [];
+  exerciseTags: ExerciseTag[] = [];
 
   constructor(private transformer: TransformService) {
     this.journal = new FitJournal({
@@ -79,6 +80,17 @@ export class JournalService {
           this.tags
         );
         this.batches.push(batch);
+        break;
+      }
+
+      case MessageTypes.DeleteBatch: {
+        this.batches = this.transformer.handleDeleteBatch(msg, this.batches);
+        break;
+      }
+
+      case MessageTypes.LinkExerciseTags: {
+        const links = this.transformer.handleLinkExerciseTags(msg, this.exercises, this.tags);
+        this.exerciseTags.push(...links);
         break;
       }
     }

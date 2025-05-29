@@ -2,12 +2,12 @@
 {
     public class DeleteBatchMsg : JournalMessage
     {
-        public DeleteBatchMsg(string setId)
-            : base(MessageTypes.DeleteBatchMessage)
+        public DeleteBatchMsg(string batchId)
+            : base(MessageTypes.DeleteBatch)
         {
-            SetId = setId;
+            BatchId = batchId;
         }
 
-        public string SetId { get; set; }
+        public string BatchId { get; set; }
     }
 }

@@ -16,13 +16,12 @@ namespace FitHappens.Domain.FitData.Unittest
                 "Push-Up",
                 ExerciseTypes.Repeated
             );
-            var createBatchMsg = JournalBuilder.CreateSetMessage(
-                ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds(),
+            var createBatchMsg = JournalBuilder.CreateBatchMessage(
                 createExerciseMsg.ExerciseId,
                 10,
                 [createTagMsg.TagId]
             );
-            var deleteBatchMsg = JournalBuilder.DeleteSetMessage(createBatchMsg.BatchId);
+            var deleteBatchMsg = JournalBuilder.DeleteBatchMessage(createBatchMsg.BatchId);
 
             var state = new FitState();
             var runner = new JournalRunner();
@@ -51,13 +50,12 @@ namespace FitHappens.Domain.FitData.Unittest
                 "Push-Up",
                 ExerciseTypes.Repeated
             );
-            var createBatchMsg = JournalBuilder.CreateSetMessage(
-                ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds(),
+            var createBatchMsg = JournalBuilder.CreateBatchMessage(
                 createExerciseMsg.ExerciseId,
                 10,
                 [createTagMsg.TagId]
             );
-            var deleteBatchMsg = JournalBuilder.DeleteSetMessage(createBatchMsg.BatchId);
+            var deleteBatchMsg = JournalBuilder.DeleteBatchMessage(createBatchMsg.BatchId);
 
             var initJournal = new object[] { createTagMsg, createExerciseMsg, createBatchMsg };
             var updateJournal = new object[] { deleteBatchMsg };

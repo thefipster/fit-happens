@@ -3,13 +3,15 @@
     public class CreateTagMsg : JournalMessage
     {
         public CreateTagMsg()
-            : base(MessageTypes.CreateTagMessage)
+            : base(MessageTypes.CreateTag)
         {
             TagId = Guid.NewGuid().ToString();
+            ExerciseIds = new List<string>();
         }
 
         public string TagId { get; set; }
         public required string Name { get; set; }
         public string? ParentId { get; set; }
+        public IEnumerable<string> ExerciseIds { get; set; }
     }
 }

@@ -1,0 +1,35 @@
+<h2>Tag Exercise Groups</h2>
+
+<h3>Create</h3>
+<table>
+    <tr>
+        <th>Tags</th>
+        <th>Exercises</th>
+    </tr>
+    <tr>
+        <td>
+            <app-tag-selecter (changed)="tagsChanged($event)"></app-tag-selecter>
+        </td>
+        <td>
+            <app-exercise-selecter (changed)="exercisesChanged($event)"></app-exercise-selecter>
+        </td>
+    </tr>
+</table>
+<div style="display: flex; gap: 40px;">
+    <button (click)="onSet()">Set</button>
+</div>
+
+@if (groups && groups.length > 0)
+{
+<h3>Available</h3>
+<ul>
+    @for (group of groups; track group) {
+        <li>
+            {{ group.exercise.name }} 
+            ->
+            {{ group.tag.name }} 
+        </li>
+    }
+</ul>
+}
+

@@ -6,6 +6,8 @@ namespace FitHappens.Domain.Journal.Converter
 {
     public class JournalMessageConverter : JsonConverter<JournalMessage>
     {
+        public const string Discriminator = "type";
+
         public override JournalMessage? Read(
             ref Utf8JsonReader reader,
             Type typeToConvert,
@@ -15,25 +17,33 @@ namespace FitHappens.Domain.Journal.Converter
             using var doc = JsonDocument.ParseValue(ref reader);
             var root = doc.RootElement;
 
-            if (!root.TryGetProperty("type", out var typeProp))
+            if (!root.TryGetProperty(Discriminator, out var typeProp))
                 throw new JsonException("Missing type discriminator.");
 
             var typeDiscriminator = typeProp.GetString();
             return typeDiscriminator switch
             {
-                MessageTypes.CreateExerciseMessage => JsonSerializer.Deserialize<CreateExerciseMsg>(
+                MessageTypes.CreateExercise => JsonSerializer.Deserialize<CreateExerciseMsg>(
                     root.GetRawText(),
                     options
                 ),
-                MessageTypes.CreateTagMessage => JsonSerializer.Deserialize<CreateTagMsg>(
+                MessageTypes.CreateTag => JsonSerializer.Deserialize<CreateTagMsg>(
                     root.GetRawText(),
                     options
                 ),
-                MessageTypes.CreateBatchMessage => JsonSerializer.Deserialize<CreateBatchMsg>(
+                MessageTypes.CreateBatch => JsonSerializer.Deserialize<CreateBatchMsg>(
                     root.GetRawText(),
                     options
                 ),
-                MessageTypes.DeleteBatchMessage => JsonSerializer.Deserialize<DeleteBatchMsg>(
+                MessageTypes.DeleteBatch => JsonSerializer.Deserialize<DeleteBatchMsg>(
+                    root.GetRawText(),
+                    options
+                ),
+                MessageTypes.CreateBodyweight => JsonSerializer.Deserialize<CreateBodyweightMsg>(
+                    root.GetRawText(),
+                    options
+                ),
+                MessageTypes.LinkExerciseTags => JsonSerializer.Deserialize<LinkExerciseTagsMsg>(
                     root.GetRawText(),
                     options
                 ),
@@ -49,10 +59,12 @@ namespace FitHappens.Domain.Journal.Converter
         {
             var typeDiscriminator = value switch
             {
-                CreateExerciseMsg => MessageTypes.CreateExerciseMessage,
-                CreateTagMsg => MessageTypes.CreateTagMessage,
-                CreateBatchMsg => MessageTypes.CreateBatchMessage,
-                DeleteBatchMsg => MessageTypes.DeleteBatchMessage,
+                CreateExerciseMsg => MessageTypes.CreateExercise,
+                CreateTagMsg => MessageTypes.CreateTag,
+                CreateBatchMsg => MessageTypes.CreateBatch,
+                DeleteBatchMsg => MessageTypes.DeleteBatch,
+                CreateBodyweightMsg => MessageTypes.CreateBodyweight,
+                LinkExerciseTagsMsg => MessageTypes.LinkExerciseTags,
                 _ => throw new JsonException($"Unknown type: {value.GetType().Name}"),
             };
 
@@ -61,7 +73,7 @@ namespace FitHappens.Domain.Journal.Converter
             using var writerWrapper = new Utf8JsonWriter(obj);
 
             writer.WriteStartObject();
-            writer.WriteString("type", typeDiscriminator);
+            writer.WriteString(Discriminator, typeDiscriminator);
 
             foreach (var prop in json.EnumerateObject())
             {

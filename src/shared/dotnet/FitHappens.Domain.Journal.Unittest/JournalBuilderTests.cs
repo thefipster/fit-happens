@@ -22,8 +22,7 @@ namespace FitHappens.Domain.Journal.Unittest
                 "Push-Ups",
                 ExerciseTypes.Repeated
             );
-            var setMsg = JournalBuilder.CreateSetMessage(
-                ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds(),
+            var setMsg = JournalBuilder.CreateBatchMessage(
                 exerciseMsg.ExerciseId,
                 10,
                 [tagMsg.TagId]
