@@ -15,6 +15,10 @@
             }
         </select>
     </div>
+    <div>
+        <span>Want to link this tag to specific exercises? It will only show up for this exercise then. If you select none it will appear allways.</span>
+        <app-exercise-selecter (changed)="exercisesChanged($event)"></app-exercise-selecter>
+    </div>
     <div style="display: flex; gap: 40px;">
         <button (click)="onSet()">Set</button>
     </div>

@@ -26,7 +26,7 @@ export class ExerciseSelecterComponent {
   }
 
   refresh(): void {
-    this.exercises = this.journal.exercises.sort((a: Exercise, b: Exercise) =>
+    this.exercises = this.journal.data.exercises.sort((a: Exercise, b: Exercise) =>
       a.name.localeCompare(b.name)
     );
   }

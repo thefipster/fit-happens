@@ -7,23 +7,26 @@ import {
   MessageTypes,
 } from '@fit-journal';
 import { Subject } from 'rxjs';
-import { Batch, Exercise, ExerciseTag, Tag } from '../models';
+import { FitData } from '../models';
 import { TransformService } from './transform.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class JournalService {
-  private apiUrl = 'http://localhost:32769/api';
+  private apiUrl = 'https://fit.thefipster.com/api';
   private journal: FitJournal;
-  
+
   private subject = new Subject<AnyJournalMessage>();
   stream$ = this.subject.asObservable();
 
-  tags: Tag[] = [];
-  exercises: Exercise[] = [];
-  batches: Batch[] = [];
-  exerciseTags: ExerciseTag[] = [];
+  data: FitData = {
+    tags: [],
+    exercises: [],
+    batches: [],
+    exerciseTags: [],
+    bodyweights: [],
+  } as FitData;
 
   constructor(private transformer: TransformService) {
     this.journal = new FitJournal({
@@ -60,45 +63,47 @@ export class JournalService {
 
   private updateStore(msg: AnyJournalMessage) {
     switch (msg.type) {
-
       case MessageTypes.CreateExercise: {
-        const exercise = this.transformer.handleCreateExercise(msg);
-        this.exercises.push(exercise);
+        this.data = this.transformer.handleCreateExercise(msg, this.data);
         break;
       }
 
       case MessageTypes.CreateTag: {
-        const tag = this.transformer.handleCreateTag(msg, this.tags);
-        this.tags.push(tag);
+        this.data = this.transformer.handleCreateTag(msg, this.data);
         break;
       }
 
       case MessageTypes.CreateBatch: {
-        const batch = this.transformer.handleCreateBatch(
-          msg,
-          this.exercises,
-          this.tags
-        );
-        this.batches.push(batch);
+        this.data = this.transformer.handleCreateBatch(msg, this.data);
         break;
       }
 
       case MessageTypes.DeleteBatch: {
-        this.batches = this.transformer.handleDeleteBatch(msg, this.batches);
+        this.data = this.transformer.handleDeleteBatch(msg, this.data);
         break;
       }
 
       case MessageTypes.LinkExerciseTags: {
-        const links = this.transformer.handleLinkExerciseTags(msg, this.exercises, this.tags);
-        this.exerciseTags.push(...links);
+        this.data = this.transformer.handleLinkExerciseTags(msg, this.data);
+        break;
+      }
+
+      case MessageTypes.CreateBodyWeight: {
+        this.data = this.transformer.handleCreateBodyweight(msg, this.data);
+        break;
+      }
+
+      case MessageTypes.DeleteBodyWeight: {
+        this.data = this.transformer.handleDeleteBodyweight(msg, this.data);
         break;
       }
     }
   }
 
   private reset(): void {
-    this.batches = [];
-    this.exercises = [];
-    this.tags = [];
+    this.data.batches = [];
+    this.data.exercises = [];
+    this.data.exerciseTags = [];
+    this.data.tags = [];
   }
 }

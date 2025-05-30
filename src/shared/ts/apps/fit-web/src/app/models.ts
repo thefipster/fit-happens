@@ -1,3 +1,11 @@
+export interface FitData {
+  tags: Tag[];
+  exercises: Exercise[];
+  exerciseTags: ExerciseTag[];
+  batches: Batch[];
+  bodyweights: Bodyweight[];
+}
+
 export interface Tag {
   id: string;
   name: string;
@@ -31,4 +39,16 @@ export interface ExerciseTag {
   exercise: Exercise;
   tagId: string;
   tag: Tag;
+}
+
+export interface Bodyweight {
+  measuredAt: Date;
+  timeAgo: string;
+  timestamp: number;
+  valueInKg: number;
+}
+
+export interface User {
+  firstName: string,
+  lastName: string
 }

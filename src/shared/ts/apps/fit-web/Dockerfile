@@ -12,9 +12,9 @@ WORKDIR /app
 RUN npm cache clean --force
 # Copy files from local machine to virtual directory in docker image
 COPY . .
-WORKDIR /app/helper/fit-happens-inserter
+WORKDIR /app/shared/ts
 RUN npm install
-RUN npm run build --prod
+RUN npx nx build fit-web --prod
 
 
 ### STAGE 2:RUN ###
@@ -22,8 +22,8 @@ RUN npm run build --prod
 FROM nginx:latest
 # Copying compiled code and nginx config to different folder
 # NOTE: This path may change according to your project's output folder 
-COPY --from=build /app/helper/fit-happens-inserter/dist/fit-happens-inserter/browser /usr/share/nginx/html
-COPY /helper/fit-happens-inserter/nginx.conf  /etc/nginx/conf.d/default.conf
+COPY --from=build /app/shared/ts/dist/apps/fit-web/browser /usr/share/nginx/html
+COPY --from=build /app/shared/ts/apps/fit-web/nginx.conf  /etc/nginx/conf.d/default.conf
 # Exposing a port, here it means that inside the container 
 # the app will be using Port 80 while running
 EXPOSE 80

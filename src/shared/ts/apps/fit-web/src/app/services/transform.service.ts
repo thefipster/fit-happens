@@ -2,74 +2,81 @@ import { Injectable } from '@angular/core';
 import {
   AnyJournalMessage,
   CreateBatchMsg,
+  CreateBodyweightMsg,
   CreateExerciseMsg,
   CreateTagMsg,
   DeleteBatchMsg,
+  DeleteBodyweightMsg,
   LinkExerciseTagsMsg,
 } from '@fit-journal';
-import { Batch, Exercise, ExerciseTag, Tag } from '../models';
+import { Batch, Bodyweight, Exercise, ExerciseTag, FitData, Tag } from '../models';
 import { timeAgo } from 'short-time-ago';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TransformService {
-  handleCreateBatch(
-    msg: AnyJournalMessage,
-    existingExercises: Exercise[],
-    existingTags: Tag[]
-  ): Batch {
-    const setMsg = msg as CreateBatchMsg;
+  handleCreateBatch(msg: AnyJournalMessage, data: FitData): FitData {
+    const batchMsg = msg as CreateBatchMsg;
 
-    const exercise = existingExercises.find(
-      (item) => item.id == setMsg.exerciseId
+    // load exercise
+    const exercise = data.exercises.find(
+      (item) => item.id == batchMsg.exerciseId
     );
 
+    // load tags
     const tags = [];
-    if (setMsg.tagIds && setMsg.tagIds.length > 0) {
-      for (const tagId of setMsg.tagIds) {
-        const tag = existingTags.find((item) => item.id == tagId);
+    if (batchMsg.tagIds && batchMsg.tagIds.length > 0) {
+      for (const tagId of batchMsg.tagIds) {
+        const tag = data.tags.find((item) => item.id == tagId);
         tags.push(tag);
       }
     }
 
-    const timestamp = setMsg.batchTimestamp ?? setMsg.timestamp;
+    // computed props
+    const timestamp = batchMsg.batchTimestamp ?? batchMsg.timestamp;
     const date = new Date(timestamp);
     const ago = timeAgo(date);
 
+    // create batch
     const batch = {
-      id: setMsg.batchId,
-      exerciseId: setMsg.exerciseId,
+      id: batchMsg.batchId,
+      exerciseId: batchMsg.exerciseId,
       exercise: exercise,
       timestamp: timestamp,
       occuredAt: date,
       timeAgo: ago,
-      reps: setMsg.reps,
-      weight: setMsg.weight,
-      tagIds: setMsg.tagIds,
+      reps: batchMsg.reps,
+      weight: batchMsg.weight,
+      tagIds: batchMsg.tagIds,
       tags: tags,
     } as Batch;
 
-    return batch;
+    data.batches.push(batch);
+    return data;
   }
 
-  handleDeleteBatch(msg: AnyJournalMessage, existingBatches: Batch[]): Batch[] {
+  handleDeleteBatch(msg: AnyJournalMessage, data: FitData): FitData {
     const delMsg = msg as DeleteBatchMsg;
-    return existingBatches.filter((item: Batch) => item.id !== delMsg.batchId);
+    data.batches = data.batches.filter(
+      (item: Batch) => item.id !== delMsg.batchId
+    );
+    return data;
   }
 
-  handleCreateTag(msg: AnyJournalMessage, existingTags: Tag[]): Tag {
+  handleCreateTag(msg: AnyJournalMessage, data: FitData): FitData {
     const tagMsg = msg as CreateTagMsg;
+
+    // create tag
     const tag = {
       id: tagMsg.tagId,
       name: tagMsg.name,
       parentId: tagMsg.parentId,
     } as Tag;
 
+    // load parent
     if (tagMsg.parentId) {
-      const parent = existingTags.find(
-        (item: Tag) => item.id === tagMsg.parentId
-      );
+      const parent = data.tags.find((item: Tag) => item.id === tagMsg.parentId);
       if (parent) {
         tag.parent = parent;
         if (!parent.childs) {
@@ -79,46 +86,106 @@ export class TransformService {
       }
     }
 
-    return tag;
+    // created exercise links
+    if (tagMsg.exerciseIds && tagMsg.exerciseIds.length > 0) {
+      for (const exerciseId of tagMsg.exerciseIds) {
+        const exercise = data.exercises.find(
+          (x: Exercise) => x.id === exerciseId
+        );
+        const group = {
+          exerciseId: exerciseId,
+          exercise: exercise,
+          tagId: tag.id,
+          tag: tag,
+        } as ExerciseTag;
+        data.exerciseTags.push(group);
+      }
+    }
+
+    data.tags.push(tag);
+    return data;
   }
 
-  handleCreateExercise(msg: AnyJournalMessage): Exercise {
+  handleCreateExercise(msg: AnyJournalMessage, data: FitData): FitData {
     const exMsg = msg as CreateExerciseMsg;
+
+    // create exercise
     const exercise = {
       id: exMsg.exerciseId,
       name: exMsg.name,
       type: exMsg.exerciseType,
     } as Exercise;
 
-    return exercise;
+    data.exercises.push(exercise);
+
+    // handle linked tags
+    if (exMsg.tagIds && exMsg.tagIds.length > 0) {
+      for (const tagId of exMsg.tagIds) {
+        const tag = data.tags.find((x: Tag) => x.id === tagId);
+        const group = {
+          exerciseId: exercise.id,
+          exercise: exercise,
+          tagId: tagId,
+          tag: tag,
+        } as ExerciseTag;
+
+        data.exerciseTags.push(group);
+      }
+    }
+
+    return data;
   }
 
-  handleLinkExerciseTags(
-    msg: AnyJournalMessage,
-    existingExercises: Exercise[],
-    existingTags: Tag[]
-  ): ExerciseTag[] {
+  handleLinkExerciseTags(msg: AnyJournalMessage, data: FitData): FitData {
     const linkMsg = msg as LinkExerciseTagsMsg;
-    const refs = [];
 
+    // create exercise tag links
     for (const exId of linkMsg.exerciseIds) {
       for (const tagId of linkMsg.tagIds) {
-        const exercise = existingExercises.find(
+        const exercise = data.exercises.find(
           (item: Exercise) => item.id === exId
         );
-        const tag = existingTags.find((item: Tag) => item.id === tagId);
+        const tag = data.tags.find((item: Tag) => item.id === tagId);
 
         if (exercise && tag) {
-          refs.push({
+          const group = {
             exerciseId: exId,
             exercise: exercise,
             tagId: tagId,
             tag: tag,
-          } as ExerciseTag);
+          } as ExerciseTag;
+
+          data.exerciseTags.push(group);
         }
       }
     }
 
-    return refs;
+    return data;
+  }
+
+  handleCreateBodyweight(msg: AnyJournalMessage, data: FitData): FitData {
+    const bodyMsg = msg as CreateBodyweightMsg;
+
+    // computed props
+    const timestamp = bodyMsg.weightTimestamp ?? bodyMsg.timestamp;
+    const date = new Date(timestamp);
+    const ago = timeAgo(date);
+
+    // create bodyweight
+    const weight = {
+      measuredAt: date,
+      timeAgo: ago,
+      timestamp:  bodyMsg.weightTimestamp,
+      valueInKg: bodyMsg.weight
+    } as Bodyweight;
+
+    data.bodyweights.push(weight);
+    return data;
+  }
+
+  handleDeleteBodyweight(msg: AnyJournalMessage, data: FitData): FitData {
+    const delMsg = msg as DeleteBodyweightMsg;
+    data.bodyweights = data.bodyweights.filter((x: Bodyweight) => x.timestamp !== delMsg.weightTimestamp);
+    return data;
   }
 }

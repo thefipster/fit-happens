@@ -14,6 +14,10 @@
             }
         </select>
     </div>
+        <div>
+        <span>Want to link this exercise to specific tags? They will only show up for this exercise then.</span>
+        <app-tag-selecter (changed)="tagsChanged($event)"></app-tag-selecter>
+    </div>
     <div style="display: flex; gap: 40px;">
         <button (click)="onSet()">Set</button>
     </div>

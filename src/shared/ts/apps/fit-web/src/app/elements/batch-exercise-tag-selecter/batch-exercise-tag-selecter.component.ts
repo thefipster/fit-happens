@@ -12,7 +12,7 @@ import { AnyJournalMessage } from '@fit-journal';
 export class BatchExerciseTagSelecterComponent {
   private activeExercise?: Exercise;
   @Input() set exercise(value: string | null | undefined) {
-    this.activeExercise = this.journal.exercises.find((item: Exercise) => item.id === value);
+    this.activeExercise = this.journal.data.exercises.find((item: Exercise) => item.id === value);
     this.updateTags();
   }
 
@@ -64,7 +64,7 @@ export class BatchExerciseTagSelecterComponent {
     const activeTags: string[] = [];
 
     // check user configured values
-    for (const links of this.journal.exerciseTags) {
+    for (const links of this.journal.data.exerciseTags) {
       // remember all configured tags
       if (mentionedTags.indexOf(links.tagId) === -1) {
         mentionedTags.push(links.tagId);
@@ -80,7 +80,7 @@ export class BatchExerciseTagSelecterComponent {
     }
 
     // add all tags that are not configured at all -> not in mentionedTags
-    for (const tag of this.journal.tags) {
+    for (const tag of this.journal.data.tags) {
       if (
         mentionedTags.indexOf(tag.id) === -1 &&
         activeTags.indexOf(tag.id) === -1
@@ -90,7 +90,7 @@ export class BatchExerciseTagSelecterComponent {
     }
     // load actual tags from ids
     for (const active of activeTags) {
-      const activeTag = this.journal.tags.find(
+      const activeTag = this.journal.data.tags.find(
         (item: Tag) => item.id === active && (item.parentId ?? null) === null
       );
       if (activeTag) {

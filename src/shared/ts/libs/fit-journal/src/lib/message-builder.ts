@@ -1,12 +1,24 @@
-import { CreateBodyweightMsg, LinkExerciseTagsMsg, MessageTypes } from './models';
+import {
+  CreateBodyweightMsg,
+  LinkExerciseTagsMsg,
+  MessageTypes,
+} from './models';
 import { CreateExerciseMsg } from './models/exercise-msgs';
-import { CreateBatchMsg, DeleteBatchMsg as DeleteBatchMsg } from './models/batch-msgs';
+import {
+  CreateBatchMsg,
+  DeleteBatchMsg as DeleteBatchMsg,
+} from './models/batch-msgs';
 import { CreateTagMsg } from './models/tag-msgs';
+import { CreateUserMsg, DeleteBodyweightMsg } from './models/user-msgs';
 
 export class MessageBuilder {
-  createExercise(name: string, type: string, options?: {
-    tagIds?: string[];
-  }): CreateExerciseMsg {
+  createExercise(
+    name: string,
+    type: string,
+    options?: {
+      tagIds?: string[];
+    }
+  ): CreateExerciseMsg {
     return {
       type: MessageTypes.CreateExercise,
       journalId: crypto.randomUUID(),
@@ -14,14 +26,17 @@ export class MessageBuilder {
       exerciseId: crypto.randomUUID(),
       exerciseType: type,
       name: name,
-      tagIds: options?.tagIds
+      tagIds: options?.tagIds,
     } as CreateExerciseMsg;
   }
 
-  createTag(name: string, options?: {
-    parentId?: string;
-    exerciseIds?: string[];
-  }): CreateTagMsg {
+  createTag(
+    name: string,
+    options?: {
+      parentId?: string;
+      exerciseIds?: string[];
+    }
+  ): CreateTagMsg {
     return {
       type: MessageTypes.CreateTag,
       journalId: crypto.randomUUID(),
@@ -29,7 +44,7 @@ export class MessageBuilder {
       tagId: crypto.randomUUID(),
       name: name,
       parentId: options?.parentId,
-      exerciseIds: options?.exerciseIds
+      exerciseIds: options?.exerciseIds,
     } as CreateTagMsg;
   }
 
@@ -74,13 +89,35 @@ export class MessageBuilder {
     } as CreateBodyweightMsg;
   }
 
-  linkExercisesWithTags(exerciseIds: string[], tagIds: string[]): LinkExerciseTagsMsg {
-    return  {
+  deleteBodyweight(timestamp: number): DeleteBodyweightMsg {
+    return {
+      type: MessageTypes.DeleteBodyWeight,
+      journalId: crypto.randomUUID(),
+      timestamp: Date.now(),
+      weightTimestamp: timestamp,
+    } as DeleteBodyweightMsg;
+  }
+
+  linkExercisesWithTags(
+    exerciseIds: string[],
+    tagIds: string[]
+  ): LinkExerciseTagsMsg {
+    return {
       type: MessageTypes.LinkExerciseTags,
       journalId: crypto.randomUUID(),
       timestamp: Date.now(),
       exerciseIds: exerciseIds,
-      tagIds: tagIds
+      tagIds: tagIds,
     } as LinkExerciseTagsMsg;
+  }
+
+  createUser(firstName: string, lastName: string) : CreateUserMsg {
+    return {
+      type: MessageTypes.CreateUser,
+      journalId: crypto.randomUUID(),
+      timestamp: Date.now(),
+      firstName: firstName,
+      lastName: lastName
+    } as CreateUserMsg;
   }
 }

@@ -86,15 +86,15 @@ export class BatchesComponent implements OnInit {
 
   private setBatches() {
     const yesterday = Date.now() - 86400000;
-    this.last24h = this.journal.batches
+    this.last24h = this.journal.data.batches
       .filter((a: Batch) => a.timestamp >= yesterday)
       .sort((a, b) => b.timestamp - a.timestamp);
 
-    this.before24h = this.journal.batches
+    this.before24h = this.journal.data.batches
       .filter((a: Batch) => a.timestamp < yesterday)
       .sort((a, b) => b.timestamp - a.timestamp);
 
-    this.exercises = this.journal.exercises.sort((a: Exercise, b: Exercise) =>
+    this.exercises = this.journal.data.exercises.sort((a: Exercise, b: Exercise) =>
       a.name.localeCompare(b.name)
     );
   }

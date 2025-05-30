@@ -43,6 +43,14 @@ namespace FitHappens.Domain.Journal.Converter
                     root.GetRawText(),
                     options
                 ),
+                MessageTypes.DeleteBodyweight => JsonSerializer.Deserialize<DeleteBodyweightMsg>(
+                    root.GetRawText(),
+                    options
+                ),
+                MessageTypes.CreateUser => JsonSerializer.Deserialize<CreateUserMsg>(
+                    root.GetRawText(),
+                    options
+                ),
                 MessageTypes.LinkExerciseTags => JsonSerializer.Deserialize<LinkExerciseTagsMsg>(
                     root.GetRawText(),
                     options
@@ -64,7 +72,9 @@ namespace FitHappens.Domain.Journal.Converter
                 CreateBatchMsg => MessageTypes.CreateBatch,
                 DeleteBatchMsg => MessageTypes.DeleteBatch,
                 CreateBodyweightMsg => MessageTypes.CreateBodyweight,
+                DeleteBodyweightMsg => MessageTypes.DeleteBodyweight,
                 LinkExerciseTagsMsg => MessageTypes.LinkExerciseTags,
+                CreateUserMsg => MessageTypes.CreateUser,
                 _ => throw new JsonException($"Unknown type: {value.GetType().Name}"),
             };
 
