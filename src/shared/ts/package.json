@@ -1,6 +1,6 @@
 {
   "name": "@fit-happens/source",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "license": "MIT",
   "scripts": {},
   "private": true,
@@ -30,7 +30,7 @@
     "@nx/eslint": "21.1.1",
     "@nx/eslint-plugin": "21.1.1",
     "@nx/jest": "21.1.1",
-    "@nx/js": "21.1.1",
+    "@nx/js": "^21.1.1",
     "@nx/web": "21.1.1",
     "@nx/workspace": "21.1.1",
     "@schematics/angular": "~19.2.0",

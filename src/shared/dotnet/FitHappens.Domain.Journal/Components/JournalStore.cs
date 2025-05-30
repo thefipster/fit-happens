@@ -12,12 +12,10 @@ namespace FitHappens.Domain.Journal.Components
         private readonly JournalConfig config;
         private readonly JsonSerializerOptions options;
 
-        public JournalStore(IOptions<JournalConfig> config)
+        public JournalStore(IOptions<JournalConfig> config, JsonSerializerOptions options)
         {
             this.config = config.Value;
-
-            options = new JsonSerializerOptions { WriteIndented = true };
-            options.Converters.Add(new JournalMessageConverter());
+            this.options = options;
 
             if (!Directory.Exists(this.config.DataPath))
                 Directory.CreateDirectory(this.config.DataPath);

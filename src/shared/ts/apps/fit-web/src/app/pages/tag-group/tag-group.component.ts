@@ -19,12 +19,12 @@ export class TagGroupComponent implements OnInit {
   constructor(journal: JournalService) {
     this.journal = journal;
     this.journal.stream$.subscribe(() => {
-      this.groups = this.journal.exerciseTags;
+      this.groups = this.journal.data.exerciseTags;
     })
   }
 
   ngOnInit(): void {
-    this.groups = this.journal.exerciseTags;
+    this.groups = this.journal.data.exerciseTags;
   }
 
   tagsChanged(tags: string[]): void {

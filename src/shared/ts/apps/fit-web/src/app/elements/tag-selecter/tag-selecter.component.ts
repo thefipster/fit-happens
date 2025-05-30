@@ -26,7 +26,7 @@ export class TagSelecterComponent {
   }
 
   refresh(): void {
-    this.tags = this.journal.tags
+    this.tags = this.journal.data.tags
       .filter((item: Tag) => (item.parentId ?? null) === null)
       .sort((a: Tag, b: Tag) => a.name.localeCompare(b.name));
   }

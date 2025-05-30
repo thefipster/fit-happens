@@ -13,11 +13,11 @@ services:
     ports:
       - "8080:8080"
 
-  fit-inserter:
+  fit-web:
     build:
       context: .
-      dockerfile: helper/fit-happens-inserter/Dockerfile
-    image: fit-happens/fit-inserter:latest
+      dockerfile: shared/ts/apps/fit-web/Dockerfile
+    image: fit-happens/fit-web:latest
     restart: unless-stopped
     ports:
-      - "8081:80"
+      - "4201:80"

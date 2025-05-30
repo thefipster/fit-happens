@@ -16,6 +16,7 @@ namespace FitHappens.WebApi
             builder.Services.AddControllersWithCustomJson();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerCustomGen();
+            builder.Services.AddBrotliCompression();
 
             var app = builder.Build();
             app.AddCorsAllowingAll();
@@ -23,6 +24,7 @@ namespace FitHappens.WebApi
             app.UseCustomSwagger();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseBrotliCompression();
             app.MapControllers();
             app.Run();
         }

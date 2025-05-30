@@ -3,10 +3,11 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ExerciseMap, ExerciseTypes, MessageBuilder } from '@fit-journal';
 import { Exercise } from '../../models';
 import { JournalService } from '../../services/journal.service';
+import { TagSelecterComponent } from '../../elements/tag-selecter/tag-selecter.component';
 
 @Component({
   selector: 'app-exercises',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, TagSelecterComponent],
   templateUrl: './exercises.component.html',
   styleUrl: './exercises.component.css',
 })
@@ -20,16 +21,25 @@ export class ExercisesComponent implements OnInit {
   exerciseTypes = ExerciseMap;
   repetitive: Exercise[] = [];
   timed: Exercise[] = [];
+  selectedTags: string[] | undefined;
 
   constructor(journal: JournalService) {
     this.journal = journal;
     this.journal.stream$.subscribe(() => {
       this.setExercises();
-    })
+    });
   }
 
   ngOnInit(): void {
     this.setExercises();
+  }
+
+  tagsChanged(tagIds: string[]) {
+    if (tagIds && tagIds.length > 0) {
+      this.selectedTags = tagIds;
+    } else {
+      this.selectedTags = undefined;
+    }
   }
 
   onSet(): void {
@@ -38,15 +48,19 @@ export class ExercisesComponent implements OnInit {
     if (!name || !type) return;
 
     const msg = this.journal.getBuilder().createExercise(name, type);
+    if (this.selectedTags && this.selectedTags.length > 0) {
+      msg.tagIds = this.selectedTags;
+    }
+
     this.journal.append(msg);
   }
 
   private setExercises(): void {
-    this.repetitive = this.journal.exercises
+    this.repetitive = this.journal.data.exercises
       .filter((a: Exercise) => a.type == ExerciseTypes.Repeated)
       .sort((a: Exercise, b: Exercise) => a.name.localeCompare(b.name));
 
-    this.timed = this.journal.exercises
+    this.timed = this.journal.data.exercises
       .filter((a: Exercise) => a.type == ExerciseTypes.Timed)
       .sort((a: Exercise, b: Exercise) => a.name.localeCompare(b.name));
   }
