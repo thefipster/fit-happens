@@ -156,7 +156,7 @@ namespace FitHappens.Domain.Journal.Util
 
         public static DeleteBatchMsg DeleteBatchMessage(string id)
         {
-            return new DeleteBatchMsg(id);
+            return new DeleteBatchMsg { BatchId = id };
         }
 
         #endregion

@@ -3,7 +3,6 @@
     public class CreateTagMsg : JournalMessage
     {
         public CreateTagMsg()
-            : base(MessageTypes.CreateTag)
         {
             TagId = Guid.NewGuid().ToString();
             ExerciseIds = new List<string>();

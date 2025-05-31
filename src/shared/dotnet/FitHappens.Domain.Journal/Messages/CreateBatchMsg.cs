@@ -1,9 +1,10 @@
-﻿namespace FitHappens.Domain.Journal.Messages
+﻿using System.Text.Json.Serialization;
+
+namespace FitHappens.Domain.Journal.Messages
 {
     public class CreateBatchMsg : JournalMessage
     {
         public CreateBatchMsg()
-            : base(MessageTypes.CreateBatch)
         {
             BatchId = Guid.NewGuid().ToString();
             BatchTimestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();

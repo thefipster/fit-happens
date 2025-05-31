@@ -3,7 +3,6 @@
     public class LinkExerciseTagsMsg : JournalMessage
     {
         public LinkExerciseTagsMsg()
-            : base(MessageTypes.LinkExerciseTags)
         {
             ExerciseIds = new List<string>();
             TagIds = new List<string>();

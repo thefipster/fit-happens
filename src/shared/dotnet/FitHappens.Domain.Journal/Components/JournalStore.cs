@@ -1,6 +1,5 @@
 ﻿using System.Text.Json;
 using FitHappens.Domain.Journal.Abstractions;
-using FitHappens.Domain.Journal.Converter;
 using FitHappens.Domain.Journal.Messages;
 using FitHappens.Domain.Journal.Models;
 using Microsoft.Extensions.Options;
