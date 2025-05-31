@@ -61,6 +61,10 @@ export class FitJournal {
     if (!this.synchronizer) throw new Error('There is no synchronizer set.');
 
     const messages = await this.synchronizer.pull();
+
+    if (this.persister)
+      this.persister.save(messages);
+
     let maxTime = 0;
     this.messages = [];
     for (const msg of messages) {

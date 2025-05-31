@@ -9,6 +9,7 @@ import {
 import { Subject } from 'rxjs';
 import { FitData } from '../models';
 import { TransformService } from './transform.service';
+import { LocalStorageJournalPersisterService } from './local-storage-journal-persister.service';
 
 @Injectable({
   providedIn: 'root',
@@ -44,9 +45,12 @@ export class JournalService {
   }
 
   async updateApiKey(apiKey: string): Promise<void> {
-    this.journal.setSynchronizer(
-      new ApiSynchronizer(this.apiUrl, { apiKey: apiKey })
-    );
+    const persister = new LocalStorageJournalPersisterService();
+    persister.setKey(apiKey);
+    this.journal.setPersister(persister);
+
+    const syncher = new ApiSynchronizer(this.apiUrl, { apiKey: apiKey });
+    this.journal.setSynchronizer(syncher);
 
     this.reset();
     await this.journal.pullApi();
