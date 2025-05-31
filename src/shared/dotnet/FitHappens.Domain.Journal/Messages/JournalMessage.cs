@@ -16,11 +16,11 @@ namespace FitHappens.Domain.Journal.Messages
     {
         public JournalMessage()
         {
-            JournalId = Guid.NewGuid().ToString();
+            JournalId = Guid.NewGuid();
             Timestamp = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds();
         }
 
-        public string JournalId { get; set; }
+        public Guid JournalId { get; set; }
         public long Timestamp { get; set; }
     }
 }

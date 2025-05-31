@@ -14,10 +14,7 @@ import { CreateUserMsg, DeleteBodyweightMsg } from './models/user-msgs';
 export class MessageBuilder {
   createExercise(
     name: string,
-    type: string,
-    options?: {
-      tagIds?: string[];
-    }
+    type: string
   ): CreateExerciseMsg {
     return {
       type: MessageTypes.CreateExercise,
@@ -25,8 +22,7 @@ export class MessageBuilder {
       timestamp: Date.now(),
       exerciseId: crypto.randomUUID(),
       exerciseType: type,
-      name: name,
-      tagIds: options?.tagIds,
+      name: name
     } as CreateExerciseMsg;
   }
 
@@ -34,7 +30,6 @@ export class MessageBuilder {
     name: string,
     options?: {
       parentId?: string;
-      exerciseIds?: string[];
     }
   ): CreateTagMsg {
     return {
@@ -43,8 +38,7 @@ export class MessageBuilder {
       timestamp: Date.now(),
       tagId: crypto.randomUUID(),
       name: name,
-      parentId: options?.parentId,
-      exerciseIds: options?.exerciseIds,
+      parentId: options?.parentId
     } as CreateTagMsg;
   }
 

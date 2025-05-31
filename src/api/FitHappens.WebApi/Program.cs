@@ -1,3 +1,4 @@
+using FitHappens.Domain.Journal.Extensions;
 using FitHappens.WebApi.Extensions;
 
 namespace FitHappens.WebApi
@@ -11,7 +12,9 @@ namespace FitHappens.WebApi
 
             var config = builder.Configuration;
 
-            builder.Services.InjectCustomServices(config);
+            builder.Services.AddConfiguration(config);
+            builder.Services.AddApiKeyAuthentication();
+            builder.Services.AddJournalServices();
             builder.Services.AddCors();
             builder.Services.AddControllersWithCustomJson();
             builder.Services.AddEndpointsApiExplorer();

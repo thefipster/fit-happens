@@ -18,24 +18,6 @@ namespace FitHappens.Domain.Journal.Util
             return msg;
         }
 
-        public static CreateTagMsg CreateTagMessage(string name, IEnumerable<string> exerciseIds)
-        {
-            var msg = CreateTagMessage(name);
-            msg.ExerciseIds = exerciseIds;
-            return msg;
-        }
-
-        public static CreateTagMsg CreateTagMessage(
-            string name,
-            string parentId,
-            IEnumerable<string> exerciseIds
-        )
-        {
-            var msg = CreateTagMessage(name, parentId);
-            msg.ExerciseIds = exerciseIds;
-            return msg;
-        }
-
         #endregion
 
         #region Create Exercise
@@ -48,17 +30,6 @@ namespace FitHappens.Domain.Journal.Util
                 Name = name,
                 ExerciseType = type,
             };
-        }
-
-        public static CreateExerciseMsg CreateExerciseMessage(
-            string name,
-            string type,
-            IEnumerable<string> tagIds
-        )
-        {
-            var msg = CreateExerciseMessage(name, type);
-            msg.TagIds = tagIds;
-            return msg;
         }
 
         #endregion
