@@ -39,23 +39,24 @@ export class TagsComponent implements OnInit {
     } else {
       this.exerciseIds = undefined;
     }
-
   }
 
-  onSet(): void {
+  async onSet(): Promise<void> {
     const name = this.tagForm.controls.name.value;
     const parent = this.tagForm.controls.parent.value;
     if (!name) throw new Error('Form not complete');
 
-    const msg = this.journal.getBuilder().createTag(name);
-    if (parent)
-      msg.parentId = parent;
+    const tagMsg = this.journal
+      .getBuilder()
+      .createTag(name, { parentId: parent ?? undefined });
+    await this.journal.append(tagMsg);
 
     if (this.exerciseIds) {
-      msg.exerciseIds = this.exerciseIds
+      const linkMsg = this.journal
+        .getBuilder()
+        .linkExercisesWithTags(this.exerciseIds, [tagMsg.tagId]);
+      await this.journal.append(linkMsg);
     }
-
-    this.journal.append(msg);
   }
 
   private setTags(): void {

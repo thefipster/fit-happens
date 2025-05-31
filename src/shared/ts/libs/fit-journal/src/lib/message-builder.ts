@@ -1,4 +1,5 @@
 import {
+  AnyJournalMessage,
   CreateBodyweightMsg,
   LinkExerciseTagsMsg,
   MessageTypes,
@@ -12,40 +13,37 @@ import { CreateTagMsg } from './models/tag-msgs';
 import { CreateUserMsg, DeleteBodyweightMsg } from './models/user-msgs';
 
 export class MessageBuilder {
-  createExercise(
-    name: string,
-    type: string,
-    options?: {
-      tagIds?: string[];
-    }
-  ): CreateExerciseMsg {
-    return {
+  private lastTimestamp = 0;
+
+  createExercise(name: string, type: string): CreateExerciseMsg {
+    const msg = {
       type: MessageTypes.CreateExercise,
       journalId: crypto.randomUUID(),
       timestamp: Date.now(),
       exerciseId: crypto.randomUUID(),
       exerciseType: type,
       name: name,
-      tagIds: options?.tagIds,
     } as CreateExerciseMsg;
+
+    return this.guardTime(msg) as CreateExerciseMsg;
   }
 
   createTag(
     name: string,
     options?: {
       parentId?: string;
-      exerciseIds?: string[];
     }
   ): CreateTagMsg {
-    return {
+    const msg = {
       type: MessageTypes.CreateTag,
       journalId: crypto.randomUUID(),
       timestamp: Date.now(),
       tagId: crypto.randomUUID(),
       name: name,
       parentId: options?.parentId,
-      exerciseIds: options?.exerciseIds,
     } as CreateTagMsg;
+
+    return this.guardTime(msg) as CreateTagMsg;
   }
 
   createBatch(
@@ -57,7 +55,7 @@ export class MessageBuilder {
       timestamp?: number;
     }
   ): CreateBatchMsg {
-    return {
+    const msg = {
       type: MessageTypes.CreateBatch,
       journalId: crypto.randomUUID(),
       timestamp: Date.now(),
@@ -68,56 +66,79 @@ export class MessageBuilder {
       reps: reps,
       weight: options?.weight,
     } as CreateBatchMsg;
+
+    return this.guardTime(msg) as CreateBatchMsg;
   }
 
   deleteBatch(batchId: string): DeleteBatchMsg {
-    return {
+    const msg = {
       type: MessageTypes.DeleteBatch,
       journalId: crypto.randomUUID(),
       timestamp: Date.now(),
       batchId: batchId,
     } as DeleteBatchMsg;
+
+    return this.guardTime(msg) as DeleteBatchMsg;
   }
 
   createBodyWeight(timestamp: number, weight: number): CreateBodyweightMsg {
-    return {
+    const msg = {
       type: MessageTypes.CreateBodyWeight,
       journalId: crypto.randomUUID(),
       timestamp: Date.now(),
       weightTimestamp: timestamp,
       weight: weight,
     } as CreateBodyweightMsg;
+
+    return this.guardTime(msg) as CreateBodyweightMsg;
   }
 
   deleteBodyweight(timestamp: number): DeleteBodyweightMsg {
-    return {
+    const msg = {
       type: MessageTypes.DeleteBodyWeight,
       journalId: crypto.randomUUID(),
       timestamp: Date.now(),
       weightTimestamp: timestamp,
     } as DeleteBodyweightMsg;
+
+    return this.guardTime(msg) as DeleteBodyweightMsg;
   }
 
   linkExercisesWithTags(
     exerciseIds: string[],
     tagIds: string[]
   ): LinkExerciseTagsMsg {
-    return {
+    const msg = {
       type: MessageTypes.LinkExerciseTags,
       journalId: crypto.randomUUID(),
       timestamp: Date.now(),
       exerciseIds: exerciseIds,
       tagIds: tagIds,
     } as LinkExerciseTagsMsg;
+
+    return this.guardTime(msg) as LinkExerciseTagsMsg;
   }
 
-  createUser(firstName: string, lastName: string) : CreateUserMsg {
-    return {
+  createUser(firstName: string, lastName: string): CreateUserMsg {
+    const msg = {
       type: MessageTypes.CreateUser,
       journalId: crypto.randomUUID(),
       timestamp: Date.now(),
       firstName: firstName,
-      lastName: lastName
+      lastName: lastName,
     } as CreateUserMsg;
+
+    return this.guardTime(msg) as CreateUserMsg;
+  }
+
+  private guardTime(msg: AnyJournalMessage): AnyJournalMessage {
+    if (msg.timestamp === this.lastTimestamp) {
+      msg.timestamp++;
+      this.lastTimestamp++;
+    } else {
+      this.lastTimestamp = msg.timestamp;
+    }
+
+    return msg;
   }
 }

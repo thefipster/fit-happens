@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ExerciseMap, ExerciseTypes, MessageBuilder } from '@fit-journal';
+import { ExerciseMap, ExerciseTypes } from '@fit-journal';
 import { Exercise } from '../../models';
 import { JournalService } from '../../services/journal.service';
 import { TagSelecterComponent } from '../../elements/tag-selecter/tag-selecter.component';
@@ -42,17 +42,18 @@ export class ExercisesComponent implements OnInit {
     }
   }
 
-  onSet(): void {
+  async onSet(): Promise<void> {
     const name = this.exerciseForm.controls.name.value;
     const type = this.exerciseForm.controls.type.value;
     if (!name || !type) return;
 
-    const msg = this.journal.getBuilder().createExercise(name, type);
-    if (this.selectedTags && this.selectedTags.length > 0) {
-      msg.tagIds = this.selectedTags;
-    }
+    const exerciseMsg = this.journal.getBuilder().createExercise(name, type);
+    await this.journal.append(exerciseMsg);
 
-    this.journal.append(msg);
+    if (this.selectedTags && this.selectedTags.length > 0) {
+      const linkMsg = this.journal.getBuilder().linkExercisesWithTags([exerciseMsg.exerciseId], this.selectedTags);
+      await this.journal.append(linkMsg);
+    }
   }
 
   private setExercises(): void {

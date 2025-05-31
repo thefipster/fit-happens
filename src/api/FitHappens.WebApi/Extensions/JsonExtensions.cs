@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using FitHappens.Domain.Journal.Converter;
+using System.Text.Json.Serialization;
 
 namespace FitHappens.WebApi.Extensions
 {
@@ -7,6 +7,7 @@ namespace FitHappens.WebApi.Extensions
     {
         private static JsonNamingPolicy NamingPolicy = JsonNamingPolicy.CamelCase;
         private static bool CaseInsensitive = true;
+        private static JsonIgnoreCondition IgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
 
         public static IServiceCollection AddControllersWithCustomJson(
             this IServiceCollection services
@@ -14,10 +15,10 @@ namespace FitHappens.WebApi.Extensions
         {
             var jsonOptions = new JsonSerializerOptions
             {
-                PropertyNameCaseInsensitive = CaseInsensitive,
                 PropertyNamingPolicy = NamingPolicy,
+                PropertyNameCaseInsensitive = CaseInsensitive,
+                DefaultIgnoreCondition = IgnoreCondition,
             };
-            jsonOptions.Converters.Add(new JournalMessageConverter());
             services.AddSingleton(jsonOptions);
 
             services
@@ -26,7 +27,7 @@ namespace FitHappens.WebApi.Extensions
                 {
                     options.JsonSerializerOptions.PropertyNamingPolicy = NamingPolicy;
                     options.JsonSerializerOptions.PropertyNameCaseInsensitive = CaseInsensitive;
-                    options.JsonSerializerOptions.Converters.Add(new JournalMessageConverter());
+                    options.JsonSerializerOptions.DefaultIgnoreCondition = IgnoreCondition;
                 });
 
             return services;

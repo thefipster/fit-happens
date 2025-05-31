@@ -61,6 +61,7 @@ export class TransformService {
     data.batches = data.batches.filter(
       (item: Batch) => item.id !== delMsg.batchId
     );
+
     return data;
   }
 
@@ -86,23 +87,8 @@ export class TransformService {
       }
     }
 
-    // created exercise links
-    if (tagMsg.exerciseIds && tagMsg.exerciseIds.length > 0) {
-      for (const exerciseId of tagMsg.exerciseIds) {
-        const exercise = data.exercises.find(
-          (x: Exercise) => x.id === exerciseId
-        );
-        const group = {
-          exerciseId: exerciseId,
-          exercise: exercise,
-          tagId: tag.id,
-          tag: tag,
-        } as ExerciseTag;
-        data.exerciseTags.push(group);
-      }
-    }
-
     data.tags.push(tag);
+
     return data;
   }
 
@@ -117,21 +103,6 @@ export class TransformService {
     } as Exercise;
 
     data.exercises.push(exercise);
-
-    // handle linked tags
-    if (exMsg.tagIds && exMsg.tagIds.length > 0) {
-      for (const tagId of exMsg.tagIds) {
-        const tag = data.tags.find((x: Tag) => x.id === tagId);
-        const group = {
-          exerciseId: exercise.id,
-          exercise: exercise,
-          tagId: tagId,
-          tag: tag,
-        } as ExerciseTag;
-
-        data.exerciseTags.push(group);
-      }
-    }
 
     return data;
   }
@@ -180,12 +151,14 @@ export class TransformService {
     } as Bodyweight;
 
     data.bodyweights.push(weight);
+
     return data;
   }
 
   handleDeleteBodyweight(msg: AnyJournalMessage, data: FitData): FitData {
     const delMsg = msg as DeleteBodyweightMsg;
     data.bodyweights = data.bodyweights.filter((x: Bodyweight) => x.timestamp !== delMsg.weightTimestamp);
+    
     return data;
   }
 }

@@ -14,7 +14,7 @@ import { TransformService } from './transform.service';
   providedIn: 'root',
 })
 export class JournalService {
-  private apiUrl = 'https://fit.thefipster.com/api';
+  private apiUrl = 'https://localhost:32770/api';
   private journal: FitJournal;
 
   private subject = new Subject<AnyJournalMessage>();
