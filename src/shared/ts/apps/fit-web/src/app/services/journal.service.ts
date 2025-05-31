@@ -14,7 +14,7 @@ import { TransformService } from './transform.service';
   providedIn: 'root',
 })
 export class JournalService {
-  private apiUrl = 'http://localhost:32769/api';
+  private apiUrl = 'https://localhost:32770/api';
   private journal: FitJournal;
 
   private subject = new Subject<AnyJournalMessage>();

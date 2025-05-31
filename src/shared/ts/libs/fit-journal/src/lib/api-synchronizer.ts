@@ -12,7 +12,7 @@ export class ApiSynchronizer {
   }
 
   async push(messages: AnyJournalMessage[]): Promise<void> {
-    const response = await fetch(`${this.url}/journal/append`, {
+    const response = await fetch(`${this.url}/journal`, {
       method: 'POST',
       headers: this.getHeaders(),
       body: JSON.stringify(messages),
