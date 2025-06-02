@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "Delete Batch Message",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string"
+    },
+    "batchId": {
+      "type": "string"
+    },
+    "journalId": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "type",
+    "batchId",
+    "journalId",
+    "timestamp"
+  ]
+}

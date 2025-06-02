@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "Delete Bodyweight Message",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string"
+    },
+    "weightTimestamp": {
+      "type": "number"
+    },
+    "journalId": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "type",
+    "weightTimestamp",
+    "journalId",
+    "timestamp"
+  ]
+}

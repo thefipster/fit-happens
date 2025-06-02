@@ -1,0 +1,22 @@
+{
+  "name": "fit-journal",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "bundle": "rollup -c"
+  },
+  "dependencies": {
+    "rxjs": "~7.8.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@types/node": "^22.15.29",
+    "rollup": "^4.41.1",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "typescript": "^5.8.3"
+  }
+}
