@@ -61,16 +61,13 @@ jobs:
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
       - name: npm install
-        run: npm ci --legacy-peer-deps
+        run: npm ci
       - name: build
         run: npm run build
 
     
   journal-schema:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./src/frontend/fit-inserter
     steps:
       - name: checkout
         uses: actions/checkout@v4
