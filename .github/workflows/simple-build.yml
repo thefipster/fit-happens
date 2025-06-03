@@ -30,41 +30,54 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./src/shared/ts
+        working-directory: ./src/shared/fit-journal
     steps:
       - name: checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
       - name: setup node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
-      - name: npm install
+      - name: install
         run: npm ci --legacy-peer-deps
       - name: build
-        run: npx nx build fit-journal
+        run: npm run build
 
     
-  fit-web:
+  fit-inserter:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./src/shared/ts
+        working-directory: ./src/frontend/fit-inserter
     steps:
       - name: checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
       - name: setup node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
+      - name: install lib
+        run: npm ci
+        working-directory: ./src/shared/fit-journal
+      - name: build lib
+        run: npm run build
+        working-directory: ./src/shared/fit-journal
       - name: npm install
-        run: npm ci --legacy-peer-deps
+        run: npm ci
       - name: build
-        run: npx nx build fit-web
+        run: npm run build
+
+    
+  journal-schema:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: validate
+        uses: cardinalby/schema-validator-action@v3
+        with:
+          file: './src/shared/journal-schema/*.json'
