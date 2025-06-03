@@ -5,13 +5,13 @@ const colors = {
   secondary: '#ABCDEF',
   contrasting: '#FA8072',
 
-  white: '#FFFFFF',
   light: '#DAE1E7',
   lighter: '#F3F3F3',
+  lightest: '#FFFFFF',
 
-  black: '#000000',
   dark: '#444444',
   darker: '#222222',
+  darkest: '#000000', 
 
 }
 

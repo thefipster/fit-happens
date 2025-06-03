@@ -2,7 +2,16 @@
 
 <resources>
 
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
+    <color name="primary">#1292B4</color>
+    <color name="secondary">#ABCDEF</color>
+    <color name="contrasting">#FA8072</color>
+
+    <color name="light">#DAE1E7</color>
+    <color name="lighter">#F3F3F3</color>
+    <color name="lightest">#FFFFFF</color>
+
+    <color name="dark">#444444</color>
+    <color name="darker">#222222</color>
+    <color name="darkest">#000000</color>
     
 </resources>
