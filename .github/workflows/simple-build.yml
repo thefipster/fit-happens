@@ -60,6 +60,12 @@ jobs:
           node-version: 22
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
+      - name: install lib
+        run: npm ci
+        working-directory: ./src/shared/fit-journal
+      - name: build lib
+        run: npm run build
+        working-directory: ./src/shared/fit-journal
       - name: npm install
         run: npm ci
       - name: build
