@@ -34,6 +34,7 @@ function App() {
   const paddingHorizontal = '10%'
 
   const isDarkMode = useColorScheme() === 'dark'
+  // const isDarkMode = useColorScheme() !== 'dark'
 
   const schemeBG = { backgroundColor: isDarkMode ? colors.darker : colors.lighter }
   const schemeText = { color: isDarkMode ? colors.lighter : colors.darker }
@@ -51,7 +52,9 @@ function App() {
 
         <Image style={styles.logo} source={ isDarkMode ? logoLight : logoDark } />
 
-        <Text style={[schemeText, styles.text]}>Fit Happens.</Text>
+        {/* <Text style={[schemeText, styles.text]}>Fit Happens.</Text> */}
+
+        <Text style={[schemeText, styles.text]}>Good Game.</Text>
 
       </View>
 
@@ -77,12 +80,20 @@ const styles = StyleSheet.create({
     objectFit: 'contain'
   },
 
+  // text: {
+  //   fontSize: 24,
+  //   fontWeight: 600,
+  //   fontStyle: 'italic',
+  //   marginTop: -24,
+  //   marginLeft: 24
+  // }
+
   text: {
     fontSize: 24,
-    fontWeight: 600,
-    fontStyle: 'italic',
     marginTop: -24,
-    marginLeft: 24
+    marginLeft: 24,
+    letterSpacing: -0.5,
+    fontFamily: 'Montserrat-MediumItalic'
   }
 
 })
