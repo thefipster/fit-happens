@@ -63,7 +63,7 @@ jobs:
       - name: npm install
         run: npm ci --legacy-peer-deps
       - name: build
-        run: ng build --configuration "production"
+        run: npm run build
 
     
   journal-schema:
