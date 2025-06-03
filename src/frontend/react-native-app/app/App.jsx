@@ -20,6 +20,10 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 // ----- ----- ----- ----- ----- //
 
+import Icon from '@react-native-vector-icons/ionicons';
+
+// ----- ----- ----- ----- ----- //
+
 import colors from './styles/colors'
 
 // ----- ----- ----- ----- ----- //
@@ -54,7 +58,7 @@ function App() {
 
         {/* <Text style={[schemeText, styles.text]}>Fit Happens.</Text> */}
 
-        <Text style={[schemeText, styles.text]}>Good Game.</Text>
+        <Text style={[schemeText, styles.text]}>Good Game <Icon name="bicycle" size={30} color={schemeText.color} /></Text>
 
       </View>
 
@@ -89,9 +93,9 @@ const styles = StyleSheet.create({
   // }
 
   text: {
-    fontSize: 24,
     marginTop: -24,
     marginLeft: 24,
+    fontSize: 24,
     letterSpacing: -0.5,
     fontFamily: 'Montserrat-MediumItalic'
   }
