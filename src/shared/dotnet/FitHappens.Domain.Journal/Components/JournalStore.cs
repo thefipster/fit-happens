@@ -1,75 +1,57 @@
-﻿using System.Text.Json;
-using FitHappens.Domain.Journal.Abstractions;
-using FitHappens.Domain.Journal.Converter;
+﻿using FitHappens.Domain.Journal.Abstractions;
 using FitHappens.Domain.Journal.Messages;
-using FitHappens.Domain.Journal.Models;
-using Microsoft.Extensions.Options;
+using FitHappens.WebApi.Models;
 
 namespace FitHappens.Domain.Journal.Components
 {
     public class JournalStore : IJournalStore
     {
-        private readonly JournalConfig config;
-        private readonly JsonSerializerOptions options;
+        private readonly IEnumerable<IJournalWriter> writers;
+        private readonly IEnumerable<IJournalResetter> resetters;
+        private readonly IJournalReader reader;
 
-        public JournalStore(IOptions<JournalConfig> config)
+        public JournalStore(
+            IEnumerable<IJournalWriter> writers,
+            IEnumerable<IJournalResetter> resetters,
+            IJournalReader reader
+        )
         {
-            this.config = config.Value;
-
-            options = new JsonSerializerOptions { WriteIndented = true };
-            options.Converters.Add(new JournalMessageConverter());
-
-            if (!Directory.Exists(this.config.DataPath))
-                Directory.CreateDirectory(this.config.DataPath);
+            this.writers = writers;
+            this.resetters = resetters;
+            this.reader = reader;
         }
 
-        public IEnumerable<JournalMessage> Load(string user)
+        public void Append(Guid user, IEnumerable<JournalMessage> messages)
         {
-            var userPath = ensureUserPath(user);
-
-            var files = Directory.GetFiles(userPath, "*.json");
-            if (files.Length == 0)
-                return [];
-
-            var messages = new List<JournalMessage>();
-            foreach (var file in files.OrderBy(x => x))
-            {
-                var json = File.ReadAllText(file);
-                var message =
-                    JsonSerializer.Deserialize<JournalMessage>(json, options)
-                    ?? throw new Exception($"Failed to deserialize {file}");
-                messages.Add(message);
-            }
-            return messages;
+            foreach (var provider in writers)
+                provider.Append(user, messages);
         }
 
-        public void Append(string user, IEnumerable<JournalMessage> messages)
+        public void Append(Guid user, JournalMessage message)
         {
-            foreach (var message in messages)
-                Append(user, message);
+            foreach (var provider in writers)
+                provider.Append(user, message);
         }
 
-        public void Append(string user, JournalMessage message)
+        public async Task<IEnumerable<JournalMessage>> Load(Guid user)
         {
-            var json = JsonSerializer.Serialize(message, options);
-            var userPath = ensureUserPath(user);
-
-            var filename = $"{message.Timestamp}.json";
-            var filepath = Path.Combine(userPath, filename);
-
-            if (File.Exists(filepath))
-                throw new Exception($"File {filename} already exists");
-
-            File.WriteAllText(filepath, json);
+            return await reader.Load(user);
         }
 
-        private string ensureUserPath(string user)
+        public async Task<IEnumerable<JournalMessage>> Load(Guid user, JournalQuery query)
         {
-            var userDir = Path.Combine(config.DataPath, user);
-            if (!Directory.Exists(userDir))
-                Directory.CreateDirectory(userDir);
+            return await reader.Load(user, query);
+        }
 
-            return userDir;
+        public async Task<string> LoadRaw(Guid user)
+        {
+            return await reader.LoadRaw(user);
+        }
+
+        public void Reset(Guid user)
+        {
+            foreach (var provider in resetters)
+                provider.Reset(user);
         }
     }
 }

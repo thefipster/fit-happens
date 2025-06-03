@@ -1,6 +1,6 @@
 ﻿namespace FitHappens.Domain.Journal.Messages
 {
-    public partial class CreateExerciseMsg : JournalMessage
+    public class CreateExerciseMsg : JournalMessage
     {
         public CreateExerciseMsg()
         {
@@ -8,6 +8,7 @@
         }
 
         public string ExerciseId { get; set; }
+        public required string ExerciseType { get; set; }
         public required string Name { get; set; }
     }
 }

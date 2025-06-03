@@ -1,0 +1,43 @@
+<h2>Tags</h2>
+
+<h3>Create</h3>
+<form [formGroup]="tagForm" style="display: flex; flex-direction: column; gap: 20px;">
+    <div>
+        <label for="name">Name</label>
+        <input id="name" type="text" formControlName="name">
+    </div>
+    <div>
+        <label for="parent">Parent</label>
+        <select id="parent" formControlName="parent">
+            <option></option>
+            @for (item of tags; track item.id) {
+            <option value="{{ item.id }}">{{ item.name }}</option>
+            }
+        </select>
+    </div>
+    <div>
+        <span>Want to link this tag to specific exercises? It will only show up for this exercise then. If you select none it will appear allways.</span>
+        <app-exercise-selecter (changed)="exercisesChanged($event)"></app-exercise-selecter>
+    </div>
+    <div style="display: flex; gap: 40px;">
+        <button (click)="onSet()">Set</button>
+    </div>
+</form>
+
+<h3>Available</h3>
+<ul>
+    @for (topLevelTag of tags; track topLevelTag) {
+    <li>
+        <span>{{ topLevelTag.name }} </span>
+        @if (topLevelTag.childs) {
+        <ul>
+            @for (child of topLevelTag.childs; track child) {
+            <li>
+                <span>{{ child.name }}</span>
+            </li>
+            }
+        </ul>
+        }
+    </li>
+    }
+</ul>

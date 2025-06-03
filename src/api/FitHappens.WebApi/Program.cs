@@ -1,3 +1,4 @@
+using FitHappens.Domain.Journal.Extensions;
 using FitHappens.WebApi.Extensions;
 
 namespace FitHappens.WebApi
@@ -11,16 +12,22 @@ namespace FitHappens.WebApi
 
             var config = builder.Configuration;
 
-            builder.Services.InjectCustomServices(config);
+            builder.Services.AddConfiguration(config);
+            builder.Services.AddApiKeyAuthentication();
+            builder.Services.AddJournalServices();
+            builder.Services.AddCors();
             builder.Services.AddControllersWithCustomJson();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerCustomGen();
+            builder.Services.AddBrotliCompression();
 
             var app = builder.Build();
+            app.AddCorsAllowingAll();
             app.UseStaticFiles();
             app.UseCustomSwagger();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseBrotliCompression();
             app.MapControllers();
             app.Run();
         }

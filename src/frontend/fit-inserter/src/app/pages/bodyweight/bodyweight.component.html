@@ -1,0 +1,34 @@
+<h2>Sets</h2>
+
+<h3>Create</h3>
+<form [formGroup]="bodyweightForm" style="display: flex; flex-direction: column; gap: 20px;">
+    <div>
+        <label for="year">Datetime </label>
+        <input style="width: 45px" id="year" type="number" formControlName="year" placeholder="2025">
+        <input style="width: 30px" id="month" type="number" formControlName="month" placeholder="12">
+        <input style="width: 30px" id="day" type="number" formControlName="day" placeholder="31">
+        -
+        <input style="width: 30px" id="hour" type="number" formControlName="hour" placeholder="23">
+        <input style="width: 30px" id="minute" type="number" formControlName="minute" placeholder="59">
+    </div>
+    <div>
+        <label for="bodyweight">Used Weights: </label>
+        <input id="bodyweight" type="text" formControlName="bodyweight">
+    </div>
+    <div style="display: flex; gap: 40px;">
+        <button (click)="onSet()">Send</button>
+    </div>
+</form>
+
+<h3>History</h3>
+<ul>
+    @for(weight of bodyweights; track weight) {
+        <li>
+            {{ weight.valueInKg }} kg
+             - 
+            {{ weight.timeAgo }}
+             - 
+             <button (click)="delete(weight.timestamp)">DEL</button>
+        </li>
+    }
+</ul>

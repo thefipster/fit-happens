@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "Create Bodyweight Message",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string"
+    },
+    "weightTimestamp": {
+      "type": "number"
+    },
+    "weight": {
+      "type": "number"
+    },
+    "journalId": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "type",
+    "weightTimestamp",
+    "weight",
+    "journalId",
+    "timestamp"
+  ]
+}

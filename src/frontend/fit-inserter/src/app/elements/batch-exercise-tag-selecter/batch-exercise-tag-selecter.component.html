@@ -1,0 +1,25 @@
+@if (exercise) {
+<ul>
+    @for (item of tags; track item) {
+    <li>
+        @if (item.childs && item.childs.length > 0) {
+        {{item.name}}
+        <ul>
+            @for (child of item.childs; track child) {
+            <li>
+                <input type="checkbox" (change)="onCheck(child, $event)" value="{{ child.id }}">
+                {{ child.name }}
+            </li>
+            }
+        </ul>
+        } @else {
+        <input type="checkbox" (change)="onCheck(item, $event)" value="{{ item.id }}"> {{item.name}}
+        }
+    </li>
+    }
+</ul>
+}
+
+@if (!exercise) {
+    Tag will appear when you select an exercise
+}

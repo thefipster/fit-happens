@@ -7,21 +7,77 @@ on:
     branches: [ "main" ]
 
 jobs:
-  dotnet:
+  fit-api:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./src
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
+    - name: checkout
+      uses: actions/checkout@v4
+    - name: setup dotnet
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
-    - name: Restore
+    - name: restore
       run: dotnet restore
-    - name: Build
+    - name: build
       run: dotnet build --no-restore
-    - name: Test
+    - name: unittest
       run: dotnet test
     
+  fit-journal:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src/shared/fit-journal
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+      - name: install
+        run: npm ci --legacy-peer-deps
+      - name: build
+        run: npm run build
+
+    
+  fit-inserter:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src/frontend/fit-inserter
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+      - name: install lib
+        run: npm ci
+        working-directory: ./src/shared/fit-journal
+      - name: build lib
+        run: npm run build
+        working-directory: ./src/shared/fit-journal
+      - name: npm install
+        run: npm ci
+      - name: build
+        run: npm run build
+
+    
+  journal-schema:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: validate
+        uses: cardinalby/schema-validator-action@v3
+        with:
+          file: './src/shared/journal-schema/*.json'

@@ -1,8 +1,10 @@
-﻿namespace FitHappens.WebApi.Abstractions
+﻿using Microsoft.Extensions.Primitives;
+
+namespace FitHappens.WebApi.Abstractions
 {
     public interface IUserService
     {
-        Guid GetIdForKey(string key);
+        Guid GetIdForKey(StringValues key);
         bool IsValid(string key);
     }
 }

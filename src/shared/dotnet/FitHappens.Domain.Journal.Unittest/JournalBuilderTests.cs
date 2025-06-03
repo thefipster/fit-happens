@@ -10,24 +10,7 @@ namespace FitHappens.Domain.Journal.Unittest
             var msg = JournalBuilder.CreateTagMessage("unlevel");
 
             Assert.True(msg.Timestamp > 0);
-            Assert.NotEmpty(msg.JournalId);
-        }
-
-        [Fact]
-        public void GenerateSimpleJournal()
-        {
-            var tagMsg = JournalBuilder.CreateTagMessage("assisted");
-            var exerciseMsg = JournalBuilder.CreateExerciseMessage("Push-Ups");
-            var setMsg = JournalBuilder.CreateSetMessage(
-                ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds(),
-                exerciseMsg.ExerciseId,
-                10,
-                [tagMsg.TagId]
-            );
-
-            var tagJson = tagMsg.ToJson();
-            var exerciseJson = exerciseMsg.ToJson();
-            var setJson = setMsg.ToJson();
+            Assert.NotEqual(Guid.Empty, msg.JournalId);
         }
     }
 }

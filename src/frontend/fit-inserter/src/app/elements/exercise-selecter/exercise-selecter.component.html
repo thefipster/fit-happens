@@ -1,0 +1,7 @@
+<ul>
+    @for (item of exercises; track item) {
+    <li>
+        <input type="checkbox" (change)="onCheck(item, $event)" value="{{ item.id }}"> {{item.name}}
+    </li>
+    }
+</ul>

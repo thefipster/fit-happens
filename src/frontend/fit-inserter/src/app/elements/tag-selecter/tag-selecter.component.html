@@ -1,0 +1,14 @@
+<ul>
+    @for (item of tags; track item) {
+    <li>
+        <input type="checkbox" (change)="onCheck(item, $event)" value="{{ item.id }}"> {{item.name}}
+        @if (item.childs && item.childs.length > 0) {
+        <ul>
+            @for (child of item.childs; track child) {
+            <li>{{ child.name }}</li>
+            }
+        </ul>
+        }
+    </li>
+    }
+</ul>

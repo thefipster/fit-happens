@@ -1,6 +1,7 @@
 ﻿using FitHappens.Domain.Account.Models;
 using FitHappens.WebApi.Abstractions;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
 
 namespace FitHappens.WebApi.Services
 {
@@ -15,12 +16,13 @@ namespace FitHappens.WebApi.Services
                 throw new InvalidOperationException("User data is not configured.");
         }
 
-        public Guid GetIdForKey(string key)
+        public Guid GetIdForKey(StringValues header)
         {
-            var user = users.FirstOrDefault(x => x.Keys.Any(y => y.Key == key));
+            var key = header.ToString();
+            var user = users.FirstOrDefault(x => x.Keys.Any(y => y.Key == header));
 
             if (user == null)
-                throw new InvalidOperationException($"User with key {key} not found.");
+                throw new InvalidOperationException($"User with key {header} not found.");
 
             return user.Id;
         }

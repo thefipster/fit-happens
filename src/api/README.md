@@ -1,63 +1,26 @@
-# 🏋️‍♂️ fit-happens api
+# Fit Happens API
 
-Welcome to the **fit-happens api**, where only the worthy get through. This project is a lean, mean, ASP.NET Core WebAPI machine, currently rocking a single endpoint and some truly unforgiving authentication logic. Think of it as the **burpee** of backend systems — tough, random, and "effective".
+This is the backend API for the **fit-happens** ecosystem – a fitness journaling platform focused on flexibility, local-first data handling, and sync-friendly architecture.
 
-## 🔍 What is this?
+The API manages user journal data, including workouts, exercises, tags, and bodyweight entries. Clients (e.g. mobile or web apps) can read, write, and synchronize structured fitness events using a unified message format.
 
-It's an ASP.NET Core WebAPI, built for strength and resilience. We don't mess around with flabby, unsecured endpoints here—this is barebones, shared-key-authenticated, and absolutely **ruthless**.
+Authentication is handled via an API key (`x-api-key` header).
 
-The API has:
+## Endpoints Overview
 
-* 🛠️ A single `GET /ping` endpoint
-* 🔐 A shared key authentication mechanism
-* 🎲 A 50/50 chance you'll be allowed in
+| Method | Endpoint                   | Description                                                        |
+| ------ | -------------------------- | ------------------------------------------------------------------ |
+| GET    | `/api/ping`                | Ping endpoint for health checks and fun.                           |
+| GET    | `/api/journal/latest`      | Get the latest journal timestamp for the current user.             |
+| GET    | `/api/journal`             | Fetch the entire journal history of the current user.              |
+| GET    | `/api/journal/{timestamp}` | Fetch journal entries since a specific timestamp.                  |
+| POST   | `/api/journal/append`      | Append new journal messages (exercises, tags, sets, etc.).         |
+| DELETE | `/api/journal`             | Clear all journal entries for the current user (use with caution). |
 
-That's right. You either get a high-five 🖐️ or get drop-kicked out of the gym 🦶—no middle ground.
+## Integration
 
-## 💪 Authentication Flow
+This API is designed to be used by the **fit-happens** client libraries and apps. It acts as a central sync hub for journals, enabling local storage and offline-first usage patterns, while still supporting cloud sync and multi-device access.
 
-**Auth Type**: Shared Key
+## Authentication
 
-**Mechanism**:
-
-* You send a header: `x-api-key: your-secret-key`
-* 🪙 **50% chance** you get in
-* ❌ **50% chance** you're rejected with a **401 Unauthorized**
-
-It’s not about fairness—it’s about building *mental toughness*.
-
-> "Sometimes life says 'pong'. Sometimes life says 'no entry'." – API Sensei
-
-## 🚀 Available Endpoints
-
-### `GET /ping`
-
-Think of this as your warm-up set.
-
-**Headers:**
-
-```
-x-api-key: your-secret-key
-```
-
-**Responses:**
-
-* ✅ `200 OK`: `pong` – You did your reps right.
-* ❌ `401 Unauthorized`: Denied. Drop and give me 20.
-
-
-## 🧪 Test Like a Pro
-
-Use curl or Postman to challenge the gatekeeper:
-
-```bash
-curl -H "x-api-key: your-secret-key" https://your-api-url.com/ping
-```
-
-Then... wait for fate.
-
-## 🧘 Philosophy
-
-This API isn't just a testbed—it's a **way of life**. Sometimes it says yes. Sometimes it says no. You train. You improve. You build systems that can handle rejection. 💥
-
----
+All endpoints require a valid API key passed in the `x-api-key` header.
