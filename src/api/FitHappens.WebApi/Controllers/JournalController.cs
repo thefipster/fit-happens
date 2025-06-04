@@ -33,8 +33,7 @@ namespace FitHappens.WebApi.Controllers
         [HttpGet(Name = "GetJournal")]
         public async Task<IEnumerable<JournalMessage>> GetPaged([FromQuery] JournalQuery query)
         {
-            var key = Request.Headers["X-Api-Key"];
-            var userId = userService.GetIdForKey(key);
+            var userId = userService.GetId(Request);
             var journal = await store.Load(userId, query);
 
             return journal;
@@ -47,10 +46,19 @@ namespace FitHappens.WebApi.Controllers
         [HttpPost(Name = "AppendJournal")]
         public IActionResult Post([FromBody] IEnumerable<JournalMessage> messages)
         {
-            var key = Request.Headers["X-Api-Key"];
-            var userId = userService.GetIdForKey(key);
+            var userId = userService.GetId(Request);
             store.Append(userId, messages);
             logger.LogDebug("Messages appended for user: " + userId);
+
+            return Created();
+        }
+
+        [ApiKey]
+        [HttpPut(Name = "UpdateJournal")]
+        public IActionResult Put([FromBody] JournalMessage message)
+        {
+            var userId = userService.GetId(Request);
+            store.Update(userId, message);
 
             return Ok();
         }
@@ -60,10 +68,9 @@ namespace FitHappens.WebApi.Controllers
         /// </summary>
         [ApiKey]
         [HttpDelete(Name = "DeleteJournal")]
-        public IActionResult Reset()
+        public IActionResult Delete()
         {
-            var key = Request.Headers["X-Api-Key"];
-            var userId = userService.GetIdForKey(key);
+            var userId = userService.GetId(Request);
             store.Reset(userId);
             return Ok();
         }

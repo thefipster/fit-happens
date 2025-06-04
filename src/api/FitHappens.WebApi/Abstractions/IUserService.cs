@@ -4,7 +4,8 @@ namespace FitHappens.WebApi.Abstractions
 {
     public interface IUserService
     {
-        Guid GetIdForKey(StringValues key);
+        Guid GetId(HttpRequest request);
+        Guid GetId(StringValues key);
         bool IsValid(string key);
     }
 }
