@@ -8,17 +8,20 @@ namespace FitHappens.Domain.Journal.Components
     {
         private readonly IEnumerable<IJournalWriter> writers;
         private readonly IEnumerable<IJournalResetter> resetters;
+        private readonly IEnumerable<IJournalUpdater> updaters;
         private readonly IJournalReader reader;
 
         public JournalStore(
             IEnumerable<IJournalWriter> writers,
             IEnumerable<IJournalResetter> resetters,
-            IJournalReader reader
+            IJournalReader reader,
+            IEnumerable<IJournalUpdater> updaters
         )
         {
             this.writers = writers;
             this.resetters = resetters;
             this.reader = reader;
+            this.updaters = updaters;
         }
 
         public void Append(Guid user, IEnumerable<JournalMessage> messages)
@@ -31,6 +34,12 @@ namespace FitHappens.Domain.Journal.Components
         {
             foreach (var provider in writers)
                 provider.Append(user, message);
+        }
+
+        public void Update(Guid userId, JournalMessage message)
+        {
+            foreach (var provider in updaters)
+                provider.Update(userId, message);
         }
 
         public async Task<IEnumerable<JournalMessage>> Load(Guid user)

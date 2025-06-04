@@ -16,7 +16,18 @@ namespace FitHappens.WebApi.Services
                 throw new InvalidOperationException("User data is not configured.");
         }
 
-        public Guid GetIdForKey(StringValues header)
+        public Guid GetId(HttpRequest request)
+        {
+            var key = request.Headers["X-Api-Key"];
+            var user = users.FirstOrDefault(x => x.Keys.Any(y => y.Key == key));
+
+            if (user == null)
+                throw new InvalidOperationException($"User with key {key} not found.");
+
+            return user.Id;
+        }
+
+        public Guid GetId(StringValues header)
         {
             var key = header.ToString();
             var user = users.FirstOrDefault(x => x.Keys.Any(y => y.Key == header));
